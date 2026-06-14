@@ -5,6 +5,11 @@ const app = express();
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
+// Error Handling
+process.on('uncaughtException', (err) => console.error('Error:', err));
+process.on('unhandledRejection', (err) => console.error('Rejection:', err));
+
+// Rate Limiter
 const apiLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
     max: 100,
@@ -14,34 +19,36 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-// 1. Pinterest
+// 1. Pinterest Route
 app.get('/pinterest', async (req, res) => {
-    const { text } = req.query;
-    if (!text) return res.json({ success: false, message: "Query required" });
     try {
+        const { text } = req.query;
+        if (!text) return res.json({ success: false, message: "Query required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
         res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result || [] });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. APK
+// 2. APK Route
 app.get('/apk', async (req, res) => {
-    const { text } = req.query;
-    if (!text) return res.json({ success: false, message: "Query required" });
     try {
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }});
+        const { text } = req.query;
+        if (!text) return res.json({ success: false, message: "Query required" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { 
+            headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 
+        });
         res.json({ creator: "Mr Hashuu Bot", success: true, result: data.apk || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. Song (Search & Download)
+// 3. Song Route (Search + Download)
 app.get('/song', async (req, res) => {
-    const { text } = req.query; // මෙතන URL එක වගේම නමත් ගන්න පුළුවන්
-    if (!text) return res.json({ success: false, message: "Song name or URL required" });
-
     try {
+        const { text } = req.query;
+        if (!text) return res.json({ success: false, message: "Song name or URL required" });
+
         let videoUrl = text;
-        // ඉන්පුට් එක URL එකක් නෙවෙයි නම් search කරන්න
+        // Search if not a URL
         if (!text.includes('youtube.com') && !text.includes('youtu.be')) {
             const search = await axios.get(`https://apis.davidcyriltech.my.id/search/youtube?text=${encodeURIComponent(text)}`);
             if (search.data.result && search.data.result.length > 0) {
@@ -51,10 +58,11 @@ app.get('/song', async (req, res) => {
             }
         }
 
-        // ඒ URL එකෙන් MP3 එක ගන්න
-        const { data } = await axios.get(`https://vajira-official-apis.vercel.app/api/ytmp3?apikey=vajira-VajiraOfficial2003&url=${encodeURIComponent(videoUrl)}`);
-        
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result });
+        const { data } = await axios.get(`https://vajira-official-apis.vercel.app/api/ytmp3?apikey=vajira-VajiraOfficial2003&url=${encodeURIComponent(videoUrl)}`, { 
+            headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 15000 
+        });
+
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.data || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
