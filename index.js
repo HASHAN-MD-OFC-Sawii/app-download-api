@@ -7,22 +7,26 @@ app.get('/apk', async (req, res) => {
     if (!query) return res.json({ success: false, message: "APK නමක් දෙන්න!" });
 
     try {
-        // බොහෝ විට URL එක මේ විදියට තියෙන්න ඕනේ
         const apiUrl = `https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(query)}`;
         
-        const response = await axios.get(apiUrl);
+        // User-Agent එකක් දාලා රික්වෙස්ට් කරනවා
+        const response = await axios.get(apiUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+            }
+        });
         
-        // දත්ත එන හැටි බලන්න log එකක් දාගමු (Vercel logs වල පේනවා)
-        console.log("API Response:", response.data);
+        // API එකෙන් එන දත්ත log කරලා බලමු Vercel logs වල
+        console.log("Raw Response Data:", response.data);
         
-        if (response.data && response.data.result) {
+        if (response.data && (response.data.result || response.data.data)) {
             res.json({
                 creator: "Mr Hashuu Bot",
                 success: true,
-                result: response.data.result
+                result: response.data.result || response.data.data
             });
         } else {
-            res.json({ success: false, message: "API එකෙන් දත්ත ලැබුණේ නැහැ." });
+            res.json({ success: false, message: "API එකෙන් දත්ත ආවා, හැබැයි result එකක් නැහැ.", raw: response.data });
         }
     } catch (e) {
         res.json({ success: false, message: "Error: " + e.message });
