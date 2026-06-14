@@ -5,10 +5,6 @@ const app = express();
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
-// Error Handling
-process.on('uncaughtException', (err) => console.error('Error:', err));
-process.on('unhandledRejection', (err) => console.error('Rejection:', err));
-
 // Rate Limiter
 const apiLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
@@ -19,7 +15,7 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-// 1. Pinterest Route
+// Pinterest Route
 app.get('/pinterest', async (req, res) => {
     try {
         const { text } = req.query;
@@ -29,7 +25,7 @@ app.get('/pinterest', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. APK Route
+// APK Route
 app.get('/apk', async (req, res) => {
     try {
         const { text } = req.query;
@@ -41,14 +37,13 @@ app.get('/apk', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. Song Route (Search + Download)
+// Song Route (Fix කරපු එක)
 app.get('/song', async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Song name or URL required" });
 
         let videoUrl = text;
-        // Search if not a URL
         if (!text.includes('youtube.com') && !text.includes('youtu.be')) {
             const search = await axios.get(`https://apis.davidcyriltech.my.id/search/youtube?text=${encodeURIComponent(text)}`);
             if (search.data.result && search.data.result.length > 0) {
