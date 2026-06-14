@@ -3,7 +3,7 @@ const axios = require('axios');
 const app = express();
 
 // උඹට කැමති Key එකක් මෙතන දාගනින්
-const MY_SECRET_KEY = "MR_HASHUU_SECRET_123"; 
+const MY_SECRET_KEY = "MR_HASHUU_OFC2026"; 
 
 app.get('/apk', async (req, res) => {
     // API Key එක චෙක් කරන කොටස
