@@ -1,11 +1,12 @@
 const express = require('express');
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
+const obfuscator = require('javascript-obfuscator');
 const app = express();
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
-// Rate Limiter
+// Rate Limiter (Free: 100/day, Premium: Unlimited)
 const apiLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
     max: 100,
@@ -15,7 +16,7 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-// Pinterest Route
+// 1. Pinterest Route
 app.get('/pinterest', async (req, res) => {
     try {
         const { text } = req.query;
@@ -25,7 +26,7 @@ app.get('/pinterest', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// APK Route
+// 2. APK Route
 app.get('/apk', async (req, res) => {
     try {
         const { text } = req.query;
@@ -37,7 +38,7 @@ app.get('/apk', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// Song Route (Fix කරපු එක)
+// 3. Song Route
 app.get('/song', async (req, res) => {
     try {
         const { text } = req.query;
@@ -58,6 +59,23 @@ app.get('/song', async (req, res) => {
         });
 
         res.json({ creator: "Mr Hashuu Bot", success: true, result: data.data || {} });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 4. Obfuscate Route
+app.get('/obfuscate', (req, res) => {
+    try {
+        const { code, level } = req.query;
+        if (!code) return res.json({ success: false, message: "Code parameter missing!" });
+        const intensity = level === 'high' ? 0.75 : level === 'medium' ? 0.4 : 0.1;
+        const obfuscatedCode = obfuscator.obfuscate(code, {
+            compact: true,
+            controlFlowFlattening: true,
+            controlFlowFlatteningThreshold: intensity,
+            deadCodeInjection: intensity > 0.3,
+            stringArray: true
+        }).getObfuscatedCode();
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
