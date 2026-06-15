@@ -6,7 +6,7 @@ const app = express();
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
-// Rate Limiter (Free: 100/day, Premium: Unlimited)
+// Rate Limiter
 const apiLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
     max: 100,
@@ -78,5 +78,20 @@ app.get('/obfuscate', (req, res) => {
         res.json({ creator: "Mr Hashuu Bot", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
+
+// 5. Facebook Downloader Route (NEW ADDITION)
+app.get('/facebook', async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "URL parameter missing!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result || {} });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// Port listener (Vercel automatic handling)
+if (require.main === module) {
+    app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
+}
 
 module.exports = app;
