@@ -79,17 +79,29 @@ app.get('/obfuscate', (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. Facebook Downloader Route (NEW ADDITION)
+// 5. Facebook Downloader Route (Corrected)
 app.get('/facebook', async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
+        
+        // David Cyril API එකෙන් දත්ත ගන්නවා
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result || {} });
+        
+        // උඹේ API එකෙන් නිවැරදි JSON එක ලබා දෙනවා
+        if (data.status) {
+            res.json({ 
+                creator: "Mr Hashuu Bot", 
+                success: true, 
+                result: data.video // මෙතනදී David ගේ video කොටස විතරක් ලබා දෙනවා
+            });
+        } else {
+            res.json({ success: false, message: "Could not fetch video." });
+        }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// Port listener (Vercel automatic handling)
+// Port listener
 if (require.main === module) {
     app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
 }
