@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
                 position: relative;
             }
 
-            /* Vercel Ambient Radial Soft Glow - Pure Luxury */
+            /* Vercel Ambient Radial Soft Glow */
             .ambient-glow {
                 position: absolute;
                 width: 600px;
@@ -75,16 +75,16 @@ app.get('/', (req, res) => {
             .glow-1 { background: var(--premium-purple); top: -20%; left: -10%; }
             .glow-2 { background: var(--premium-cyan); bottom: -20%; right: -10%; animation-delay: 4s; }
 
-            @annotation-keyframes smoothFlicker {
+            @keyframes smoothFlicker {
                 0% { opacity: 0.1; transform: scale(0.95); }
                 100% { opacity: 0.2; transform: scale(1.05); }
             }
 
-            /* Vercel Style Main Container Box */
+            /* Main Box Container */
             .vercel-box {
                 width: 92%;
                 max-width: 450px;
-                height: 88vh; /* Perfectly proportional on all mobile display panels */
+                height: 88vh; /* Proportional fit for mobile devices */
                 background: var(--vercel-gray-dark);
                 border: 1px solid var(--vercel-border);
                 border-radius: 16px;
@@ -102,7 +102,6 @@ app.get('/', (req, res) => {
                 to { opacity: 1; transform: translateY(0); }
             }
 
-            /* Clean Header Logic */
             header {
                 display: flex;
                 justify-content: space-between;
@@ -141,18 +140,17 @@ app.get('/', (req, res) => {
                 box-shadow: 0 0 8px #00FF66;
             }
 
-            /* Inner Scroll Container for Endpoints */
+            /* Inner Scroll Area */
             .endpoint-list {
                 flex-grow: 1;
                 margin: 16px 0;
-                overflow-y: auto; /* Internal scrolling while main page stays fixed */
+                overflow-y: auto;
                 padding-right: 4px;
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
             }
 
-            /* Vercel Style Minimalist Card */
             .api-row {
                 background: var(--vercel-gray-light);
                 border: 1px solid var(--vercel-border);
@@ -173,6 +171,7 @@ app.get('/', (req, res) => {
                 display: flex;
                 flex-direction: column;
                 gap: 2px;
+                max-width: 70%;
             }
 
             .endpoint-slug {
@@ -185,9 +184,11 @@ app.get('/', (req, res) => {
             .endpoint-info {
                 font-size: 0.78rem;
                 color: var(--vercel-text-muted);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
-            /* Clean Interactive Buttons */
             .btn-launch {
                 background: #ffffff;
                 color: #000000;
@@ -211,7 +212,6 @@ app.get('/', (req, res) => {
                 transform: scale(0.97);
             }
 
-            /* Custom Premium Thin Scrollbar */
             ::-webkit-scrollbar { width: 3px; }
             ::-webkit-scrollbar-thumb { background: #222222; border-radius: 10px; }
             ::-webkit-scrollbar-thumb:hover { background: #444444; }
@@ -229,14 +229,11 @@ app.get('/', (req, res) => {
     </head>
     <body>
 
-        <!-- Luxury Ambient Overlays -->
         <div class="ambient-glow glow-1"></div>
         <div class="ambient-glow glow-2"></div>
 
-        <!-- Master Box -->
         <div class="vercel-box">
             
-            <!-- Header Module -->
             <header>
                 <h1>mr-hashuu-core</h1>
                 <div class="badge-active">
@@ -245,75 +242,100 @@ app.get('/', (req, res) => {
                 </div>
             </header>
 
-            <!-- Dynamic Endpoint Container -->
             <div class="endpoint-list">
                 
-                <!-- 1. Song Downloader -->
+                <!-- NEW: Mediafire Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/mediafire</span>
+                        <span class="endpoint-info">Mediafire Storage Direct Link Linker</span>
+                    </div>
+                    <a href="/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                </div>
+
+                <!-- NEW: Spotify Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/spotify</span>
+                        <span class="endpoint-info">Spotify Audio Track Cloud Fetcher</span>
+                    </div>
+                    <a href="/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                </div>
+
+                <!-- NEW: Twitter Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/twitter</span>
+                        <span class="endpoint-info">Twitter / X Media Stream Extractor</span>
+                    </div>
+                    <a href="/twitter?url=https://x.com/elonmusk/status/1870901510319833540?t=Ro-vqgliEBA3ifxL_4hFig&s=19&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                </div>
+
+                <!-- 4. Song Downloader -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/song</span>
-                        <span class="endpoint-info">YouTube Audio Downloader Node</span>
+                        <span class="endpoint-info">YouTube Music Engine Extractor</span>
                     </div>
                     <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 2. TikTok Downloader -->
+                <!-- 5. TikTok Downloader -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/tiktok</span>
-                        <span class="endpoint-info">TikTok Media Asset Bypass</span>
+                        <span class="endpoint-info">TikTok No-Watermark Media Parser</span>
                     </div>
                     <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 3. Pinterest Search -->
+                <!-- 6. Pinterest Search -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/pinterest</span>
-                        <span class="endpoint-info">Pinterest Engine Data Grabber</span>
+                        <span class="endpoint-info">Pinterest HD Image Discovery Matrix</span>
                     </div>
                     <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 4. APK Downloader -->
+                <!-- 7. APK Downloader -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/apk</span>
-                        <span class="endpoint-info">Android Package Mirror System</span>
+                        <span class="endpoint-info">Android Package App Direct Mirror</span>
                     </div>
                     <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 5. Facebook Downloader -->
+                <!-- 8. Facebook Downloader -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/facebook</span>
-                        <span class="endpoint-info">Facebook Video Link Decoder</span>
+                        <span class="endpoint-info">Facebook Social Video Link Resolver</span>
                     </div>
                     <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 6. Website Cloner -->
+                <!-- 9. Website Cloner -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/webdl</span>
-                        <span class="endpoint-info">Static Page Cloner Repository</span>
+                        <span class="endpoint-info">Static Page Cloner Repository Archive</span>
                     </div>
                     <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <!-- 7. JS Obfuscator -->
+                <!-- 10. JS Obfuscator -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/obfuscate</span>
-                        <span class="endpoint-info">Anti-Theft Code Shuffler Module</span>
+                        <span class="endpoint-info">Anti-Theft Code Obfuscation Module</span>
                     </div>
                     <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
             </div>
 
-            <!-- Footer Module -->
             <footer>
                 <span>Status: Operational</span>
                 <span>&copy; 2026 MR HASHUU</span>
@@ -326,7 +348,43 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 1. PINTEREST ROUTE
+// NEW ROUTE 1: MEDIAFIRE DOWNLOADER
+// ─────────────────────────────────────────────────────────
+app.get('/mediafire', async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// ─────────────────────────────────────────────────────────
+// NEW ROUTE 2: SPOTIFY DOWNLOADER
+// ─────────────────────────────────────────────────────────
+app.get('/spotify', async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "Spotify URL required!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// ─────────────────────────────────────────────────────────
+// NEW ROUTE 3: TWITTER / X DOWNLOADER
+// ─────────────────────────────────────────────────────────
+app.get('/twitter', async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "Twitter URL required!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
+        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// ─────────────────────────────────────────────────────────
+// 4. PINTEREST ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/pinterest', async (req, res) => {
     try {
@@ -338,7 +396,7 @@ app.get('/pinterest', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 2. APK ROUTE
+// 5. APK ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/apk', async (req, res) => {
     try {
@@ -352,7 +410,7 @@ app.get('/apk', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 3. YOUTUBE MP3 SONG ROUTE
+// 6. YOUTUBE MP3 SONG ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/song', async (req, res) => {
     try {
@@ -377,7 +435,7 @@ app.get('/song', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 4. OBFUSCATE ROUTE
+// 7. OBFUSCATE ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/obfuscate', (req, res) => {
     try {
@@ -396,7 +454,7 @@ app.get('/obfuscate', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 5. FACEBOOK DOWNLOADER ROUTE
+// 8. FACEBOOK DOWNLOADER ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/facebook', async (req, res) => {
     try {
@@ -410,7 +468,7 @@ app.get('/facebook', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 6. IMGBB IMAGE UPLOADER ROUTE
+// 9. IMGBB IMAGE UPLOADER ROUTE
 // ─────────────────────────────────────────────────────────
 app.post('/imgbb', upload.single('file'), async (req, res) => {
     try {
@@ -424,7 +482,7 @@ app.post('/imgbb', upload.single('file'), async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 7. TIKTOK DOWNLOADER ROUTE
+// 10. TIKTOK DOWNLOADER ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/tiktok', async (req, res) => {
     try {
@@ -438,7 +496,7 @@ app.get('/tiktok', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 8. WEBSITE DOWNLOADER ROUTE
+// 11. WEBSITE DOWNLOADER ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/webdl', async (req, res) => {
     try {
@@ -459,7 +517,7 @@ app.get('/webdl', async (req, res) => {
 // PORT LISTENER
 // ─────────────────────────────────────────────────────────
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Elite Engine Running on port 3000"));
+    app.listen(3000, () => console.log("HASHU-API Master v5.0 Running on port 3000"));
 }
 
 module.exports = app;
