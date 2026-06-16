@@ -24,7 +24,7 @@ const apiLimiter = rateLimit({
 app.use(apiLimiter);
 
 // ─────────────────────────────────────────────────────────
-// 🌌 0. GALACTIC CYBERPUNK 1000+ EFFECTS SCREEN-FIT LANDING PAGE
+// 🌌 0. VERCEL ULTRA-MINIMALIST DEEP DARK LANDING PAGE
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -33,348 +33,291 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - Galactic API Hub</title>
+        <title>MR HASHUU - Developer Core</title>
         <style>
             :root {
-                --purple: #7B2CBF;
-                --cyan: #00F5FF;
-                --magenta: #FF007F;
-                --dark-core: #020205;
-                --glass-core: rgba(5, 5, 10, 0.6);
-                --neon-border: rgba(0, 245, 255, 0.25);
+                --vercel-black: #000000;
+                --vercel-gray-dark: #0a0a0a;
+                --vercel-gray-light: #111111;
+                --vercel-border: #333333;
+                --vercel-text-muted: #888888;
+                --premium-cyan: #00F5FF;
+                --premium-purple: #7B2CBF;
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
-                background-color: var(--dark-core);
+                background-color: var(--vercel-black);
                 color: #ffffff;
-                font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                 height: 100vh;
                 width: 100vw;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow: hidden; /* Perfect Screen Fit - No Ugly Scrollbars */
+                overflow: hidden; /* Strict Screen Fit - No Scrollbars */
                 position: relative;
-                perspective: 1000px;
             }
 
-            /* EFFECT 1: Moving Cyber Grid Matrix Background */
-            body::before {
-                content: '';
+            /* Vercel Ambient Radial Soft Glow - Pure Luxury */
+            .ambient-glow {
                 position: absolute;
-                inset: 0;
-                background-image: 
-                    linear-gradient(rgba(0, 245, 255, 0.015) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 245, 255, 0.015) 1px, transparent 1px);
-                background-size: 25px 25px;
-                background-position: center center;
-                z-index: 0;
-                animation: gridTravel 25s linear infinite;
-            }
-
-            @keyframes gridTravel {
-                0% { background-position: 0 0; }
-                100% { background-position: 50px 50px; }
-            }
-
-            /* EFFECT 2 & 3: Shifting Galactic Plasma Auroras */
-            .aurora {
-                position: absolute;
-                width: 450px;
-                height: 450px;
+                width: 600px;
+                height: 600px;
                 border-radius: 50%;
-                filter: blur(150px);
-                opacity: 0.35;
+                filter: blur(140px);
+                opacity: 0.15;
                 z-index: 0;
-                mix-blend-mode: screen;
-                animation: plasmaShift 10s infinite alternate ease-in-out;
+                pointer-events: none;
+                animation: smoothFlicker 8s infinite alternate ease-in-out;
             }
-            .aurora-1 { background: var(--purple); top: -10%; left: -10%; }
-            .aurora-2 { background: var(--cyan); bottom: -10%; right: -10%; animation-delay: 5s; }
-            .aurora-3 { background: var(--magenta); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 2.5s; opacity: 0.15; }
+            .glow-1 { background: var(--premium-purple); top: -20%; left: -10%; }
+            .glow-2 { background: var(--premium-cyan); bottom: -20%; right: -10%; animation-delay: 4s; }
 
-            @keyframes plasmaShift {
-                0% { transform: scale(1) translate(0px, 0px) rotate(0deg); }
-                100% { transform: scale(1.2) translate(50px, 30px) rotate(180deg); }
+            @annotation-keyframes smoothFlicker {
+                0% { opacity: 0.1; transform: scale(0.95); }
+                100% { opacity: 0.2; transform: scale(1.05); }
             }
 
-            /* Master Responsive Card Framework */
-            .galactic-container {
+            /* Vercel Style Main Container Box */
+            .vercel-box {
                 width: 92%;
-                max-width: 460px;
-                height: 90vh; /* Scaled seamlessly for short and tall phone screens */
-                background: var(--glass-core);
-                backdrop-filter: blur(25px);
-                -webkit-backdrop-filter: blur(25px);
-                border: 1px solid var(--neon-border);
-                border-radius: 30px;
-                padding: 25px 20px;
+                max-width: 450px;
+                height: 88vh; /* Perfectly proportional on all mobile display panels */
+                background: var(--vercel-gray-dark);
+                border: 1px solid var(--vercel-border);
+                border-radius: 16px;
+                padding: 24px 20px;
                 z-index: 2;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.1);
-                animation: entryScale 1.2s cubic-bezier(0.1, 1, 0.1, 1) forwards;
-                position: relative;
+                box-shadow: 0 30px 100px rgba(0,0,0,0.9);
+                animation: fadeInBox 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             }
 
-            @keyframes entryScale {
-                from { opacity: 0; transform: scale(0.9) translateY(40px) rotateX(-10deg); }
-                to { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
+            @keyframes fadeInBox {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
             }
 
-            /* EFFECT 4: Tech Scanning Border Animation Overlay */
-            .scan-line {
-                position: absolute;
-                top: 0; left: 0; width: 100%; height: 4px;
-                background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
-                opacity: 0.5;
-                animation: radarScan 4s linear infinite;
-                border-radius: 30px;
-            }
-
-            @keyframes radarScan {
-                0% { top: 0%; opacity: 0; }
-                5% { opacity: 1; }
-                95% { opacity: 1; }
-                100% { top: 100%; opacity: 0; }
-            }
-
-            /* Header Section Styling */
+            /* Clean Header Logic */
             header {
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-            }
-
-            header h1 {
-                font-size: 1.65rem;
-                font-weight: 900;
-                letter-spacing: -0.5px;
-                text-transform: uppercase;
-                background: linear-gradient(45deg, #ffffff, var(--cyan), var(--magenta));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: hueRotate 8s linear infinite;
-            }
-
-            @keyframes hueRotate {
-                0% { filter: hue-rotate(0deg); }
-                100% { filter: hue-rotate(360deg); }
-            }
-
-            .status-badge {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                font-size: 0.72rem;
-                font-weight: 800;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                background: rgba(0, 245, 255, 0.05);
-                color: var(--cyan);
-                padding: 6px 16px;
-                border-radius: 40px;
-                border: 1px solid rgba(0, 245, 255, 0.2);
-                box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
-            }
-
-            .pulse-ring {
-                width: 6px;
-                height: 6px;
-                background: var(--cyan);
-                border-radius: 50%;
-                position: relative;
-            }
-            .pulse-ring::before {
-                content: '';
-                position: absolute;
-                inset: -4px;
-                border: 1px solid var(--cyan);
-                border-radius: 50%;
-                animation: ringPulse 1.5s infinite linear;
-            }
-
-            @keyframes ringPulse {
-                0% { transform: scale(0.6); opacity: 1; }
-                100% { transform: scale(1.8); opacity: 0; }
-            }
-
-            /* Scrollable Micro-Mesh Engine Wrapper */
-            .mesh-panel {
-                flex-grow: 1;
-                margin: 20px 0;
-                overflow-y: auto; /* Handles inner elements beautifully on tiny mobile screens */
-                padding-right: 5px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            /* EFFECT 5: Animated Mesh Cards */
-            .route-card {
-                background: rgba(255, 255, 255, 0.01);
-                border: 1px solid rgba(255, 255, 255, 0.03);
-                border-radius: 16px;
-                padding: 12px 16px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-                position: relative;
-                overflow: hidden;
+                border-bottom: 1px solid var(--vercel-border);
+                padding-bottom: 16px;
             }
 
-            .route-card:hover {
-                background: rgba(123, 44, 191, 0.06);
-                border-color: rgba(0, 245, 255, 0.4);
-                transform: translateY(-2px) scale(1.01);
-                box-shadow: 0 8px 20px rgba(0, 245, 255, 0.1);
+            header h1 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                letter-spacing: -0.5px;
+                color: #ffffff;
             }
 
-            .route-info {
+            .badge-active {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #00FF66;
+                background: rgba(0, 255, 102, 0.05);
+                padding: 4px 10px;
+                border-radius: 6px;
+                border: 1px solid rgba(0, 255, 102, 0.15);
+            }
+
+            .dot {
+                width: 6px;
+                height: 6px;
+                background: #00FF66;
+                border-radius: 50%;
+                box-shadow: 0 0 8px #00FF66;
+            }
+
+            /* Inner Scroll Container for Endpoints */
+            .endpoint-list {
+                flex-grow: 1;
+                margin: 16px 0;
+                overflow-y: auto; /* Internal scrolling while main page stays fixed */
+                padding-right: 4px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            /* Vercel Style Minimalist Card */
+            .api-row {
+                background: var(--vercel-gray-light);
+                border: 1px solid var(--vercel-border);
+                border-radius: 10px;
+                padding: 14px 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background 0.2s, border-color 0.2s;
+            }
+
+            .api-row:hover {
+                background: #161616;
+                border-color: #444444;
+            }
+
+            .meta-details {
                 display: flex;
                 flex-direction: column;
                 gap: 2px;
             }
 
-            .route-name {
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 1.1rem;
-                font-weight: 800;
+            .endpoint-slug {
+                font-family: monospace;
+                font-size: 0.98rem;
+                font-weight: 600;
                 color: #ffffff;
-                transition: color 0.3s;
-            }
-            .route-card:hover .route-name { color: var(--cyan); }
-
-            .route-desc {
-                font-size: 0.75rem;
-                color: #787895;
             }
 
-            /* EFFECT 6: Cyber Glow Test Action Buttons */
-            .btn-action {
-                background: linear-gradient(135deg, rgba(123, 44, 191, 0.3), rgba(0, 245, 255, 0.15));
-                border: 1px solid rgba(0, 245, 255, 0.3);
-                color: #ffffff;
+            .endpoint-info {
+                font-size: 0.78rem;
+                color: var(--vercel-text-muted);
+            }
+
+            /* Clean Interactive Buttons */
+            .btn-launch {
+                background: #ffffff;
+                color: #000000;
+                border: 1px solid #ffffff;
                 font-size: 0.72rem;
-                font-weight: 800;
+                font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 1px;
-                padding: 8px 16px;
-                border-radius: 12px;
+                padding: 7px 14px;
+                border-radius: 6px;
                 text-decoration: none;
-                transition: all 0.25s ease;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+                transition: all 0.15s ease;
             }
 
-            .btn-action:hover {
-                background: linear-gradient(135deg, var(--purple), var(--magenta));
-                border-color: transparent;
-                box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
-                transform: scale(1.05);
+            .btn-launch:hover {
+                background: transparent;
+                color: #ffffff;
+                box-shadow: 0 0 12px rgba(255,255,255,0.1);
             }
 
-            .btn-action:active { transform: scale(0.95); }
+            .btn-launch:active {
+                transform: scale(0.97);
+            }
 
-            /* Webkit Custom Scrollbars */
-            ::-webkit-scrollbar { width: 4px; }
-            ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 10px; }
-            ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+            /* Custom Premium Thin Scrollbar */
+            ::-webkit-scrollbar { width: 3px; }
+            ::-webkit-scrollbar-thumb { background: #222222; border-radius: 10px; }
+            ::-webkit-scrollbar-thumb:hover { background: #444444; }
 
             footer {
-                text-align: center;
-                font-size: 0.7rem;
-                color: #525266;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-                border-top: 1px solid rgba(255,255,255,0.03);
-                padding-top: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 0.72rem;
+                color: var(--vercel-text-muted);
+                border-top: 1px solid var(--vercel-border);
+                padding-top: 14px;
             }
         </style>
     </head>
     <body>
 
-        <div class="aurora aurora-1"></div>
-        <div class="aurora aurora-2"></div>
-        <div class="aurora aurora-3"></div>
+        <!-- Luxury Ambient Overlays -->
+        <div class="ambient-glow glow-1"></div>
+        <div class="ambient-glow glow-2"></div>
 
-        <div class="galactic-container">
-            <div class="scan-line"></div>
-
+        <!-- Master Box -->
+        <div class="vercel-box">
+            
+            <!-- Header Module -->
             <header>
-                <h1>MR HASHUU ENGINE</h1>
-                <div class="status-badge">
-                    <div class="pulse-ring"></div>
-                    <span>Quantum Core Active</span>
+                <h1>mr-hashuu-core</h1>
+                <div class="badge-active">
+                    <div class="dot"></div>
+                    <span>Production</span>
                 </div>
             </header>
 
-            <div class="mesh-panel">
+            <!-- Dynamic Endpoint Container -->
+            <div class="endpoint-list">
                 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/song</span>
-                        <span class="route-desc">YouTube MP3 Stream & Downloader</span>
+                <!-- 1. Song Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/song</span>
+                        <span class="endpoint-info">YouTube Audio Downloader Node</span>
                     </div>
-                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/tiktok</span>
-                        <span class="route-desc">TikTok No-Watermark Media Server</span>
+                <!-- 2. TikTok Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/tiktok</span>
+                        <span class="endpoint-info">TikTok Media Asset Bypass</span>
                     </div>
-                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/pinterest</span>
-                        <span class="route-desc">Pinterest Media Asset Search Engine</span>
+                <!-- 3. Pinterest Search -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/pinterest</span>
+                        <span class="endpoint-info">Pinterest Engine Data Grabber</span>
                     </div>
-                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/apk</span>
-                        <span class="route-desc">Android Package Binary Extractor</span>
+                <!-- 4. APK Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/apk</span>
+                        <span class="endpoint-info">Android Package Mirror System</span>
                     </div>
-                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/facebook</span>
-                        <span class="route-desc">Facebook HD Social Link Parser</span>
+                <!-- 5. Facebook Downloader -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/facebook</span>
+                        <span class="endpoint-info">Facebook Video Link Decoder</span>
                     </div>
-                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/webdl</span>
-                        <span class="route-desc">Website Source Asset Compiler</span>
+                <!-- 6. Website Cloner -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/webdl</span>
+                        <span class="endpoint-info">Static Page Cloner Repository</span>
                     </div>
-                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
-                <div class="route-card">
-                    <div class="route-info">
-                        <span class="route-name">/obfuscate</span>
-                        <span class="route-desc">JavaScript Logic Polymorphic Layer</span>
+                <!-- 7. JS Obfuscator -->
+                <div class="api-row">
+                    <div class="meta-details">
+                        <span class="endpoint-slug">/obfuscate</span>
+                        <span class="endpoint-info">Anti-Theft Code Shuffler Module</span>
                     </div>
-                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
+                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
                 </div>
 
             </div>
 
-            <footer>Cloud Cluster Mesh &copy; 2026 MR HASHUU</footer>
+            <!-- Footer Module -->
+            <footer>
+                <span>Status: Operational</span>
+                <span>&copy; 2026 MR HASHUU</span>
+            </footer>
         </div>
 
     </body>
@@ -516,7 +459,7 @@ app.get('/webdl', async (req, res) => {
 // PORT LISTENER
 // ─────────────────────────────────────────────────────────
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Galactic Engine Running on port 3000"));
+    app.listen(3000, () => console.log("HASHU-API Elite Engine Running on port 3000"));
 }
 
 module.exports = app;
