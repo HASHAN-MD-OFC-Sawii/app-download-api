@@ -9,22 +9,55 @@ const FormData = require('form-data');
 const app = express();
 const upload = multer();
 
-app.use(cors()); 
-
-const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
-
-// 🛡️ Global Rate Limiter
-const apiLimiter = rateLimit({
-    windowMs: 24 * 60 * 60 * 1000,
-    max: 100,
-    skip: (req) => req.query.apikey === MY_SECRET_KEY,
-    message: { success: false, message: "Free limit reached. Get Premium!" }
-});
-
-app.use(apiLimiter);
+app.use(cors());
 
 // ─────────────────────────────────────────────────────────
-// 🌌 0. VERCEL ULTRA-MINIMALIST DEEP DARK LANDING PAGE
+// 🔑 AUTHORIZED PREMIUM API KEYS DATABASE
+// ─────────────────────────────────────────────────────────
+// උඹ සල්ලි දීපු අයට දෙන හෝ උඹ පාවිච්චි කරන Keys ටික විතරක් මෙතන ඇඩ් කරපන්
+const PREMIUM_DATABASE = {
+    "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM" },
+    "MR_HASHUU_SECRET_123": { owner: "Admin/Owner", plan: "PRO" },
+    "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
+};
+
+// 🛡️ Premium Security Rate Limiter (Authorized අයට විතරයි)
+const premiumLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000, // පැය 24ක්
+    max: 5000, // දවසකට උපරිම රික්වෙස්ට් 5000ක්
+    message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
+});
+
+// 🔒 Strict Gatekeeper Middleware (API Key එක හරියටම චෙක් කරන මොළය)
+const strictAuthGate = (req, res, next) => {
+    const { apikey } = req.query;
+
+    // 1. API Key එකක් ඇත්තේම නැත්නම්
+    if (!apikey) {
+        return res.status(401).json({
+            success: false,
+            creator: "Mr Hashuu Bot",
+            message: "Access Denied! API Key is missing. Please append '?apikey=YOUR_KEY' to your URL."
+        });
+    }
+
+    // 2. API Key එකක් තිබ්බත් ඒක උඩ තියෙන Database එකේ නැත්නම් (වැරදි කී එකක් නම්)
+    if (!PREMIUM_DATABASE[apikey]) {
+        return res.status(403).json({
+            success: false,
+            creator: "Mr Hashuu Bot",
+            message: "Access Denied! Invalid API Key. Contact MR HASHUU to purchase a valid key."
+        });
+    }
+
+    // 3. API Key එක හරියටම මැච් වුණොත් විතරක් ඇතුලට යවනවා
+    req.planOwner = PREMIUM_DATABASE[apikey].owner;
+    req.planType = PREMIUM_DATABASE[apikey].plan;
+    return premiumLimiter(req, res, next);
+};
+
+// ─────────────────────────────────────────────────────────
+// 🌌 0. VERCEL PORTAL UI (STRICT MODE DESIGN)
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -33,7 +66,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - Developer Core</title>
+        <title>MR HASHUU - Secure Core Gate</title>
         <style>
             :root {
                 --vercel-black: #000000;
@@ -50,56 +83,42 @@ app.get('/', (req, res) => {
             body {
                 background-color: var(--vercel-black);
                 color: #ffffff;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 height: 100vh;
                 width: 100vw;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow: hidden; /* Strict Screen Fit - No Scrollbars */
+                overflow: hidden;
                 position: relative;
             }
 
-            /* Vercel Ambient Radial Soft Glow */
             .ambient-glow {
                 position: absolute;
-                width: 600px;
-                height: 600px;
+                width: 500px;
+                height: 500px;
                 border-radius: 50%;
                 filter: blur(140px);
-                opacity: 0.15;
+                opacity: 0.12;
                 z-index: 0;
                 pointer-events: none;
-                animation: smoothFlicker 8s infinite alternate ease-in-out;
             }
-            .glow-1 { background: var(--premium-purple); top: -20%; left: -10%; }
-            .glow-2 { background: var(--premium-cyan); bottom: -20%; right: -10%; animation-delay: 4s; }
+            .glow-1 { background: var(--premium-purple); top: -10%; left: -10%; }
+            .glow-2 { background: var(--premium-cyan); bottom: -10%; right: -10%; }
 
-            @keyframes smoothFlicker {
-                0% { opacity: 0.1; transform: scale(0.95); }
-                100% { opacity: 0.2; transform: scale(1.05); }
-            }
-
-            /* Main Box Container */
             .vercel-box {
                 width: 92%;
                 max-width: 450px;
-                height: 88vh; /* Proportional fit for mobile devices */
+                height: 90vh;
                 background: var(--vercel-gray-dark);
                 border: 1px solid var(--vercel-border);
                 border-radius: 16px;
-                padding: 24px 20px;
+                padding: 20px;
                 z-index: 2;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 box-shadow: 0 30px 100px rgba(0,0,0,0.9);
-                animation: fadeInBox 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            }
-
-            @keyframes fadeInBox {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
             }
 
             header {
@@ -107,45 +126,28 @@ app.get('/', (req, res) => {
                 justify-content: space-between;
                 align-items: center;
                 border-bottom: 1px solid var(--vercel-border);
-                padding-bottom: 16px;
+                padding-bottom: 12px;
             }
 
-            header h1 {
-                font-size: 1.25rem;
-                font-weight: 700;
-                letter-spacing: -0.5px;
-                color: #ffffff;
-            }
+            header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
 
-            .badge-active {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                font-size: 0.7rem;
+            .plan-banner {
+                background: rgba(255, 59, 48, 0.05);
+                border: 1px solid rgba(255, 59, 48, 0.2);
+                padding: 10px;
+                border-radius: 8px;
+                margin-top: 12px;
+                font-size: 0.75rem;
+                text-align: center;
+                color: #FF3B30;
                 font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                color: #00FF66;
-                background: rgba(0, 255, 102, 0.05);
-                padding: 4px 10px;
-                border-radius: 6px;
-                border: 1px solid rgba(0, 255, 102, 0.15);
+                letter-spacing: 0.3px;
             }
 
-            .dot {
-                width: 6px;
-                height: 6px;
-                background: #00FF66;
-                border-radius: 50%;
-                box-shadow: 0 0 8px #00FF66;
-            }
-
-            /* Inner Scroll Area */
             .endpoint-list {
                 flex-grow: 1;
-                margin: 16px 0;
+                margin: 12px 0;
                 overflow-y: auto;
-                padding-right: 4px;
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
@@ -155,76 +157,41 @@ app.get('/', (req, res) => {
                 background: var(--vercel-gray-light);
                 border: 1px solid var(--vercel-border);
                 border-radius: 10px;
-                padding: 14px 16px;
+                padding: 12px 14px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                transition: background 0.2s, border-color 0.2s;
             }
 
-            .api-row:hover {
-                background: #161616;
-                border-color: #444444;
-            }
-
-            .meta-details {
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-                max-width: 70%;
-            }
-
-            .endpoint-slug {
-                font-family: monospace;
-                font-size: 0.98rem;
-                font-weight: 600;
-                color: #ffffff;
-            }
-
-            .endpoint-info {
-                font-size: 0.78rem;
-                color: var(--vercel-text-muted);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+            .meta-details { display: flex; flex-direction: column; max-width: 70%; }
+            .endpoint-slug { font-family: monospace; font-size: 0.95rem; font-weight: 600; }
+            .endpoint-info { font-size: 0.75rem; color: var(--vercel-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
             .btn-launch {
-                background: #ffffff;
-                color: #000000;
-                border: 1px solid #ffffff;
-                font-size: 0.72rem;
+                background: transparent;
+                color: var(--premium-cyan);
+                border: 1px solid rgba(0, 245, 255, 0.2);
+                font-size: 0.68rem;
                 font-weight: 600;
-                text-transform: uppercase;
-                padding: 7px 14px;
+                padding: 6px 12px;
                 border-radius: 6px;
                 text-decoration: none;
-                transition: all 0.15s ease;
             }
-
-            .btn-launch:hover {
-                background: transparent;
-                color: #ffffff;
-                box-shadow: 0 0 12px rgba(255,255,255,0.1);
-            }
-
-            .btn-launch:active {
-                transform: scale(0.97);
-            }
+            .btn-launch:hover { background: var(--premium-cyan); color: #000000; border-color: var(--premium-cyan); }
 
             ::-webkit-scrollbar { width: 3px; }
             ::-webkit-scrollbar-thumb { background: #222222; border-radius: 10px; }
-            ::-webkit-scrollbar-thumb:hover { background: #444444; }
 
             footer {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                font-size: 0.72rem;
+                font-size: 0.7rem;
                 color: var(--vercel-text-muted);
                 border-top: 1px solid var(--vercel-border);
-                padding-top: 14px;
+                padding-top: 12px;
             }
+            .buy-btn { color: #00FF66; text-decoration: none; font-weight: bold; }
         </style>
     </head>
     <body>
@@ -233,112 +200,68 @@ app.get('/', (req, res) => {
         <div class="ambient-glow glow-2"></div>
 
         <div class="vercel-box">
-            
             <header>
-                <h1>mr-hashuu-core</h1>
-                <div class="badge-active">
-                    <div class="dot"></div>
-                    <span>Production</span>
+                <h1>mr-hashuu-v7</h1>
+                <div style="font-size:0.7rem; color:#FF3B30; background:rgba(255,59,48,0.05); padding:4px 8px; border-radius:5px; border:1px solid rgba(255,59,48,0.15)">
+                    🔒 Strict Auth
                 </div>
             </header>
 
+            <!-- Warning Banner -->
+            <div class="plan-banner">
+                STRICT MODE: VALID API KEY REQUIRED TO ACCESS ALL ENDPOINTS
+            </div>
+
             <div class="endpoint-list">
-                
-                <!-- NEW: Mediafire Downloader -->
+                <!-- Mediafire -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/mediafire</span>
-                        <span class="endpoint-info">Mediafire Storage Direct Link Linker</span>
+                        <span class="endpoint-info">Mediafire Direct File Downloader</span>
                     </div>
-                    <a href="/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                    <a href="/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Test Auth</a>
                 </div>
 
-                <!-- NEW: Spotify Downloader -->
+                <!-- Spotify -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/spotify</span>
-                        <span class="endpoint-info">Spotify Audio Track Cloud Fetcher</span>
+                        <span class="endpoint-info">Spotify High-Quality Music Fetcher</span>
                     </div>
-                    <a href="/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                    <a href="/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Test Auth</a>
                 </div>
 
-                <!-- NEW: Twitter Downloader -->
+                <!-- Twitter -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/twitter</span>
-                        <span class="endpoint-info">Twitter / X Media Stream Extractor</span>
+                        <span class="endpoint-info">Twitter / X Stream HD Extractor</span>
                     </div>
-                    <a href="/twitter?url=https://x.com/elonmusk/status/1870901510319833540?t=Ro-vqgliEBA3ifxL_4hFig&s=19&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                    <a href="/twitter?url=https://x.com/elonmusk/status/1870901510319833540&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Test Auth</a>
                 </div>
 
-                <!-- 4. Song Downloader -->
+                <!-- Song -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/song</span>
-                        <span class="endpoint-info">YouTube Music Engine Extractor</span>
+                        <span class="endpoint-info">YouTube MP3 Audio Engine</span>
                     </div>
-                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Test Auth</a>
                 </div>
-
-                <!-- 5. TikTok Downloader -->
-                <div class="api-row">
-                    <div class="meta-details">
-                        <span class="endpoint-slug">/tiktok</span>
-                        <span class="endpoint-info">TikTok No-Watermark Media Parser</span>
-                    </div>
-                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
-                </div>
-
-                <!-- 6. Pinterest Search -->
-                <div class="api-row">
-                    <div class="meta-details">
-                        <span class="endpoint-slug">/pinterest</span>
-                        <span class="endpoint-info">Pinterest HD Image Discovery Matrix</span>
-                    </div>
-                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
-                </div>
-
-                <!-- 7. APK Downloader -->
-                <div class="api-row">
-                    <div class="meta-details">
-                        <span class="endpoint-slug">/apk</span>
-                        <span class="endpoint-info">Android Package App Direct Mirror</span>
-                    </div>
-                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
-                </div>
-
-                <!-- 8. Facebook Downloader -->
-                <div class="api-row">
-                    <div class="meta-details">
-                        <span class="endpoint-slug">/facebook</span>
-                        <span class="endpoint-info">Facebook Social Video Link Resolver</span>
-                    </div>
-                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
-                </div>
-
-                <!-- 9. Website Cloner -->
-                <div class="api-row">
-                    <div class="meta-details">
-                        <span class="endpoint-slug">/webdl</span>
-                        <span class="endpoint-info">Static Page Cloner Repository Archive</span>
-                    </div>
-                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
-                </div>
-
-                <!-- 10. JS Obfuscator -->
+                
+                <!-- JS Obfuscator -->
                 <div class="api-row">
                     <div class="meta-details">
                         <span class="endpoint-slug">/obfuscate</span>
-                        <span class="endpoint-info">Anti-Theft Code Obfuscation Module</span>
+                        <span class="endpoint-info">Anti-Theft Code Obfuscator</span>
                     </div>
-                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Launch</a>
+                    <a href="/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-launch">Test Auth</a>
                 </div>
-
             </div>
 
             <footer>
-                <span>Status: Operational</span>
-                <span>&copy; 2026 MR HASHUU</span>
+                <span>Need Premium Access?</span>
+                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">Get API Key</a>
             </footer>
         </div>
 
@@ -348,176 +271,58 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// NEW ROUTE 1: MEDIAFIRE DOWNLOADER
+// 🛠️ PROTECTED API ROUTES (ALL SECURED WITH strictAuthGate)
 // ─────────────────────────────────────────────────────────
-app.get('/mediafire', async (req, res) => {
+
+app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ─────────────────────────────────────────────────────────
-// NEW ROUTE 2: SPOTIFY DOWNLOADER
-// ─────────────────────────────────────────────────────────
-app.get('/spotify', async (req, res) => {
+app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ─────────────────────────────────────────────────────────
-// NEW ROUTE 3: TWITTER / X DOWNLOADER
-// ─────────────────────────────────────────────────────────
-app.get('/twitter', async (req, res) => {
+app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Twitter URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ─────────────────────────────────────────────────────────
-// 4. PINTEREST ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/pinterest', async (req, res) => {
+app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Query required" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result || [] });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
-// 5. APK ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/apk', async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Query required" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { 
-            headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 
-        });
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.apk || {} });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
-// 6. YOUTUBE MP3 SONG ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/song', async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Song name or URL required" });
+        if (!text) return res.json({ success: false, message: "Song name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
-        if (data.status && data.result) {
-            res.json({ 
-                creator: "Mr Hashuu Bot", 
-                success: true, 
-                result: {
-                    title: data.result.title || "YouTube Audio",
-                    downloadUrl: data.result.download_url,
-                    duration: data.result.duration || "N/A",
-                    views: data.result.views || 0,
-                    published: data.result.published || "N/A",
-                    thumb: data.result.thumbnail || ""
-                }
-            });
-        } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
-    } catch (e) { res.json({ success: false, message: "Server error: " + e.message }); }
+        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, success: true, result: data.result });
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ─────────────────────────────────────────────────────────
-// 7. OBFUSCATE ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/obfuscate', (req, res) => {
+app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code, level } = req.query;
         if (!code) return res.json({ success: false, message: "Code parameter missing!" });
-        const intensity = level === 'high' ? 0.75 : level === 'medium' ? 0.4 : 0.1;
-        const obfuscatedCode = obfuscator.obfuscate(code, {
-            compact: true,
-            controlFlowFlattening: true,
-            controlFlowFlatteningThreshold: intensity,
-            deadCodeInjection: intensity > 0.3,
-            stringArray: true
-        }).getObfuscatedCode();
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: obfuscatedCode });
+        const intensity = level === 'high' ? 0.75 : 0.4;
+        const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: intensity }).getObfuscatedCode();
+        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ─────────────────────────────────────────────────────────
-// 8. FACEBOOK DOWNLOADER ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/facebook', async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "URL parameter missing!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
-        if (data.status) {
-            res.json({ creator: "Mr Hashuu Bot", success: true, result: data.video });
-        } else { res.json({ success: false, message: "Could not fetch video." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
-// 9. IMGBB IMAGE UPLOADER ROUTE
-// ─────────────────────────────────────────────────────────
-app.post('/imgbb', upload.single('file'), async (req, res) => {
-    try {
-        if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
-        const form = new FormData();
-        form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
-        const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "Mr Hashuu Bot", success: true, result: data.data }); }
-        else { res.json({ success: false, message: "Upload failed." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
-// 10. TIKTOK DOWNLOADER ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/tiktok', async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "TikTok URL required!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
-// 11. WEBSITE DOWNLOADER ROUTE
-// ─────────────────────────────────────────────────────────
-app.get('/webdl', async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Website URL parameter missing!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
-        if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ 
-                creator: "Mr Hashuu Bot", 
-                success: true, 
-                result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished }
-            });
-        } else { res.json({ success: false, message: "Failed to clone the website. Ensure the target URL is active." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// ─────────────────────────────────────────────────────────
 // PORT LISTENER
-// ─────────────────────────────────────────────────────────
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Master v5.0 Running on port 3000"));
+    app.listen(3000, () => console.log("Strict HASHU-API Secure Gate Running on port 3000"));
 }
 
 module.exports = app;
