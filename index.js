@@ -34,7 +34,7 @@ const strictAuthGate = (req, res, next) => {
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "Mr Hashuu Bot",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
@@ -42,7 +42,7 @@ const strictAuthGate = (req, res, next) => {
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "Mr Hashuu Bot",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
@@ -53,7 +53,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 0. VERCEL ULTRA-PREMIUM DEEP DARK LANDING PAGE
+// 🌌 0. VERCEL DEEP DARK UI WITH LOADER & LIVE SEARCH
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -62,8 +62,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - Free Api Keys</title>
-        <!-- Google Fonts Link for Luxury Typography -->
+        <title>MR HASHUU - Premium Core Matrix</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -71,13 +70,13 @@ app.get('/', (req, res) => {
         <style>
             :root {
                 --vercel-black: #000000;
-                --vercel-gray-dark: #050505;
-                --vercel-gray-light: #0d0d0d;
-                --vercel-border: #1f1f1f;
-                --vercel-text-muted: #a0a0a0;
+                --vercel-gray-dark: #040405;
+                --vercel-gray-light: #09090b;
+                --vercel-border: #1a1a1e;
+                --vercel-text-muted: #8e8e93;
                 --premium-cyan: #00F5FF;
                 --premium-purple: #7B2CBF;
-                --neon-glow: 0 0 20px rgba(0, 245, 255, 0.2);
+                --neon-glow: 0 0 30px rgba(0, 245, 255, 0.25);
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -91,233 +90,191 @@ app.get('/', (req, res) => {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow: hidden; /* Prevent body scrollbars */
+                overflow: hidden;
                 position: relative;
+            }
+
+            /* ──🔥 PRE-LOADER CYBER STYLING ── */
+            #cyber-loader {
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: var(--vercel-black);
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: opacity 0.6s ease, filter 0.6s ease;
+            }
+
+            .loader-logo {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 2.2rem;
+                font-weight: 800;
+                letter-spacing: -1px;
+                background: linear-gradient(135deg, #ffffff 30%, var(--premium-cyan) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 20px;
+                animation: pulseLogo 1.5s infinite alternate ease-in-out;
+            }
+
+            @keyframes pulseLogo {
+                0% { transform: scale(0.96); opacity: 0.8; filter: drop-shadow(0 0 5px rgba(0,245,255,0.2)); }
+                100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 25px rgba(0,245,255,0.6)); }
+            }
+
+            .progress-track {
+                width: 240px; height: 3px;
+                background: #111; border-radius: 10px;
+                overflow: hidden; position: relative; margin-bottom: 15px;
+            }
+
+            .progress-bar {
+                position: absolute; top: 0; left: 0; height: 100%;
+                width: 0%; background: linear-gradient(90deg, var(--premium-purple), var(--premium-cyan));
+                box-shadow: 0 0 10px var(--premium-cyan);
+                animation: fillProgress 4s cubic-bezier(0.1, 0.85, 0.25, 1) forwards;
+            }
+
+            @keyframes fillProgress { 0% { width: 0%; } 100% { width: 100%; } }
+
+            .status-text {
+                font-family: monospace; font-size: 0.72rem; font-weight: 700;
+                color: var(--premium-cyan); letter-spacing: 1px; text-transform: uppercase;
+                height: 15px;
             }
 
             /* Ambient Glow Background Studio */
             .ambient-glow {
-                position: absolute;
-                width: 600px;
-                height: 600px;
-                border-radius: 50%;
-                filter: blur(150px);
-                opacity: 0.18;
-                z-index: 0;
-                pointer-events: none;
-                animation: pulseGlow 10s infinite alternate ease-in-out;
+                position: absolute; width: 600px; height: 600px; border-radius: 50%;
+                filter: blur(160px); opacity: 0.16; z-index: 0; pointer-events: none;
             }
             .glow-1 { background: var(--premium-purple); top: -15%; left: -10%; }
-            .glow-2 { background: var(--premium-cyan); bottom: -15%; right: -10%; animation-delay: 5s; }
+            .glow-2 { background: var(--premium-cyan); bottom: -15%; right: -10%; }
 
-            @keyframes pulseGlow {
-                0% { opacity: 0.12; transform: scale(0.9); }
-                100% { opacity: 0.22; transform: scale(1.1); }
-            }
-
-            /* Luxury Container Card */
+            /* Main Box Styling */
             .vercel-box {
-                width: 92%;
-                max-width: 460px;
-                height: 90vh;
-                background: var(--vercel-gray-dark);
-                border: 1px solid var(--vercel-border);
-                border-radius: 24px;
-                padding: 26px 22px;
-                z-index: 2;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                box-shadow: 0 40px 120px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255,255,255,0.05);
-                animation: boxReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                width: 92%; max-width: 470px; height: 90vh;
+                background: rgba(4, 4, 5, 0.75);
+                backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                border: 1px solid var(--vercel-border); border-radius: 28px;
+                padding: 24px; z-index: 2;
+                display: flex; flex-direction: column; justify-content: space-between;
+                box-shadow: 0 50px 150px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255,255,255,0.03);
+                opacity: 0; transform: translateY(20px);
+                transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             }
 
-            @keyframes boxReveal {
-                from { opacity: 0; transform: translateY(30px); filter: blur(5px); }
-                to { opacity: 1; transform: translateY(0); filter: blur(0); }
-            }
-
-            header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid var(--vercel-border);
-                padding-bottom: 18px;
-            }
-
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; }
             header h1 {
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 1.4rem;
-                font-weight: 700;
-                letter-spacing: -0.5px;
-                background: linear-gradient(135deg, #ffffff 40%, #888888 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
+                font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;
+                letter-spacing: -0.5px; background: linear-gradient(135deg, #ffffff 40%, #999999 100%);
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             }
 
             .badge-strict {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                font-size: 0.68rem;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 0.8px;
-                color: #FF3B30;
-                background: rgba(255, 59, 48, 0.06);
-                padding: 5px 12px;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 59, 48, 0.2);
+                display: inline-flex; align-items: center; gap: 6px;
+                font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;
+                color: #FF3B30; background: rgba(255, 59, 48, 0.06);
+                padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255, 59, 48, 0.2);
             }
+            .dot-red { width: 6px; height: 6px; background: #FF3B30; border-radius: 50%; box-shadow: 0 0 10px #FF3B30; }
 
-            .dot-red {
-                width: 6px;
-                height: 6px;
-                background: #FF3B30;
-                border-radius: 50%;
-                box-shadow: 0 0 10px #FF3B30;
+            /* ──🔥 ADVANCED SEARCH BOX SYSTEM ── */
+            .search-container { position: relative; margin-top: 12px; margin-bottom: 4px; }
+            .search-input {
+                width: 100%; padding: 14px 16px; background: #0c0c0e;
+                border: 1px solid var(--vercel-border); border-radius: 14px;
+                color: #ffffff; font-size: 0.9rem; font-weight: 700;
+                outline: none; transition: all 0.25s ease;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
             }
-
-            /* Warning Security Banner */
-            .security-banner {
-                background: linear-gradient(90deg, rgba(255,59,48,0.04) 0%, rgba(0,0,0,0) 100%);
-                border-left: 3px solid #FF3B30;
-                border-top: 1px solid var(--vercel-border);
-                border-right: 1px solid var(--vercel-border);
-                border-bottom: 1px solid var(--vercel-border);
-                padding: 12px;
-                border-radius: 10px;
-                margin-top: 14px;
-                font-size: 0.74rem;
-                font-weight: 700;
-                color: #FF453A;
-                letter-spacing: 0.3px;
-                text-transform: uppercase;
+            .search-input:focus {
+                border-color: var(--premium-cyan);
+                box-shadow: 0 0 20px rgba(0, 245, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.3);
             }
+            .search-input::placeholder { color: #555558; font-weight: 600; }
 
-            /* Main Endpoint Container Area */
+            /* Endpoint Workspace */
             .endpoint-list {
-                flex-grow: 1;
-                margin: 16px 0;
-                overflow-y: auto;
-                padding-right: 4px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
+                flex-grow: 1; margin: 14px 0; overflow-y: auto;
+                padding-right: 2px; display: flex; flex-direction: column; gap: 10px;
             }
 
             .api-row {
-                background: var(--vercel-gray-light);
-                border: 1px solid var(--vercel-border);
-                border-radius: 14px;
-                padding: 14px 18px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                background: var(--vercel-gray-light); border: 1px solid var(--vercel-border);
+                border-radius: 16px; padding: 14px 18px;
+                display: flex; justify-content: space-between; align-items: center;
+                transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
             }
-
             .api-row:hover {
-                background: #121212;
-                border-color: #333333;
-                transform: translateY(-1px);
-                box-shadow: var(--neon-glow);
+                background: #0f0f13; border-color: #2b2b32;
+                transform: translateY(-2px); box-shadow: var(--neon-glow);
             }
 
-            .meta-details {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                max-width: 72%;
-            }
-
-            .endpoint-slug {
-                font-family: 'Space Grotesk', monospace;
-                font-size: 1.05rem;
-                font-weight: 700; /* Super bolded as requested */
-                color: #ffffff;
-                letter-spacing: -0.3px;
-            }
-
-            .endpoint-info {
-                font-size: 0.78rem;
-                font-weight: 600; /* Bolded font for info too */
-                color: var(--vercel-text-muted);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+            .meta-details { display: flex; flex-direction: column; gap: 4px; max-width: 72%; }
+            .endpoint-slug { font-family: 'Space Grotesk', monospace; font-size: 1.08rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
+            .endpoint-info { font-size: 0.78rem; font-weight: 700; color: var(--vercel-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
             .btn-launch {
-                background: #ffffff;
-                color: #000000;
-                border: 1px solid #ffffff;
-                font-size: 0.7rem;
-                font-weight: 800; /* Extra bold text for action button */
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                padding: 8px 14px;
-                border-radius: 8px;
-                text-decoration: none;
-                transition: all 0.2s ease;
+                background: #ffffff; color: #000000; border: 1px solid #ffffff;
+                font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+                padding: 8px 14px; border-radius: 9px; text-decoration: none; transition: all 0.2s ease;
             }
-
             .btn-launch:hover {
-                background: transparent;
-                color: var(--premium-cyan);
-                border-color: var(--premium-cyan);
+                background: transparent; color: var(--premium-cyan); border-color: var(--premium-cyan);
                 box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
             }
 
-            /* Clean Elegant Scrollbar Customizer */
+            /* No Search Result Banner */
+            #no-results {
+                display: none; text-align: center; padding: 30px;
+                font-size: 0.85rem; font-weight: 700; color: var(--vercel-text-muted);
+                font-family: monospace;
+            }
+
             ::-webkit-scrollbar { width: 4px; }
-            ::-webkit-scrollbar-thumb { background: #222222; border-radius: 20px; }
-            ::-webkit-scrollbar-thumb:hover { background: #444444; }
-
-            footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 0.75rem;
-                font-weight: 700;
-                color: var(--vercel-text-muted);
-                border-top: 1px solid var(--vercel-border);
-                padding-top: 16px;
-            }
-
-            .buy-btn {
-                color: var(--premium-cyan);
-                text-decoration: none;
-                font-weight: 800;
-                letter-spacing: 0.2px;
-                transition: opacity 0.2s;
-            }
-            .buy-btn:hover { opacity: 0.8; text-shadow: 0 0 10px var(--premium-cyan); }
+            ::-webkit-scrollbar-thumb { background: #1c1c21; border-radius: 20px; }
+            
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 700; color: var(--vercel-text-muted); border-top: 1px solid var(--vercel-border); padding-top: 16px; }
+            .buy-btn { color: var(--premium-cyan); text-decoration: none; font-weight: 800; letter-spacing: 0.2px; }
+            .buy-btn:hover { text-shadow: 0 0 10px var(--premium-cyan); }
         </style>
     </head>
     <body>
 
+        <!-- ──🔥 PRE-LOADER MATRIX LAYOUT ── -->
+        <div id="cyber-loader">
+            <div class="loader-logo">MR HASHUU CORE</div>
+            <div class="progress-track">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="status-text" id="status-terminal">LOADING MATRIX...</div>
+        </div>
+
         <div class="ambient-glow glow-1"></div>
         <div class="ambient-glow glow-2"></div>
 
-        <div class="vercel-box">
+        <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>HASHU-API-STORE</h1>
+                <h1>mr-hashuu-v9</h1>
                 <div class="badge-strict">
                     <div class="dot-red"></div>
                     <span>Strict Auth</span>
                 </div>
             </header>
 
-            <div class="security-banner">
-                🔒 Premium Unlocked: Now Use Free
+            <!-- Interactive Search Module -->
+            <div class="search-container">
+                <input type="text" id="apiSearch" class="search-input" placeholder="Search Secure Endpoints..." onkeyup="filterEndpoints()">
             </div>
 
-            <div class="endpoint-list">
+            <div class="endpoint-list" id="listWrapper">
                 
                 <!-- 1. Mediafire -->
-                <div class="api-row">
+                <div class="api-row" data-name="mediafire downloader direct storage parser">
                     <div class="meta-details">
                         <span class="endpoint-slug">/mediafire</span>
                         <span class="endpoint-info">Mediafire Direct Storage Link Parser</span>
@@ -326,7 +283,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 2. Spotify -->
-                <div class="api-row">
+                <div class="api-row" data-name="spotify music hq audio downloader song">
                     <div class="meta-details">
                         <span class="endpoint-slug">/spotify</span>
                         <span class="endpoint-info">Spotify Premium HQ Audio Downloader</span>
@@ -335,7 +292,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 3. Twitter -->
-                <div class="api-row">
+                <div class="api-row" data-name="twitter x stream extractor multi video">
                     <div class="meta-details">
                         <span class="endpoint-slug">/twitter</span>
                         <span class="endpoint-info">Twitter / X Multi-Quality Stream Extractor</span>
@@ -344,7 +301,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 4. Song -->
-                <div class="api-row">
+                <div class="api-row" data-name="song youtube play mp3 audio music stream">
                     <div class="meta-details">
                         <span class="endpoint-slug">/song</span>
                         <span class="endpoint-info">YouTube Core Audio Stream Engine</span>
@@ -353,7 +310,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 5. TikTok -->
-                <div class="api-row">
+                <div class="api-row" data-name="tiktok video downloader no watermark">
                     <div class="meta-details">
                         <span class="endpoint-slug">/tiktok</span>
                         <span class="endpoint-info">TikTok Original Video No-Watermark Extractor</span>
@@ -362,7 +319,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 6. Pinterest -->
-                <div class="api-row">
+                <div class="api-row" data-name="pinterest image search visual hd download">
                     <div class="meta-details">
                         <span class="endpoint-slug">/pinterest</span>
                         <span class="endpoint-info">Pinterest HD Resolution Visual Grid Search</span>
@@ -371,7 +328,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 7. APK Downloader -->
-                <div class="api-row">
+                <div class="api-row" data-name="apk android package app mirror tool download">
                     <div class="meta-details">
                         <span class="endpoint-slug">/apk</span>
                         <span class="endpoint-info">Android Package App Safe Mirror Provider</span>
@@ -380,7 +337,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 8. Facebook -->
-                <div class="api-row">
+                <div class="api-row" data-name="facebook fb video resolver cdn download">
                     <div class="meta-details">
                         <span class="endpoint-slug">/facebook</span>
                         <span class="endpoint-info">Facebook Video Links CDN Resolver</span>
@@ -389,7 +346,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 9. Website Cloner -->
-                <div class="api-row">
+                <div class="api-row" data-name="webdl website clone html static site page download">
                     <div class="meta-details">
                         <span class="endpoint-slug">/webdl</span>
                         <span class="endpoint-info">Static Page Cloner Repository Downloader</span>
@@ -398,7 +355,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 10. JS Obfuscator -->
-                <div class="api-row">
+                <div class="api-row" data-name="obfuscate javascript security protection code hide encrypt">
                     <div class="meta-details">
                         <span class="endpoint-slug">/obfuscate</span>
                         <span class="endpoint-info">Anti-Theft JavaScript Security Module</span>
@@ -407,14 +364,15 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- 11. ImgBB Uploader -->
-                <div class="api-row">
+                <div class="api-row" data-name="imgbb photo cloud cdn image host upload post">
                     <div class="meta-details">
                         <span class="endpoint-slug">/imgbb (POST)</span>
                         <span class="endpoint-info">Cloud Photo CDN Hosting Interface</span>
                     </div>
-                    <span style="font-size:0.7rem; font-weight:bold; color:var(--premium-purple)">POST REQ</span>
+                    <span style="font-size:0.7rem; font-weight:800; color:var(--premium-purple)">POST REQ</span>
                 </div>
 
+                <div id="no-results">// NO ENPOINTS MATCHED //</div>
             </div>
 
             <footer>
@@ -423,6 +381,58 @@ app.get('/', (req, res) => {
             </footer>
         </div>
 
+        <!-- ──🔥 DYNAMIC INTERACTIVE SCRIPTS ── -->
+        <script>
+            // 1. Dynamic Terminal Status Updates during Boot
+            const statuses = [
+                "INITIALIZING PROTOCOLS...",
+                "DECRYPTING SECURITY CORE...",
+                "LOADING CORE SUITE v9.0...",
+                "ACCESS GRANTED. ENJOY!"
+            ];
+            const terminalEl = document.getElementById('status-terminal');
+            
+            setTimeout(() => terminalEl.innerText = statuses[1], 1000);
+            setTimeout(() => terminalEl.innerText = statuses[2], 2200);
+            setTimeout(() => terminalEl.innerText = statuses[3], 3400);
+
+            // 4 Second Smooth Pre-Loader Dismount
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    const loader = document.getElementById('cyber-loader');
+                    const mainUI = document.getElementById('main-interface');
+                    
+                    loader.style.opacity = '0';
+                    loader.style.filter = 'blur(10px)';
+                    
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        mainUI.style.opacity = '1';
+                        mainUI.style.transform = 'translateY(0)';
+                    }, 600);
+                }, 4000); // Exact 4-Second Hold Time
+            });
+
+            // 2. Real-Time High-Performance Endpoint Filter
+            function filterEndpoints() {
+                const query = document.getElementById('apiSearch').value.toLowerCase().trim();
+                const rows = document.getElementsByClassName('api-row');
+                const noResults = document.getElementById('no-results');
+                let foundAny = false;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const searchableTags = rows[i].getAttribute('data-name');
+                    if (searchableTags.includes(query)) {
+                        rows[i].style.display = 'flex';
+                        foundAny = true;
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+
+                noResults.style.display = foundAny ? 'none' : 'block';
+            }
+        </script>
     </body>
     </html>
     `);
@@ -543,7 +553,7 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
 
 // PORT LISTENER
 if (require.main === module) {
-    app.listen(3000, () => console.log("Premium HASHU-API Luxury Matrix Matrix Running on port 3000"));
+    app.listen(3000, () => console.log("Premium HASHU-API Luxury Matrix Running on port 3000"));
 }
 
 module.exports = app;
