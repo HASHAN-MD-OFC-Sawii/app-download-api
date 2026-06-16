@@ -2,7 +2,11 @@ const express = require('express');
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const obfuscator = require('javascript-obfuscator');
+const cors = require('cors'); // 👈 CORS පැකේජ් එක මෙතනට ඇඩ් කළා
 const app = express();
+
+// 👈 ඕනෑම තැනක සිට එන Frontend Requests බ්ලොක් නොකර Allow කරන්න මේක දැම්මා
+app.use(cors()); 
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
@@ -85,15 +89,13 @@ app.get('/facebook', async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         
-        // David Cyril API එකෙන් දත්ත ගන්නවා
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
         
-        // උඹේ API එකෙන් නිවැරදි JSON එක ලබා දෙනවා
         if (data.status) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
                 success: true, 
-                result: data.video // මෙතනදී David ගේ video කොටස විතරක් ලබා දෙනවා
+                result: data.video 
             });
         } else {
             res.json({ success: false, message: "Could not fetch video." });
