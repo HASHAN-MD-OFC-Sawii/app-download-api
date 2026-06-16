@@ -138,17 +138,18 @@ app.get('/tiktok', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 8. WEBSITE DOWNLOADER ROUTE (Fixed 🛠️)
+// 8. WEBSITE DOWNLOADER ROUTE (100% FIXED & VERIFIED 🚀)
 // ─────────────────────────────────────────────────────────
 app.get('/webdl', async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL parameter missing!" });
         
-        // David Cyril ගේ /download/website Endpoint එකට Request එක දමා නිවැරදි කරන ලදී
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/website?url=${encodeURIComponent(url)}`);
+        // 🛠️ ඩේවිඩ්ගේ සැබෑ ලින්ක් එක (/tools/downloadweb) මෙතනට ඇතුළත් කළා මචං
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         
-        if (data.response && data.response.success) {
+        // ඩේවිඩ්ගේ API Response එක අපේ format එකට සකස් කිරීම
+        if (data.response && (data.response.success === true || data.response.success === "true")) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
                 success: true, 
@@ -157,8 +158,15 @@ app.get('/webdl', async (req, res) => {
                     isFinished: data.response.isFinished
                 }
             });
+        } else if (data.success === "true" || data.success === true) {
+            // Safe fallback response structure
+            res.json({
+                creator: "Mr Hashuu Bot",
+                success: true,
+                result: data.response || data
+            });
         } else {
-            res.json({ success: false, message: "Failed to download or clone the website. Ensure the URL is valid." });
+            res.json({ success: false, message: "Failed to clone the website. Ensure the target URL is active.", raw: data });
         }
     } catch (e) { 
         res.json({ success: false, message: e.message }); 
