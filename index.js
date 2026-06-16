@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - Pro Developer Console</title>
+        <title>MR HASHUU - Official Api Keys</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -258,10 +258,10 @@ app.get('/', (req, res) => {
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>Hashuu Matrix v12</h1>
+                <h1>HASHUZ-API-STORE</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM OPERATIONAL</span>
+                    <span>SERVER</span>
                 </div>
             </header>
 
