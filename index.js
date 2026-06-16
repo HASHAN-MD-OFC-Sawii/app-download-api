@@ -9,7 +9,7 @@ const FormData = require('form-data');
 const app = express();
 const upload = multer();
 
-// 🌏 CORS Enable කිරීම
+// 🌏 CORS Enable කිරීම (Frontend Requests බ්ලොක් වීම වැළැක්වීමට)
 app.use(cors()); 
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
@@ -111,23 +111,39 @@ app.post('/imgbb', upload.single('file'), async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. TIKTOK DOWNLOADER ROUTE (New 🚀)
+// 7. TIKTOK DOWNLOADER ROUTE
 app.get('/tiktok', async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
-        
-        // David Cyril ගේ TikTok Downloader Endpoint එකට Request එක දානවා
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
-        
         if (data.success && data.result) {
+            res.json({ creator: "Mr Hashuu Bot", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 8. WEBSITE DOWNLOADER ROUTE (New 🚀)
+app.get('/webdl', async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "Website URL parameter missing!" });
+        
+        // David Cyril ගේ Website Downloader Endpoint එකට Request එක දානවා
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/web?url=${encodeURIComponent(url)}`);
+        
+        // ඩේවිඩ්ගේ API එකෙන් එන "response" කොටස අපේ format එකට ගැලපීම
+        if (data.response && data.response.success) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
                 success: true, 
-                result: data.result // වීඩියෝ ලින්ක්, මියුසික් ලින්ක්, විස්තර ඔක්කොම මේකේ එනවා
+                result: {
+                    downloadUrl: data.response.downloadUrl,
+                    isFinished: data.response.isFinished
+                }
             });
         } else {
-            res.json({ success: false, message: "Invalid TikTok URL or media not found." });
+            res.json({ success: false, message: "Failed to download or clone the website. Ensure the URL is valid." });
         }
     } catch (e) { 
         res.json({ success: false, message: e.message }); 
