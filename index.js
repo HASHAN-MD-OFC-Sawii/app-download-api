@@ -20,14 +20,14 @@ const PREMIUM_DATABASE = {
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// Premium Security Rate Limiter
+// Premium Rate Limiter
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
     message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
 });
 
-// Strict Gatekeeper Middleware
+// Gatekeeper Middleware
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
     if (!apikey) {
@@ -50,7 +50,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 VERCEL ULTRA-PREMIUM GRAPHICS UI MODULE
+// 🌌 APPLE PRO DIGITAL MATRIX INTERACTION UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -59,262 +59,232 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - Ultimate Premium Matrix</title>
+        <title>MR HASHUU - Pro Developer Console</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         
         <style>
             :root {
-                --bg-black: #050507;
-                --card-bg: rgba(13, 13, 17, 0.7);
-                --border-color: rgba(255, 255, 255, 0.06);
-                --border-hover: rgba(0, 245, 255, 0.3);
-                --premium-cyan: #00F5FF;
-                --premium-purple: #7B2CBF;
-                --system-green: #00FF66;
-                --text-muted: #8F8F99;
+                --apple-black: #000000;
+                --apple-dark-gray: #161617;
+                --apple-card: #1c1c1e;
+                --apple-border: rgba(255, 255, 255, 0.08);
+                --apple-cyan: #29b6f6;
+                --apple-blue: #0071e3;
+                --apple-green: #34c759;
+                --apple-red: #ff453a;
+                --text-main: #f5f5f7;
+                --text-muted: #86868b;
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
-                background-color: var(--bg-black);
-                color: #ffffff;
-                font-family: 'Plus Jakarta Sans', sans-serif;
+                background-color: var(--apple-black);
+                color: var(--text-main);
+                font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
                 min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 overflow-x: hidden;
-                position: relative;
-                padding: 20px 0;
+                padding: 40px 0;
             }
 
-            /* ──🔥 ULTRA LUXURY GLOW AURA LOADER ── */
+            /* ──🔥 APPLE STUDIO SHUTTER LOADER ── */
             #cyber-loader {
                 position: fixed;
                 top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--bg-black);
+                background: var(--apple-black);
                 z-index: 9999;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                transition: opacity 0.5s ease, visibility 0.5s;
+                transition: opacity 0.4s ease-out;
             }
 
-            .loader-aura {
+            .apple-loading-wrapper {
                 position: relative;
-                width: 100px; height: 100px;
-                background: linear-gradient(135deg, var(--premium-cyan), var(--premium-purple));
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .smooth-aura-glow {
+                width: 60px; height: 60px;
+                border: 3px solid rgba(255, 255, 255, 0.05);
+                border-top-color: #ffffff;
                 border-radius: 50%;
-                filter: blur(25px);
-                opacity: 0.6;
-                animation: pulseAura 2s infinite alternate ease-in-out;
+                animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
 
             .loader-brand {
-                position: absolute;
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 1.4rem;
-                font-weight: 800;
-                letter-spacing: 2px;
-                color: #ffffff;
-                text-shadow: 0 0 20px rgba(255,255,255,0.6);
-                animation: textGlitch 1.5s infinite alternate;
+                font-size: 0.85rem; font-weight: 600; color: #ffffff;
+                letter-spacing: 3px; text-transform: uppercase; opacity: 0.7;
             }
 
-            @keyframes pulseAura {
-                0% { transform: scale(0.9); opacity: 0.4; filter: blur(20px); }
-                100% { transform: scale(1.2); opacity: 0.8; filter: blur(35px); }
-            }
-            @keyframes textGlitch {
-                0% { opacity: 0.7; transform: tracking(-1px); }
-                100% { opacity: 1; transform: tracking(2px); }
-            }
+            @keyframes appleSpin { to { transform: rotate(360deg); } }
 
-            /* Ambient Background Light Overlays */
-            .ambient-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; filter: blur(140px); opacity: 0.12; pointer-events: none; z-index: 0; }
-            .glow-1 { background: var(--premium-purple); top: -10%; left: -10%; }
-            .glow-2 { background: var(--premium-cyan); bottom: -10%; right: -10%; }
-
-            /* Master Glassmorphism Main Box */
+            /* Premium Minimal Master Box */
             .vercel-box {
-                width: 92%; max-width: 490px;
-                background: var(--card-bg);
-                backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-                border: 1px solid var(--border-color); border-radius: 24px;
-                padding: 24px; z-index: 2;
-                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
-                opacity: 0; transform: translateY(30px);
-                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                display: flex; flex-direction: column;
+                width: 92%; max-width: 520px;
+                background: rgba(22, 22, 23, 0.8);
+                backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+                border: 1px solid var(--apple-border); border-radius: 20px;
+                padding: 26px; z-index: 2;
+                box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+                opacity: 0; transform: scale(0.98);
+                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             }
 
-            /* Active State triggered by JS to reveal perfectly */
-            .vercel-box.system-ready {
-                opacity: 1 !important;
-                transform: translateY(0) !important;
-            }
+            .vercel-box.system-ready { opacity: 1; transform: scale(1); }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
-            header h1 {
-                font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 800;
-                background: linear-gradient(135deg, #ffffff 30%, #a1a1a6 100%);
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            }
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--apple-border); }
+            header h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; color: #ffffff; }
 
-            /* Live Server Pulse Pill */
+            /* Status Pill */
             .status-container {
                 display: inline-flex; align-items: center; gap: 6px;
-                font-size: 0.65rem; font-weight: 800; letter-spacing: 0.8px;
-                color: var(--system-green); background: rgba(0, 255, 102, 0.06);
-                padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.15);
+                font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
+                color: var(--apple-green); background: rgba(52, 199, 89, 0.1);
+                padding: 5px 12px; border-radius: 30px;
             }
-            .pulse-dot {
-                width: 6px; height: 6px; background: var(--system-green); border-radius: 50%;
-                animation: flashGreen 1s infinite alternate;
-            }
-            @keyframes flashGreen { 0% { box-shadow: 0 0 2px var(--system-green); opacity: 0.5; } 100% { box-shadow: 0 0 10px var(--system-green); opacity: 1; } }
+            .pulse-dot { width: 6px; height: 6px; background: var(--apple-green); border-radius: 50%; }
 
-            /* Live Analytics Counters */
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+            /* Analytics Counters Grid */
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
             .stat-card {
-                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 14px;
-                padding: 12px 8px; text-align: center; transition: background 0.3s;
+                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 12px;
+                padding: 12px 6px; text-align: center;
             }
-            .stat-card:hover { background: rgba(255, 255, 255, 0.04); }
-            .stat-label { font-size: 0.58rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-            .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 800; color: #ffffff; margin-top: 4px; }
-            .value-cyan { color: var(--premium-cyan); text-shadow: 0 0 10px rgba(0,245,255,0.2); }
-            .value-purple { color: #b388ff; }
+            .stat-label { font-size: 0.58rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+            .stat-value { font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-top: 3px; }
 
-            /* Search System Bar */
-            .search-container { position: relative; margin-top: 16px; }
+            /* Filter Input Search Box */
+            .search-container { position: relative; margin-top: 18px; }
             .search-input {
-                width: 100%; padding: 14px 16px; background: rgba(0, 0, 0, 0.4);
-                border: 1px solid var(--border-color); border-radius: 14px;
-                color: #ffffff; font-size: 0.88rem; font-weight: 600; outline: none; transition: all 0.3s;
+                width: 100%; padding: 12px 16px; background: rgba(0, 0, 0, 0.3);
+                border: 1px solid var(--apple-border); border-radius: 12px;
+                color: #ffffff; font-size: 0.85rem; outline: none; transition: all 0.2s;
             }
-            .search-input:focus { border-color: var(--premium-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.15); background: rgba(0, 0, 0, 0.6); }
-            .search-input::placeholder { color: #55555c; }
+            .search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(0, 0, 0, 0.5); }
+            ::placeholder { color: #55555a; }
 
-            /* Accordion Wrap Area */
-            .endpoint-list { margin: 18px 0; display: flex; flex-direction: column; gap: 12px; }
+            /* Workspace Lists Layout */
+            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
             
             .api-wrapper {
-                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);
-                border-radius: 16px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border);
+                border-radius: 14px; overflow: hidden; transition: all 0.2s;
             }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.04); }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
             
-            /* Main Interactive Click Bar */
             .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 4px; max-width: 85%; }
-            .endpoint-slug { font-family: 'Space Grotesk', monospace; font-size: 1.1rem; font-weight: 800; color: #ffffff; }
-            .endpoint-info { font-size: 0.76rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-            .arrow-icon { font-size: 0.75rem; color: #555; transition: transform 0.3s; font-weight: 800; }
+            .meta-details { display: flex; flex-direction: column; gap: 2px; max-width: 85%; }
+            .endpoint-slug { font-size: 0.95rem; font-weight: 600; color: #ffffff; font-family: monospace; }
+            .endpoint-info { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .arrow-icon { font-size: 0.7rem; color: #444; transition: transform 0.2s; }
             
-            /* Active Dynamic Row CSS styling */
-            .api-wrapper.active { border-color: var(--border-hover); background: rgba(0, 245, 255, 0.02); box-shadow: 0 10px 30px rgba(0,245,255,0.05); }
-            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--premium-cyan); }
-            .api-wrapper.active .endpoint-slug { color: var(--premium-cyan); }
+            /* Active Expand Configuration */
+            .api-wrapper.active { border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.02); }
+            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: #fff; }
 
-            /* Inside Premium Hidden Docs */
+            /* Core Premium Documentation Panel */
             .api-docs {
-                display: none; padding: 0 16px 16px 16px; border-top: 1px dashed rgba(255, 255, 255, 0.06);
-                background: rgba(0,0,0,0.2); animation: revealFade 0.3s ease-in-out forwards;
+                display: none; padding: 0 16px 16px 16px; border-top: 1px solid rgba(255, 255, 255, 0.04);
+                background: rgba(0,0,0,0.15); animation: appleReveal 0.2s ease-out;
             }
-            @keyframes revealFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes appleReveal { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
 
-            .docs-section-title { font-size: 0.62rem; font-weight: 800; color: #b388ff; text-transform: uppercase; margin: 14px 0 6px 0; letter-spacing: 0.8px; }
+            .docs-section-title { font-size: 0.62rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 6px 0; letter-spacing: 0.5px; }
             
-            /* Links Copy System Layout */
-            .url-box-container { display: flex; gap: 8px; margin-top: 6px; }
+            /* Action Buttons Sub-grid Panel */
+            .url-box-container { display: flex; gap: 6px; margin-top: 6px; }
             .url-display {
-                flex-grow: 1; background: #09090b; border: 1px solid rgba(255,255,255,0.05); padding: 10px;
-                border-radius: 10px; font-family: monospace; font-size: 0.7rem; font-weight: 600;
-                color: #a1a1a6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 10px;
+                border-radius: 8px; font-family: monospace; font-size: 0.7rem; color: #a1a1a6;
+                overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             }
-            .btn-copy {
-                background: #ffffff; color: #000000; border: none; font-size: 0.68rem; font-weight: 800;
-                padding: 0 14px; border-radius: 10px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
-            }
-            .btn-copy:hover { background: var(--premium-cyan); transform: scale(1.03); }
 
+            /* Action Buttons Layout styling */
+            .btn-action {
+                border: none; font-size: 0.65rem; font-weight: 600; padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
+            }
+            .btn-copy { background: #ffffff; color: #000000; }
+            .btn-copy:hover { opacity: 0.85; }
+            
+            /* ──🔥 NEW ACTION COMPONENT: RUN API BUTTON ── */
+            .btn-run { background: var(--apple-blue); color: #ffffff; }
+            .btn-run:hover { opacity: 0.9; }
+
+            /* Real Live Web Request Console Screen */
             .json-preview {
-                background: #09090b; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px;
-                padding: 10px; font-family: monospace; font-size: 0.66rem; font-weight: 600; color: #79c0ff;
-                white-space: pre-wrap; overflow-x: auto; max-height: 100px;
+                background: #000000; border: 1px solid var(--apple-border); border-radius: 8px;
+                padding: 12px; font-family: monospace; font-size: 0.66rem; color: #888;
+                white-space: pre-wrap; overflow-x: auto; max-height: 140px; transition: color 0.2s;
             }
 
-            /* Custom Premium Notification Toast */
+            /* Notification Banner Dynamic pop */
             #toast-alert {
-                position: fixed; bottom: 5vh; background: #ffffff;
-                color: #000000; font-weight: 800; font-size: 0.75rem; padding: 12px 24px; border-radius: 30px;
-                z-index: 10000; opacity: 0; transform: translateY(15px); pointer-events: none;
-                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-                letter-spacing: 0.5px;
+                position: fixed; bottom: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+                color: #000000; font-weight: 600; font-size: 0.72rem; padding: 10px 20px; border-radius: 20px;
+                z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
-
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 10px; }
-            .buy-btn { color: var(--premium-cyan); text-decoration: none; font-weight: 800; transition: opacity 0.2s; }
-            .buy-btn:hover { opacity: 0.8; }
+            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 16px; margin-top: 12px; }
+            .buy-btn { color: #ffffff; text-decoration: none; font-weight: 600; }
         </style>
     </head>
     <body>
 
-        <!-- GLOBAL TOAST NOTIFICATION SYSTEM -->
-        <div id="toast-alert">SUCCESSFULLY COPIED TO CLIPBOARD ✔</div>
+        <!-- GLOBAL APPLE TOAST COMPONENT -->
+        <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
-        <!-- ──🔥 PRE-LOADER PREMIUM SMOOTH GLOW AURA CONTAINER ── -->
+        <!-- ──🔥 PRE-LOADER LUXURY APPLE ENGINE LAYOUT ── -->
         <div id="cyber-loader">
-            <div class="loader-aura"></div>
-            <div class="loader-brand">MR HASHUU</div>
+            <div class="apple-loading-wrapper">
+                <div class="smooth-aura-glow"></div>
+                <div class="loader-brand">MR HASHUU</div>
+            </div>
         </div>
 
-        <div class="ambient-glow glow-1"></div>
-        <div class="ambient-glow glow-2"></div>
-
-        <!-- Core Box Container Structure -->
+        <!-- Master Viewport Interface -->
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>mr-hashuu-v11</h1>
+                <h1>Hashuu Matrix v12</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEMS OPERATIONAL</span>
+                    <span>SYSTEM OPERATIONAL</span>
                 </div>
             </header>
 
-            <!-- Real-time Static Analytics Counters -->
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div class="stat-label">Total Requests</div>
-                    <div class="stat-value value-cyan">184.2K</div>
+                    <div class="stat-value">184.2K</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">System Uptime</div>
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Top Endpoint</div>
-                    <div class="stat-value value-purple">/spotify</div>
+                    <div class="stat-label">Top Core</div>
+                    <div class="stat-value">/spotify</div>
                 </div>
             </div>
 
-            <!-- Instant Search Engine Module -->
             <div class="search-container">
-                <input type="text" id="apiSearch" class="search-input" placeholder="Search secure premium endpoints..." onkeyup="filterEndpoints()">
+                <input type="text" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
             </div>
 
-            <!-- Workspace Endpoints Grid -->
+            <!-- Workspace Grid System -->
             <div class="endpoint-list" id="listWrapper">
                 
                 <!-- 1. Mediafire -->
@@ -322,18 +292,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/mediafire</span>
-                            <span class="endpoint-info">Mediafire Direct Storage Link Parser</span>
+                            <span class="endpoint-info">Mediafire Direct Link Storage Parser Engine</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [Mediafire URL]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-mf')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-mf')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-mf', 'res-mf', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-mf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -342,18 +313,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/spotify</span>
-                            <span class="endpoint-info">Spotify Premium HQ Audio Downloader</span>
+                            <span class="endpoint-info">Spotify Premium Lossless Audio Extractor</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [Spotify Track URL]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-sf')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-sf')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-sf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -362,18 +334,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/twitter</span>
-                            <span class="endpoint-info">Twitter / X Multi-Quality Stream Extractor</span>
+                            <span class="endpoint-info">Twitter / X Multi-Quality Stream CDN Resolver</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [Twitter Post URL]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-tw">/twitter?url=https://x.com/elonmusk/status/1870901510319833540&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-tw')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-tw')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-tw', 'res-tw', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-tw">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -382,18 +355,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/song</span>
-                            <span class="endpoint-info">YouTube Core Audio Stream Engine</span>
+                            <span class="endpoint-info">YouTube High-Fidelity Audio Stream Grabber</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?text= [Song Title / Query Name]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-sg">/song?text=faded&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-sg')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-sg')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-sg', 'res-sg', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-sg">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -402,18 +376,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/tiktok</span>
-                            <span class="endpoint-info">TikTok Original Video No-Watermark Extractor</span>
+                            <span class="endpoint-info">TikTok Studio Source No-Watermark Downloader</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [TikTok Share Link]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-tk">/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-tk')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-tk')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-tk', 'res-tk', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-tk">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -422,18 +397,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/pinterest</span>
-                            <span class="endpoint-info">Pinterest HD Resolution Visual Grid Search</span>
+                            <span class="endpoint-info">Pinterest Ultra-HD Media Image Source Finder</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?text= [Keyword Term Query]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-pin">/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-pin')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-pin')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-pin', 'res-pin', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-pin">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -442,18 +418,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/apk</span>
-                            <span class="endpoint-info">Android Package App Safe Mirror Provider</span>
+                            <span class="endpoint-info">Android App Core Binary Package Mirror Fetcher</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?text= [Application Safe Package Title]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-apk">/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-apk')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-apk')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-apk', 'res-apk', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-apk">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -462,18 +439,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/facebook</span>
-                            <span class="endpoint-info">Facebook Video Links CDN Resolver</span>
+                            <span class="endpoint-info">Facebook Architecture Video Stream Extractor</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [Facebook Target Video Link]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-fb">/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-fb')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-fb')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-fb', 'res-fb', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-fb">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -482,18 +460,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/webdl</span>
-                            <span class="endpoint-info">Static Page Cloner Repository Downloader</span>
+                            <span class="endpoint-info">Static Production Webpage Structural Pack Cloner</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?url= [External Target Core Web URL]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-wdl">/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-wdl')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-wdl')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-wdl', 'res-wdl', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-wdl">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -502,18 +481,19 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/obfuscate</span>
-                            <span class="endpoint-info">Anti-Theft JavaScript Security Module</span>
+                            <span class="endpoint-info">Dynamic Structural JavaScript Anti-Scrape Guardian</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Query Parameters</div>
-                        <div class="json-preview">?code= [Raw Plaintext JavaScript String]&#10;?apikey= [Your Premium Token]</div>
-                        <div class="docs-section-title">Execution Gateway Link</div>
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
                             <div class="url-display" id="url-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-copy" onclick="copyLink('url-obf')">Copy</button>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-obf')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-obf', 'res-obf', this)">Run API</button>
                         </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-obf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
@@ -522,53 +502,48 @@ app.get('/', (req, res) => {
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
                             <span class="endpoint-slug">/imgbb (POST)</span>
-                            <span class="endpoint-info">Cloud Photo CDN Hosting Interface</span>
+                            <span class="endpoint-info">Multipart Binary Object Cloud Image CDN Interface</span>
                         </div>
                         <span class="arrow-icon">▶</span>
                     </div>
                     <div class="api-docs">
-                        <div class="docs-section-title">Request Type</div>
-                        <div class="json-preview" style="color:var(--premium-purple)">HTTP METHOD: POST (Multipart Form-Data)</div>
-                        <div class="docs-section-title">Expected Payload</div>
-                        <div class="json-preview">Key Name: "file" [Binary Photo Upload File Instance]&#10;Query: ?apikey= [Your Premium Token]</div>
+                        <div class="docs-section-title">HTTP METHOD COMPONENT</div>
+                        <div class="url-display" style="color:var(--apple-cyan)">POST DIRECT ACCESS (Multipart Form-Data)</div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview">{ "info": "Requires file attachment. Real-time REST testing disabled in UI dashboard console." }</pre>
                     </div>
                 </div>
 
-                <div id="no-results">// NO SECURITY INTERFACES MATCHED //</div>
+                <div id="no-results">// SEARCH ATTRIBUTE MISMATCHED //</div>
             </div>
 
             <footer>
                 <span>&copy; 2026 MR HASHUU</span>
-                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">GET ACCESS KEY</a>
+                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">REQUEST CORE ACCESS</a>
             </footer>
         </div>
 
-        <!-- ENGINE CONTROLLER JAVASCRIPT -->
+        <!-- ENGINE SYSTEM INTERACTIONS -->
         <script>
-            // Instant Responsive Pre-loader System (Strict 2.2 Sec Dismount)
+            // Ultra Elegant Apple Style Pre-loader Dismount Handler (Exactly 1.2s)
             window.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const loader = document.getElementById('cyber-loader');
                     const mainUI = document.getElementById('main-interface');
-                    
                     loader.style.opacity = '0';
                     setTimeout(() => {
-                        loader.style.style = 'none';
-                        loader.remove(); // Delete loader completely from view DOM tree
-                        
-                        // Enforce system visibility activation class
+                        loader.remove();
                         mainUI.classList.add('system-ready');
-                    }, 500);
-                }, 2200); 
+                    }, 400);
+                }, 1200);
             });
 
-            // Interactive Accordion Manager
+            // Interactive Open/Close Accordion Engine
             function toggleAccordion(element) {
                 const parent = element.parentElement;
                 const docsSection = parent.querySelector('.api-docs');
                 const isOpen = parent.classList.contains('active');
 
-                // Auto Close current open selectors
                 const allWrappers = document.getElementsByClassName('api-wrapper');
                 for (let wrap of allWrappers) {
                     wrap.classList.remove('active');
@@ -581,7 +556,7 @@ app.get('/', (req, res) => {
                 }
             }
 
-            // High Speed Real-time Filter Matrix Search
+            // High Performance Filter
             function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const wrappers = document.getElementsByClassName('api-wrapper');
@@ -600,16 +575,73 @@ app.get('/', (req, res) => {
                 noResults.style.display = found ? 'none' : 'block';
             }
 
-            // Clipboard Copy System Engine with Instant Fluid Pop notification
+            // ──🔥 FIXED BULLETPROOF CLIPBOARD COPY ENFORCER ──
             function copyLink(elementId) {
-                const pathText = document.getElementById(elementId).innerText;
+                const pathText = document.getElementById(elementId).textContent.trim();
                 const fullUrl = window.location.origin + pathText;
                 
-                navigator.clipboard.writeText(fullUrl).then(() => {
-                    const toast = document.getElementById('toast-alert');
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 2000);
-                });
+                // Primary Strategy: Clipboard Web API
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(fullUrl).then(() => {
+                        triggerToast();
+                    }).catch(() => fallbackCopyEngine(fullUrl));
+                } else {
+                    fallbackCopyEngine(fullUrl);
+                }
+            }
+
+            // Legacy input DOM text fallback protection
+            function fallbackCopyEngine(textToCopy) {
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "fixed"; 
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    triggerToast();
+                } catch (err) {
+                    console.error('Fallback engine failed compilation', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            function triggerToast() {
+                const toast = document.getElementById('toast-alert');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }
+
+            // ──🔥 NEW DYNAMIC ACTION ENFORCER: RUN REAL WEB REQUEST ──
+            async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
+                const pathText = document.getElementById(urlElementId).textContent.trim();
+                const absoluteTargetUrl = window.location.origin + pathText;
+                const outputConsole = document.getElementById(responseContainerId);
+
+                buttonElement.innerText = "RUNNING...";
+                buttonElement.disabled = true;
+                outputConsole.textContent = "// TRANSMITTING SECURE MATRIX HANDSHAKE SIGNAL... //";
+                outputConsole.style.color = "var(--apple-cyan)";
+
+                try {
+                    const webStreamResponse = await fetch(absoluteTargetUrl);
+                    const systemJsonPayload = await webStreamResponse.json();
+                    
+                    outputConsole.textContent = JSON.stringify(systemJsonPayload, null, 2);
+                    outputConsole.style.color = "var(--apple-green)"; // Dynamic Apple Green for Success
+                } catch (serverException) {
+                    outputConsole.textContent = JSON.stringify({
+                        success: false,
+                        error: "Network stream deployment interrupted",
+                        exception_log: serverException.message
+                    }, null, 2);
+                    outputConsole.style.color = "var(--apple-red)"; // Dynamic Apple Red for Errors
+                } finally {
+                    buttonElement.innerText = "RUN API";
+                    buttonElement.disabled = false;
+                }
             }
         </script>
     </body>
@@ -732,7 +764,7 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
 
 // PORT LISTENER
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Luxury Matrix Running on port 3000"));
+    app.listen(3000, () => console.log("Apple Pro HASHU-API Engine Running on port 3000"));
 }
 
 module.exports = app;
