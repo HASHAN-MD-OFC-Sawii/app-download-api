@@ -2,25 +2,31 @@ const express = require('express');
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const obfuscator = require('javascript-obfuscator');
-const cors = require('cors'); // 👈 CORS පැකේජ් එක මෙතනට ඇඩ් කළා
-const app = express();
+const cors = require('cors');
+const multer = require('multer');
+const FormData = require('form-data');
 
-// 👈 ඕනෑම තැනක සිට එන Frontend Requests බ්ලොක් නොකර Allow කරන්න මේක දැම්මා
+const app = express();
+const upload = multer(); // Files memory එකේ තියාගන්න බෆර් එක සෙට් කළා
+
+// 🌏 CORS Enable කිරීම (Frontend Requests බ්ලොක් වීම වැළැක්වීමට)
 app.use(cors()); 
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
-// Rate Limiter
+// 🛡️ Global Rate Limiter
 const apiLimiter = rateLimit({
-    windowMs: 24 * 60 * 60 * 1000,
-    max: 100,
-    skip: (req) => req.query.apikey === MY_SECRET_KEY,
+    windowMs: 24 * 60 * 60 * 1000, // පැය 24ක්
+    max: 100, // උපරිම Requests 100යි
+    skip: (req) => req.query.apikey === MY_SECRET_KEY, // Secret Key එක තිබ්බොත් ලිමිට් එක අදාල වෙන්නේ නෑ
     message: { success: false, message: "Free limit reached. Get Premium!" }
 });
 
 app.use(apiLimiter);
 
-// 1. Pinterest Route
+// ─────────────────────────────────────────────────────────
+// 1. PINTEREST ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/pinterest', async (req, res) => {
     try {
         const { text } = req.query;
@@ -30,7 +36,9 @@ app.get('/pinterest', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. APK Route
+// ─────────────────────────────────────────────────────────
+// 2. APK ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/apk', async (req, res) => {
     try {
         const { text } = req.query;
@@ -42,7 +50,9 @@ app.get('/apk', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. Song Route
+// ─────────────────────────────────────────────────────────
+// 3. SONG ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/song', async (req, res) => {
     try {
         const { text } = req.query;
@@ -66,7 +76,9 @@ app.get('/song', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. Obfuscate Route
+// ─────────────────────────────────────────────────────────
+// 4. OBFUSCATE ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/obfuscate', (req, res) => {
     try {
         const { code, level } = req.query;
@@ -83,7 +95,9 @@ app.get('/obfuscate', (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. Facebook Downloader Route (Corrected)
+// ─────────────────────────────────────────────────────────
+// 5. FACEBOOK DOWNLOADER ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/facebook', async (req, res) => {
     try {
         const { url } = req.query;
@@ -103,7 +117,44 @@ app.get('/facebook', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// Port listener
+// ─────────────────────────────────────────────────────────
+// 6. IMGBB IMAGE UPLOADER ROUTE (New 🚀)
+// ─────────────────────────────────────────────────────────
+app.post('/imgbb', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) return res.json({ success: false, message: "No file uploaded! Please upload an image." });
+
+        // David Cyril API එකට යවන්න FormData එක සකස් කිරීම
+        const form = new FormData();
+        form.append('file', req.file.buffer, {
+            filename: req.file.originalname || 'image.jpg',
+            contentType: req.file.mimetype
+        });
+
+        const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, {
+            headers: {
+                ...form.getHeaders(),
+                'User-Agent': 'Mozilla/5.0'
+            }
+        });
+
+        if (data.success) {
+            res.json({ 
+                creator: "Mr Hashuu Bot", 
+                success: true, 
+                result: data.data 
+            });
+        } else {
+            res.json({ success: false, message: "Failed to upload image to external cluster." });
+        }
+    } catch (e) { 
+        res.json({ success: false, message: e.message }); 
+    }
+});
+
+// ─────────────────────────────────────────────────────────
+// PORT LISTENER
+// ─────────────────────────────────────────────────────────
 if (require.main === module) {
     app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
 }
