@@ -24,7 +24,9 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
+// ─────────────────────────────────────────────────────────
 // 1. PINTEREST ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/pinterest', async (req, res) => {
     try {
         const { text } = req.query;
@@ -34,7 +36,9 @@ app.get('/pinterest', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 2. APK ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/apk', async (req, res) => {
     try {
         const { text } = req.query;
@@ -46,7 +50,9 @@ app.get('/apk', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 3. SONG ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/song', async (req, res) => {
     try {
         const { text } = req.query;
@@ -70,7 +76,9 @@ app.get('/song', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 4. OBFUSCATE ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/obfuscate', (req, res) => {
     try {
         const { code, level } = req.query;
@@ -87,7 +95,9 @@ app.get('/obfuscate', (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 5. FACEBOOK DOWNLOADER ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/facebook', async (req, res) => {
     try {
         const { url } = req.query;
@@ -99,7 +109,9 @@ app.get('/facebook', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 6. IMGBB IMAGE UPLOADER ROUTE
+// ─────────────────────────────────────────────────────────
 app.post('/imgbb', upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
@@ -111,7 +123,9 @@ app.post('/imgbb', upload.single('file'), async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// ─────────────────────────────────────────────────────────
 // 7. TIKTOK DOWNLOADER ROUTE
+// ─────────────────────────────────────────────────────────
 app.get('/tiktok', async (req, res) => {
     try {
         const { url } = req.query;
@@ -123,16 +137,17 @@ app.get('/tiktok', async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. WEBSITE DOWNLOADER ROUTE (New 🚀)
+// ─────────────────────────────────────────────────────────
+// 8. WEBSITE DOWNLOADER ROUTE (Fixed 🛠️)
+// ─────────────────────────────────────────────────────────
 app.get('/webdl', async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL parameter missing!" });
         
-        // David Cyril ගේ Website Downloader Endpoint එකට Request එක දානවා
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/web?url=${encodeURIComponent(url)}`);
+        // David Cyril ගේ /download/website Endpoint එකට Request එක දමා නිවැරදි කරන ලදී
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/website?url=${encodeURIComponent(url)}`);
         
-        // ඩේවිඩ්ගේ API එකෙන් එන "response" කොටස අපේ format එකට ගැලපීම
         if (data.response && data.response.success) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
@@ -150,6 +165,9 @@ app.get('/webdl', async (req, res) => {
     }
 });
 
+// ─────────────────────────────────────────────────────────
+// PORT LISTENER
+// ─────────────────────────────────────────────────────────
 if (require.main === module) {
     app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
 }
