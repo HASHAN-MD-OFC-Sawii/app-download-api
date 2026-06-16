@@ -51,29 +51,35 @@ app.get('/apk', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 3. SONG ROUTE
+// 3. YOUTUBE MP3 SONG ROUTE (NEW & SUPER FAST 🎵)
 // ─────────────────────────────────────────────────────────
 app.get('/song', async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Song name or URL required" });
 
-        let videoUrl = text;
-        if (!text.includes('youtube.com') && !text.includes('youtu.be')) {
-            const search = await axios.get(`https://apis.davidcyriltech.my.id/search/youtube?text=${encodeURIComponent(text)}`);
-            if (search.data.result && search.data.result.length > 0) {
-                videoUrl = search.data.result[0].url;
-            } else {
-                return res.json({ success: false, message: "Song not found" });
-            }
+        // 💡 ඩේවිඩ්ගේ අලුත්ම /play endpoint එක කෙලින්ම පාවිච්චි කරලා සිංදුව ගන්නවා මචං
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
+
+        if (data.status && data.result) {
+            res.json({ 
+                creator: "Mr Hashuu Bot", 
+                success: true, 
+                result: {
+                    title: data.result.title || "YouTube Audio",
+                    downloadUrl: data.result.download_url,
+                    duration: data.result.duration || "N/A",
+                    views: data.result.views || 0,
+                    published: data.result.published || "N/A",
+                    thumb: data.result.thumbnail || ""
+                }
+            });
+        } else {
+            res.json({ success: false, message: "Failed to fetch song from server.", raw: data });
         }
-
-        const { data } = await axios.get(`https://vajira-official-apis.vercel.app/api/ytmp3?apikey=vajira-VajiraOfficial2003&url=${encodeURIComponent(videoUrl)}`, { 
-            headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 15000 
-        });
-
-        res.json({ creator: "Mr Hashuu Bot", success: true, result: data.data || {} });
-    } catch (e) { res.json({ success: false, message: e.message }); }
+    } catch (e) { 
+        res.json({ success: false, message: "Server error: " + e.message }); 
+    }
 });
 
 // ─────────────────────────────────────────────────────────
@@ -138,17 +144,15 @@ app.get('/tiktok', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 8. WEBSITE DOWNLOADER ROUTE (100% FIXED & VERIFIED 🚀)
+// 8. WEBSITE DOWNLOADER ROUTE
 // ─────────────────────────────────────────────────────────
 app.get('/webdl', async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL parameter missing!" });
         
-        // 🛠️ ඩේවිඩ්ගේ සැබෑ ලින්ක් එක (/tools/downloadweb) මෙතනට ඇතුළත් කළා මචං
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         
-        // ඩේවිඩ්ගේ API Response එක අපේ format එකට සකස් කිරීම
         if (data.response && (data.response.success === true || data.response.success === "true")) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
@@ -158,19 +162,10 @@ app.get('/webdl', async (req, res) => {
                     isFinished: data.response.isFinished
                 }
             });
-        } else if (data.success === "true" || data.success === true) {
-            // Safe fallback response structure
-            res.json({
-                creator: "Mr Hashuu Bot",
-                success: true,
-                result: data.response || data
-            });
         } else {
-            res.json({ success: false, message: "Failed to clone the website. Ensure the target URL is active.", raw: data });
+            res.json({ success: false, message: "Failed to clone the website. Ensure the target URL is active." });
         }
-    } catch (e) { 
-        res.json({ success: false, message: e.message }); 
-    }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
 // ─────────────────────────────────────────────────────────
