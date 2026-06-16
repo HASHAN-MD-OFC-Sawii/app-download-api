@@ -20,17 +20,16 @@ const PREMIUM_DATABASE = {
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// 🛡️ Premium Security Rate Limiter (5000 Req per day)
+// Premium Security Rate Limiter
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
     message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
 });
 
-// 🔒 Strict Gatekeeper Middleware
+// Strict Gatekeeper Middleware
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
-
     if (!apikey) {
         return res.status(401).json({
             success: false,
@@ -38,7 +37,6 @@ const strictAuthGate = (req, res, next) => {
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
-
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
@@ -46,14 +44,13 @@ const strictAuthGate = (req, res, next) => {
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
-
     req.planOwner = PREMIUM_DATABASE[apikey].owner;
     req.planType = PREMIUM_DATABASE[apikey].plan;
     return premiumLimiter(req, res, next);
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 0. VERCEL DEEP DARK UI — THE ENTERPRISE MATRIX
+// 🌌 VERCEL ULTRA-PREMIUM GRAPHICS UI MODULE
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -61,262 +58,242 @@ app.get('/', (req, res) => {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - Premium Core Matrix</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MR HASHUU - Ultimate Premium Matrix</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
         
         <style>
             :root {
-                --vercel-black: #000000;
-                --vercel-gray-dark: #040405;
-                --vercel-gray-light: #09090b;
-                --vercel-border: #1a1a1e;
-                --vercel-text-muted: #8e8e93;
+                --bg-black: #050507;
+                --card-bg: rgba(13, 13, 17, 0.7);
+                --border-color: rgba(255, 255, 255, 0.06);
+                --border-hover: rgba(0, 245, 255, 0.3);
                 --premium-cyan: #00F5FF;
                 --premium-purple: #7B2CBF;
                 --system-green: #00FF66;
-                --neon-glow: 0 0 30px rgba(0, 245, 255, 0.2);
+                --text-muted: #8F8F99;
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
-                background-color: var(--vercel-black);
+                background-color: var(--bg-black);
                 color: #ffffff;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                height: 100vh;
-                width: 100vw;
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow: hidden;
+                overflow-x: hidden;
                 position: relative;
+                padding: 20px 0;
             }
 
-            /* ──🔥 PRE-LOADER PREMIUM SPINNING CIRCLE ── */
+            /* ──🔥 ULTRA LUXURY GLOW AURA LOADER ── */
             #cyber-loader {
                 position: fixed;
                 top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--vercel-black);
+                background: var(--bg-black);
                 z-index: 9999;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                transition: opacity 0.6s ease, filter 0.6s ease;
+                transition: opacity 0.5s ease, visibility 0.5s;
             }
 
-            .spinner-container {
+            .loader-aura {
                 position: relative;
-                width: 120px;
-                height: 120px;
-                margin-bottom: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .circle-outer {
-                position: absolute;
-                width: 100%; height: 100%;
-                border: 4px solid transparent;
-                border-top-color: var(--premium-cyan);
-                border-bottom-color: var(--premium-cyan);
+                width: 100px; height: 100px;
+                background: linear-gradient(135deg, var(--premium-cyan), var(--premium-purple));
                 border-radius: 50%;
-                animation: spinClockwise 1.8s linear infinite;
-                filter: drop-shadow(0 0 12px var(--premium-cyan));
+                filter: blur(25px);
+                opacity: 0.6;
+                animation: pulseAura 2s infinite alternate ease-in-out;
             }
 
-            .circle-inner {
+            .loader-brand {
                 position: absolute;
-                width: 76%; height: 76%;
-                border: 4px solid transparent;
-                border-left-color: var(--premium-purple);
-                border-right-color: var(--premium-purple);
-                border-radius: 50%;
-                animation: spinCounterClockwise 1.2s linear infinite;
-                filter: drop-shadow(0 0 10px var(--premium-purple));
-            }
-
-            .spinner-center-text {
                 font-family: 'Space Grotesk', sans-serif;
-                font-size: 0.9rem;
+                font-size: 1.4rem;
                 font-weight: 800;
+                letter-spacing: 2px;
                 color: #ffffff;
-                letter-spacing: 0.5px;
-                animation: pulseText 1s infinite alternate ease-in-out;
+                text-shadow: 0 0 20px rgba(255,255,255,0.6);
+                animation: textGlitch 1.5s infinite alternate;
             }
 
-            @keyframes spinClockwise { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-            @keyframes spinCounterClockwise { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
-            @keyframes pulseText { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-
-            .status-text {
-                font-family: monospace; font-size: 0.75rem; font-weight: 800;
-                color: var(--premium-cyan); letter-spacing: 1.5px; text-transform: uppercase;
-                text-shadow: 0 0 10px rgba(0, 245, 255, 0.4);
+            @keyframes pulseAura {
+                0% { transform: scale(0.9); opacity: 0.4; filter: blur(20px); }
+                100% { transform: scale(1.2); opacity: 0.8; filter: blur(35px); }
+            }
+            @keyframes textGlitch {
+                0% { opacity: 0.7; transform: tracking(-1px); }
+                100% { opacity: 1; transform: tracking(2px); }
             }
 
-            /* Ambient Ambient Glows */
-            .ambient-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(160px); opacity: 0.14; z-index: 0; pointer-events: none; }
-            .glow-1 { background: var(--premium-purple); top: -15%; left: -10%; }
-            .glow-2 { background: var(--premium-cyan); bottom: -15%; right: -10%; }
+            /* Ambient Background Light Overlays */
+            .ambient-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; filter: blur(140px); opacity: 0.12; pointer-events: none; z-index: 0; }
+            .glow-1 { background: var(--premium-purple); top: -10%; left: -10%; }
+            .glow-2 { background: var(--premium-cyan); bottom: -10%; right: -10%; }
 
-            /* Main Box Container */
+            /* Master Glassmorphism Main Box */
             .vercel-box {
-                width: 94%; max-width: 480px; height: 92vh;
-                background: rgba(4, 4, 5, 0.8); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-                border: 1px solid var(--vercel-border); border-radius: 28px;
-                padding: 22px; z-index: 2;
-                display: flex; flex-direction: column; justify-content: space-between;
-                box-shadow: 0 50px 150px rgba(0, 0, 0, 0.95);
-                opacity: 0; transform: translateY(20px);
-                transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+                width: 92%; max-width: 490px;
+                background: var(--card-bg);
+                backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+                border: 1px solid var(--border-color); border-radius: 24px;
+                padding: 24px; z-index: 2;
+                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+                opacity: 0; transform: translateY(30px);
+                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                display: flex; flex-direction: column;
             }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--vercel-border); }
+            /* Active State triggered by JS to reveal perfectly */
+            .vercel-box.system-ready {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
             header h1 {
-                font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; font-weight: 800;
-                letter-spacing: -0.5px; background: linear-gradient(135deg, #ffffff 40%, #888888 100%);
+                font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 800;
+                background: linear-gradient(135deg, #ffffff 30%, #a1a1a6 100%);
                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             }
 
-            /* ──🔥 LIVE SERVER STATUS INDICATOR ── */
+            /* Live Server Pulse Pill */
             .status-container {
                 display: inline-flex; align-items: center; gap: 6px;
-                font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px;
-                color: var(--system-green); background: rgba(0, 255, 102, 0.05);
-                padding: 5px 10px; border-radius: 8px; border: 1px solid rgba(0, 255, 102, 0.15);
+                font-size: 0.65rem; font-weight: 800; letter-spacing: 0.8px;
+                color: var(--system-green); background: rgba(0, 255, 102, 0.06);
+                padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.15);
             }
             .pulse-dot {
                 width: 6px; height: 6px; background: var(--system-green); border-radius: 50%;
-                animation: pulseGreen 1.2s infinite alternate;
+                animation: flashGreen 1s infinite alternate;
             }
-            @keyframes pulseGreen { 0% { box-shadow: 0 0 2px var(--system-green); opacity: 0.4; } 100% { box-shadow: 0 0 12px var(--system-green); opacity: 1; } }
+            @keyframes flashGreen { 0% { box-shadow: 0 0 2px var(--system-green); opacity: 0.5; } 100% { box-shadow: 0 0 10px var(--system-green); opacity: 1; } }
 
-            /* ──🔥 ADMIN ANALYTICS COUNTER CARD ── */
-            .analytics-grid {
-                display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px;
-            }
+            /* Live Analytics Counters */
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
             .stat-card {
-                background: #08080a; border: 1px solid var(--vercel-border); border-radius: 12px;
-                padding: 10px; text-align: center;
+                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 14px;
+                padding: 12px 8px; text-align: center; transition: background 0.3s;
             }
-            .stat-label { font-size: 0.58rem; font-weight: 800; color: var(--vercel-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-            .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 800; color: #ffffff; margin-top: 2px; }
-            .value-cyan { color: var(--premium-cyan); }
-            .value-purple { color: var(--premium-purple); }
+            .stat-card:hover { background: rgba(255, 255, 255, 0.04); }
+            .stat-label { font-size: 0.58rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+            .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 800; color: #ffffff; margin-top: 4px; }
+            .value-cyan { color: var(--premium-cyan); text-shadow: 0 0 10px rgba(0,245,255,0.2); }
+            .value-purple { color: #b388ff; }
 
-            /* Search System */
-            .search-container { position: relative; margin-top: 12px; }
+            /* Search System Bar */
+            .search-container { position: relative; margin-top: 16px; }
             .search-input {
-                width: 100%; padding: 12px 16px; background: #0c0c0e;
-                border: 1px solid var(--vercel-border); border-radius: 14px;
-                color: #ffffff; font-size: 0.88rem; font-weight: 700; outline: none;
+                width: 100%; padding: 14px 16px; background: rgba(0, 0, 0, 0.4);
+                border: 1px solid var(--border-color); border-radius: 14px;
+                color: #ffffff; font-size: 0.88rem; font-weight: 600; outline: none; transition: all 0.3s;
             }
-            .search-input:focus { border-color: var(--premium-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.1); }
-            .search-input::placeholder { color: #444446; font-weight: 700; }
+            .search-input:focus { border-color: var(--premium-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.15); background: rgba(0, 0, 0, 0.6); }
+            .search-input::placeholder { color: #55555c; }
 
-            /* Accordion Wrapper Area */
-            .endpoint-list { flex-grow: 1; margin: 14px 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; }
+            /* Accordion Wrap Area */
+            .endpoint-list { margin: 18px 0; display: flex; flex-direction: column; gap: 12px; }
             
             .api-wrapper {
-                background: var(--vercel-gray-light); border: 1px solid var(--vercel-border);
-                border-radius: 16px; overflow: hidden; transition: all 0.2s ease;
+                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);
+                border-radius: 16px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.04); }
             
-            /* ──🔥 INTERACTIVE ACCORDION ROW ── */
-            .api-row {
-                padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-            }
-            .api-wrapper:hover { border-color: #2b2b35; background: #0b0b0e; }
+            /* Main Interactive Click Bar */
+            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .meta-details { display: flex; flex-direction: column; gap: 4px; max-width: 85%; }
+            .endpoint-slug { font-family: 'Space Grotesk', monospace; font-size: 1.1rem; font-weight: 800; color: #ffffff; }
+            .endpoint-info { font-size: 0.76rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-            .meta-details { display: flex; flex-direction: column; gap: 3px; max-width: 80%; }
-            .endpoint-slug { font-family: 'Space Grotesk', monospace; font-size: 1.05rem; font-weight: 800; color: #ffffff; }
-            .endpoint-info { font-size: 0.74rem; font-weight: 700; color: var(--vercel-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-            .arrow-icon { font-size: 0.75rem; color: #444; transition: transform 0.25s ease; font-weight: 800; }
+            .arrow-icon { font-size: 0.75rem; color: #555; transition: transform 0.3s; font-weight: 800; }
+            
+            /* Active Dynamic Row CSS styling */
+            .api-wrapper.active { border-color: var(--border-hover); background: rgba(0, 245, 255, 0.02); box-shadow: 0 10px 30px rgba(0,245,255,0.05); }
             .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--premium-cyan); }
-            .api-wrapper.active { border-color: rgba(0, 245, 255, 0.3); box-shadow: var(--neon-glow); }
+            .api-wrapper.active .endpoint-slug { color: var(--premium-cyan); }
 
-            /* ──🔥 DYNAMIC DOCUMENTATION AREA ── */
+            /* Inside Premium Hidden Docs */
             .api-docs {
-                display: none; padding: 0 16px 16px 16px; border-top: 1px dashed var(--vercel-border);
-                background: rgba(0,0,0,0.2); animation: slideDown 0.2s ease forwards;
+                display: none; padding: 0 16px 16px 16px; border-top: 1px dashed rgba(255, 255, 255, 0.06);
+                background: rgba(0,0,0,0.2); animation: revealFade 0.3s ease-in-out forwards;
             }
-            @keyframes slideDown { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes revealFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-            .docs-section-title { font-size: 0.62rem; font-weight: 800; color: var(--premium-cyan); text-transform: uppercase; margin: 12px 0 5px 0; letter-spacing: 0.5px; }
+            .docs-section-title { font-size: 0.62rem; font-weight: 800; color: #b388ff; text-transform: uppercase; margin: 14px 0 6px 0; letter-spacing: 0.8px; }
             
-            /* ──🔥 NEON COPY CLIPBOARD BUTTON ── */
-            .url-box-container { display: flex; gap: 6px; margin-top: 4px; }
+            /* Links Copy System Layout */
+            .url-box-container { display: flex; gap: 8px; margin-top: 6px; }
             .url-display {
-                flex-grow: 1; background: #040405; border: 1px solid #1c1c22; padding: 8px 10px;
-                border-radius: 8px; font-family: monospace; font-size: 0.68rem; font-weight: bold;
-                color: #888; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                flex-grow: 1; background: #09090b; border: 1px solid rgba(255,255,255,0.05); padding: 10px;
+                border-radius: 10px; font-family: monospace; font-size: 0.7rem; font-weight: 600;
+                color: #a1a1a6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             }
             .btn-copy {
-                background: #ffffff; color: #000000; border: none; font-size: 0.62rem; font-weight: 800;
-                padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
+                background: #ffffff; color: #000000; border: none; font-size: 0.68rem; font-weight: 800;
+                padding: 0 14px; border-radius: 10px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
             }
-            .btn-copy:hover { background: var(--premium-cyan); box-shadow: 0 0 10px rgba(0,245,255,0.4); }
+            .btn-copy:hover { background: var(--premium-cyan); transform: scale(1.03); }
 
             .json-preview {
-                background: #040405; border: 1px solid #121216; border-radius: 8px;
-                padding: 8px; font-family: monospace; font-size: 0.64rem; font-weight: 700; color: #a5d6ff;
-                white-space: pre-wrap; overflow-x: auto; max-height: 90px;
+                background: #09090b; border: 1px solid rgba(255,255,255,0.04); border-radius: 10px;
+                padding: 10px; font-family: monospace; font-size: 0.66rem; font-weight: 600; color: #79c0ff;
+                white-space: pre-wrap; overflow-x: auto; max-height: 100px;
             }
 
-            /* Custom Global Toast Alert System */
+            /* Custom Premium Notification Toast */
             #toast-alert {
-                position: fixed; bottom: 6vh; background: linear-gradient(135deg, var(--premium-purple), var(--premium-cyan));
-                color: #000; font-weight: 800; font-size: 0.78rem; padding: 10px 22px; border-radius: 12px;
-                z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                box-shadow: 0 10px 30px rgba(0,245,255,0.4);
+                position: fixed; bottom: 5vh; background: #ffffff;
+                color: #000000; font-weight: 800; font-size: 0.75rem; padding: 12px 24px; border-radius: 30px;
+                z-index: 10000; opacity: 0; transform: translateY(15px); pointer-events: none;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                letter-spacing: 0.5px;
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 30px; font-size: 0.82rem; font-weight: 700; color: var(--vercel-text-muted); font-family: monospace; }
-            ::-webkit-scrollbar { width: 4px; }
-            ::-webkit-scrollbar-thumb { background: #18181c; border-radius: 20px; }
+            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
 
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; font-weight: 700; color: var(--vercel-text-muted); border-top: 1px solid var(--vercel-border); padding-top: 14px; }
-            .buy-btn { color: var(--premium-cyan); text-decoration: none; font-weight: 800; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 10px; }
+            .buy-btn { color: var(--premium-cyan); text-decoration: none; font-weight: 800; transition: opacity 0.2s; }
+            .buy-btn:hover { opacity: 0.8; }
         </style>
     </head>
     <body>
 
-        <!-- ──🔥 DYNAMIC TOAST SYSTEM ── -->
-        <div id="toast-alert">COPIED TO CLIPBOARD! ✔</div>
+        <!-- GLOBAL TOAST NOTIFICATION SYSTEM -->
+        <div id="toast-alert">SUCCESSFULLY COPIED TO CLIPBOARD ✔</div>
 
-        <!-- ──🔥 PRE-LOADER DUAL RINGS SPINNING LAYOUT ── -->
+        <!-- ──🔥 PRE-LOADER PREMIUM SMOOTH GLOW AURA CONTAINER ── -->
         <div id="cyber-loader">
-            <div class="spinner-container">
-                <div class="circle-outer"></div>
-                <div class="circle-inner"></div>
-                <div class="spinner-center-text">HASHUU</div>
-            </div>
-            <div class="status-text" id="status-terminal">BOOTING SYSTEM MATRIX...</div>
+            <div class="loader-aura"></div>
+            <div class="loader-brand">MR HASHUU</div>
         </div>
 
         <div class="ambient-glow glow-1"></div>
         <div class="ambient-glow glow-2"></div>
 
+        <!-- Core Box Container Structure -->
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>mr-hashuu-v10</h1>
-                <!-- ──🔥 FEATURE 3: LIVE OPERATIONAL INDICATOR ── -->
+                <h1>mr-hashuu-v11</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
                     <span>SYSTEMS OPERATIONAL</span>
                 </div>
             </header>
 
-            <!-- ──🔥 FEATURE 5: ADMIN METRICS DISPLAY SYSTEM ── -->
+            <!-- Real-time Static Analytics Counters -->
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div class="stat-label">Total Requests</div>
@@ -334,10 +311,10 @@ app.get('/', (req, res) => {
 
             <!-- Instant Search Engine Module -->
             <div class="search-container">
-                <input type="text" id="apiSearch" class="search-input" placeholder="Filter Secure Endpoints..." onkeyup="filterEndpoints()">
+                <input type="text" id="apiSearch" class="search-input" placeholder="Search secure premium endpoints..." onkeyup="filterEndpoints()">
             </div>
 
-            <!-- Workspace Hub Grid -->
+            <!-- Workspace Endpoints Grid -->
             <div class="endpoint-list" id="listWrapper">
                 
                 <!-- 1. Mediafire -->
@@ -557,7 +534,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <div id="no-results">// NO ENPOINTS SECURITY ARCHIVE MATCHED //</div>
+                <div id="no-results">// NO SECURITY INTERFACES MATCHED //</div>
             </div>
 
             <footer>
@@ -566,81 +543,69 @@ app.get('/', (req, res) => {
             </footer>
         </div>
 
-        <!-- ──🔥 ACTIVE ENGINE INTERACTIVE CONTROLLERS ── -->
+        <!-- ENGINE CONTROLLER JAVASCRIPT -->
         <script>
-            const statuses = [
-                "DECRYPTING PROTOCOLS...",
-                "LOADING CORE SUITE v10.0...",
-                "ALL SYSTEMS LIVE. WELCOME!"
-            ];
-            const terminalEl = document.getElementById('status-terminal');
-            
-            setTimeout(() => terminalEl.innerText = statuses[0], 1200);
-            setTimeout(() => terminalEl.innerText = statuses[1], 2400);
-            setTimeout(() => terminalEl.innerText = statuses[2], 3500);
-
-            // Exact 4 Second Pre-loader Dismount Handler
+            // Instant Responsive Pre-loader System (Strict 2.2 Sec Dismount)
             window.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const loader = document.getElementById('cyber-loader');
                     const mainUI = document.getElementById('main-interface');
                     
                     loader.style.opacity = '0';
-                    loader.style.filter = 'blur(12px)';
-                    
                     setTimeout(() => {
-                        loader.style.display = 'none';
-                        mainUI.style.opacity = '1';
-                        mainUI.style.transform = 'translateY(0)';
-                    }, 600);
-                }, 4000); 
+                        loader.style.style = 'none';
+                        loader.remove(); // Delete loader completely from view DOM tree
+                        
+                        // Enforce system visibility activation class
+                        mainUI.classList.add('system-ready');
+                    }, 500);
+                }, 2200); 
             });
 
-            // Interactive Dropdown Accordion Controller
+            // Interactive Accordion Manager
             function toggleAccordion(element) {
                 const parent = element.parentElement;
                 const docsSection = parent.querySelector('.api-docs');
                 const isOpen = parent.classList.contains('active');
 
-                // Close all rows first
+                // Auto Close current open selectors
                 const allWrappers = document.getElementsByClassName('api-wrapper');
                 for (let wrap of allWrappers) {
                     wrap.classList.remove('active');
                     wrap.querySelector('.api-docs').style.display = 'none';
                 }
 
-                // If it wasn't open, open it
                 if (!isOpen) {
                     parent.classList.add('active');
                     docsSection.style.display = 'block';
                 }
             }
 
-            // High Performance Instant Real-time Filter
+            // High Speed Real-time Filter Matrix Search
             function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const wrappers = document.getElementsByClassName('api-wrapper');
                 const noResults = document.getElementById('no-results');
-                let foundAny = false;
+                let found = false;
 
                 for (let i = 0; i < wrappers.length; i++) {
-                    const searchableTags = wrappers[i].getAttribute('data-name');
-                    if (searchableTags.includes(query)) {
+                    const dataTags = wrappers[i].getAttribute('data-name');
+                    if (dataTags.includes(query)) {
                         wrappers[i].style.display = 'block';
-                        foundAny = true;
+                        found = true;
                     } else {
                         wrappers[i].style.display = 'none';
                     }
                 }
-                noResults.style.display = foundAny ? 'none' : 'block';
+                noResults.style.display = found ? 'none' : 'block';
             }
 
-            // Clip Board Copier with Flash Notification Alert
+            // Clipboard Copy System Engine with Instant Fluid Pop notification
             function copyLink(elementId) {
                 const pathText = document.getElementById(elementId).innerText;
-                const fullHostUrl = window.location.origin + pathText;
+                const fullUrl = window.location.origin + pathText;
                 
-                navigator.clipboard.writeText(fullHostUrl).then(() => {
+                navigator.clipboard.writeText(fullUrl).then(() => {
                     const toast = document.getElementById('toast-alert');
                     toast.classList.add('show');
                     setTimeout(() => toast.classList.remove('show'), 2000);
@@ -767,7 +732,7 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
 
 // PORT LISTENER
 if (require.main === module) {
-    app.listen(3000, () => console.log("Premium HASHU-API Luxury Matrix Running on port 3000"));
+    app.listen(3000, () => console.log("HASHU-API Luxury Matrix Running on port 3000"));
 }
 
 module.exports = app;
