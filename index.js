@@ -24,7 +24,7 @@ const apiLimiter = rateLimit({
 app.use(apiLimiter);
 
 // ─────────────────────────────────────────────────────────
-// 🌌 0. PREMIUM MOBILE-FIT LANDING PAGE WITH ACTIVE TEST LINKS
+// 🌌 0. GALACTIC CYBERPUNK 1000+ EFFECTS SCREEN-FIT LANDING PAGE
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -32,152 +32,208 @@ app.get('/', (req, res) => {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - API Hub</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>MR HASHUU - Galactic API Hub</title>
         <style>
             :root {
                 --purple: #7B2CBF;
                 --cyan: #00F5FF;
-                --dark-bg: #06060c;
-                --glass: rgba(255, 255, 255, 0.02);
-                --border: rgba(0, 245, 255, 0.15);
+                --magenta: #FF007F;
+                --dark-core: #020205;
+                --glass-core: rgba(5, 5, 10, 0.6);
+                --neon-border: rgba(0, 245, 255, 0.25);
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
-                background-color: var(--dark-bg);
+                background-color: var(--dark-core);
                 color: #ffffff;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                min-height: 100vh;
+                font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden; /* Perfect Screen Fit - No Ugly Scrollbars */
+                position: relative;
+                perspective: 1000px;
+            }
+
+            /* EFFECT 1: Moving Cyber Grid Matrix Background */
+            body::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: 
+                    linear-gradient(rgba(0, 245, 255, 0.015) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 245, 255, 0.015) 1px, transparent 1px);
+                background-size: 25px 25px;
+                background-position: center center;
+                z-index: 0;
+                animation: gridTravel 25s linear infinite;
+            }
+
+            @keyframes gridTravel {
+                0% { background-position: 0 0; }
+                100% { background-position: 50px 50px; }
+            }
+
+            /* EFFECT 2 & 3: Shifting Galactic Plasma Auroras */
+            .aurora {
+                position: absolute;
+                width: 450px;
+                height: 450px;
+                border-radius: 50%;
+                filter: blur(150px);
+                opacity: 0.35;
+                z-index: 0;
+                mix-blend-mode: screen;
+                animation: plasmaShift 10s infinite alternate ease-in-out;
+            }
+            .aurora-1 { background: var(--purple); top: -10%; left: -10%; }
+            .aurora-2 { background: var(--cyan); bottom: -10%; right: -10%; animation-delay: 5s; }
+            .aurora-3 { background: var(--magenta); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 2.5s; opacity: 0.15; }
+
+            @keyframes plasmaShift {
+                0% { transform: scale(1) translate(0px, 0px) rotate(0deg); }
+                100% { transform: scale(1.2) translate(50px, 30px) rotate(180deg); }
+            }
+
+            /* Master Responsive Card Framework */
+            .galactic-container {
+                width: 92%;
+                max-width: 460px;
+                height: 90vh; /* Scaled seamlessly for short and tall phone screens */
+                background: var(--glass-core);
+                backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
+                border: 1px solid var(--neon-border);
+                border-radius: 30px;
+                padding: 25px 20px;
+                z-index: 2;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                align-items: center;
-                padding: 15px;
-                overflow-x: hidden;
+                box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.1);
+                animation: entryScale 1.2s cubic-bezier(0.1, 1, 0.1, 1) forwards;
                 position: relative;
             }
 
-            /* Neon Ambient Glow Effects */
-            body::before, body::after {
-                content: '';
+            @keyframes entryScale {
+                from { opacity: 0; transform: scale(0.9) translateY(40px) rotateX(-10deg); }
+                to { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); }
+            }
+
+            /* EFFECT 4: Tech Scanning Border Animation Overlay */
+            .scan-line {
                 position: absolute;
-                width: 250px;
-                height: 250px;
-                border-radius: 50%;
-                filter: blur(100px);
-                opacity: 0.3;
-                z-index: 0;
-                animation: pulseGlow 6s infinite alternate ease-in-out;
-            }
-            body::before { background: var(--purple); top: -5%; left: -5%; }
-            body::after { background: var(--cyan); bottom: -5%; right: -5%; animation-delay: 3s; }
-
-            @keyframes pulseGlow {
-                0% { transform: scale(1); opacity: 0.2; }
-                100% { transform: scale(1.3); opacity: 0.4; }
+                top: 0; left: 0; width: 100%; height: 4px;
+                background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+                opacity: 0.5;
+                animation: radarScan 4s linear infinite;
+                border-radius: 30px;
             }
 
-            /* Full Screen Container */
-            .wrapper {
-                width: 100%;
-                max-width: 550px; /* Perfect sizing for Mobile & Desktop */
-                z-index: 1;
+            @keyframes radarScan {
+                0% { top: 0%; opacity: 0; }
+                5% { opacity: 1; }
+                95% { opacity: 1; }
+                100% { top: 100%; opacity: 0; }
+            }
+
+            /* Header Section Styling */
+            header {
+                text-align: center;
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
-            }
-
-            /* Top Glow Header */
-            header {
-                background: var(--glass);
-                backdrop-filter: blur(15px);
-                -webkit-backdrop-filter: blur(15px);
-                border: 1px solid var(--border);
-                border-radius: 20px;
-                padding: 20px;
-                text-align: center;
-                box-shadow: 0 10px 30px rgba(0, 245, 255, 0.03);
+                align-items: center;
+                gap: 8px;
             }
 
             header h1 {
-                font-size: 1.6rem;
+                font-size: 1.65rem;
                 font-weight: 900;
                 letter-spacing: -0.5px;
-                background: linear-gradient(90deg, #fff, var(--cyan), var(--purple));
+                text-transform: uppercase;
+                background: linear-gradient(45deg, #ffffff, var(--cyan), var(--magenta));
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                margin-bottom: 8px;
+                animation: hueRotate 8s linear infinite;
+            }
+
+            @keyframes hueRotate {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
             }
 
             .status-badge {
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
-                font-size: 0.75rem;
+                font-size: 0.72rem;
                 font-weight: 800;
-                letter-spacing: 1px;
+                letter-spacing: 2px;
                 text-transform: uppercase;
-                background: rgba(0, 255, 102, 0.08);
-                color: #00FF66;
-                padding: 6px 14px;
-                border-radius: 30px;
-                border: 1px solid rgba(0, 255, 102, 0.2);
+                background: rgba(0, 245, 255, 0.05);
+                color: var(--cyan);
+                padding: 6px 16px;
+                border-radius: 40px;
+                border: 1px solid rgba(0, 245, 255, 0.2);
+                box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
             }
 
-            .pulse-dot {
-                width: 8px;
-                height: 8px;
-                background: #00FF66;
+            .pulse-ring {
+                width: 6px;
+                height: 6px;
+                background: var(--cyan);
                 border-radius: 50%;
-                box-shadow: 0 0 10px #00FF66;
-                animation: blink 1.2s infinite;
+                position: relative;
+            }
+            .pulse-ring::before {
+                content: '';
+                position: absolute;
+                inset: -4px;
+                border: 1px solid var(--cyan);
+                border-radius: 50%;
+                animation: ringPulse 1.5s infinite linear;
             }
 
-            @keyframes blink {
-                0%, 100% { opacity: 0.4; }
-                50% { opacity: 1; }
+            @keyframes ringPulse {
+                0% { transform: scale(0.6); opacity: 1; }
+                100% { transform: scale(1.8); opacity: 0; }
             }
 
-            /* Main Endpoints Engine */
-            .panel {
-                background: var(--glass);
-                backdrop-filter: blur(15px);
-                -webkit-backdrop-filter: blur(15px);
-                border: 1px solid rgba(255, 255, 255, 0.04);
-                border-radius: 24px;
-                padding: 15px;
+            /* Scrollable Micro-Mesh Engine Wrapper */
+            .mesh-panel {
+                flex-grow: 1;
+                margin: 20px 0;
+                overflow-y: auto; /* Handles inner elements beautifully on tiny mobile screens */
+                padding-right: 5px;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
             }
 
-            .panel-title {
-                font-size: 0.85rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
-                color: #8a8a9e;
-                padding: 5px 10px;
-                margin-bottom: 5px;
-            }
-
-            /* Endpoint Grid Items */
+            /* EFFECT 5: Animated Mesh Cards */
             .route-card {
-                background: rgba(0, 0, 0, 0.2);
-                border: 1px solid rgba(255, 255, 255, 0.02);
+                background: rgba(255, 255, 255, 0.01);
+                border: 1px solid rgba(255, 255, 255, 0.03);
                 border-radius: 16px;
                 padding: 12px 16px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                transition: transform 0.2s ease, border-color 0.2s ease;
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+                position: relative;
+                overflow: hidden;
             }
 
             .route-card:hover {
-                border-color: rgba(123, 44, 191, 0.4);
-                transform: scale(1.01);
+                background: rgba(123, 44, 191, 0.06);
+                border-color: rgba(0, 245, 255, 0.4);
+                transform: translateY(-2px) scale(1.01);
+                box-shadow: 0 8px 20px rgba(0, 245, 255, 0.1);
             }
 
             .route-info {
@@ -187,127 +243,139 @@ app.get('/', (req, res) => {
             }
 
             .route-name {
-                font-family: monospace;
-                font-size: 1.05rem;
-                font-weight: 700;
-                color: var(--cyan);
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: #ffffff;
+                transition: color 0.3s;
             }
+            .route-card:hover .route-name { color: var(--cyan); }
 
             .route-desc {
-                font-size: 0.78rem;
-                color: #71718a;
-            }
-
-            /* Ultra-premium Clickable Test Buttons */
-            .btn-test {
-                background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(0, 245, 255, 0.1));
-                border: 1px solid rgba(0, 245, 255, 0.25);
-                color: #ffffff;
                 font-size: 0.75rem;
-                font-weight: 700;
+                color: #787895;
+            }
+
+            /* EFFECT 6: Cyber Glow Test Action Buttons */
+            .btn-action {
+                background: linear-gradient(135deg, rgba(123, 44, 191, 0.3), rgba(0, 245, 255, 0.15));
+                border: 1px solid rgba(0, 245, 255, 0.3);
+                color: #ffffff;
+                font-size: 0.72rem;
+                font-weight: 800;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
-                padding: 8px 14px;
-                border-radius: 10px;
+                letter-spacing: 1px;
+                padding: 8px 16px;
+                border-radius: 12px;
                 text-decoration: none;
-                transition: all 0.2s ease;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                transition: all 0.25s ease;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             }
 
-            .btn-test:hover {
-                background: linear-gradient(135deg, var(--purple), var(--cyan));
+            .btn-action:hover {
+                background: linear-gradient(135deg, var(--purple), var(--magenta));
                 border-color: transparent;
-                box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
-                transform: translateY(-1px);
+                box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+                transform: scale(1.05);
             }
 
-            .btn-test:active {
-                transform: translateY(1px);
-            }
+            .btn-action:active { transform: scale(0.95); }
+
+            /* Webkit Custom Scrollbars */
+            ::-webkit-scrollbar { width: 4px; }
+            ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 10px; }
+            ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
 
             footer {
                 text-align: center;
-                font-size: 0.75rem;
-                color: #444455;
-                padding: 10px 0;
-                letter-spacing: 0.5px;
-                width: 100%;
+                font-size: 0.7rem;
+                color: #525266;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                border-top: 1px solid rgba(255,255,255,0.03);
+                padding-top: 15px;
             }
         </style>
     </head>
     <body>
 
-        <div class="wrapper">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+
+        <div class="galactic-container">
+            <div class="scan-line"></div>
+
             <header>
                 <h1>MR HASHUU ENGINE</h1>
                 <div class="status-badge">
-                    <div class="pulse-dot"></div>
-                    <span>Core Server Active</span>
+                    <div class="pulse-ring"></div>
+                    <span>Quantum Core Active</span>
                 </div>
             </header>
 
-            <div class="panel">
-                <div class="panel-title">Available Operations</div>
-
+            <div class="mesh-panel">
+                
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/song</span>
-                        <span class="route-desc">YouTube MP3 Downloader Engine</span>
+                        <span class="route-desc">YouTube MP3 Stream & Downloader</span>
                     </div>
-                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/tiktok</span>
-                        <span class="route-desc">TikTok Video Downloader No-WM</span>
+                        <span class="route-desc">TikTok No-Watermark Media Server</span>
                     </div>
-                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/pinterest</span>
-                        <span class="route-desc">Pinterest High-Res Image Search</span>
+                        <span class="route-desc">Pinterest Media Asset Search Engine</span>
                     </div>
-                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/apk</span>
-                        <span class="route-desc">Android Application APK Fetcher</span>
+                        <span class="route-desc">Android Package Binary Extractor</span>
                     </div>
-                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/facebook</span>
-                        <span class="route-desc">Facebook HD Video Link Extractor</span>
+                        <span class="route-desc">Facebook HD Social Link Parser</span>
                     </div>
-                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/webdl</span>
-                        <span class="route-desc">Website Source Code Cloner</span>
+                        <span class="route-desc">Website Source Asset Compiler</span>
                     </div>
-                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
 
                 <div class="route-card">
                     <div class="route-info">
                         <span class="route-name">/obfuscate</span>
-                        <span class="route-desc">JavaScript Source Anti-Tamper</span>
+                        <span class="route-desc">JavaScript Logic Polymorphic Layer</span>
                     </div>
-                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-action">Test App</a>
                 </div>
-            </div>
-        </div>
 
-        <footer>Engineered & Protected by MR HASHUU &copy; 2026</footer>
+            </div>
+
+            <footer>Cloud Cluster Mesh &copy; 2026 MR HASHUU</footer>
+        </div>
 
     </body>
     </html>
@@ -448,7 +516,7 @@ app.get('/webdl', async (req, res) => {
 // PORT LISTENER
 // ─────────────────────────────────────────────────────────
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
+    app.listen(3000, () => console.log("HASHU-API Galactic Engine Running on port 3000"));
 }
 
 module.exports = app;
