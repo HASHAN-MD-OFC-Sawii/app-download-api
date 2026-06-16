@@ -13,38 +13,6 @@ app.use(cors());
 
 const MY_SECRET_KEY = "MR_HASHUU_SECRET_123";
 
-// 🌍 Global Memory Stores For ACTUAL Real Requests Tracking
-global.totalHits = global.totalHits || 48512; // Base count to look highly established
-global.apiLogs = global.apiLogs || [
-    { time: new Date().toLocaleTimeString(), ip: "185.220.101.4", endpoint: "/song", method: "GET" },
-    { time: new Date().toLocaleTimeString(), ip: "74.125.214.10", endpoint: "/webdl", method: "GET" }
-];
-
-// 🛡️ Middleware: Real Traffic Interceptor
-app.use((req, res, next) => {
-    // සැබෑ API Requests පමණක් ට්‍රැක් කිරීම (Dashboard Requests අත්හැරීම)
-    if (req.path !== '/' && req.path !== '/api-stats' && req.path !== '/favicon.ico') {
-        global.totalHits++;
-        
-        // Request එක ආපු සැබෑ IP එක ගැනීම
-        let rawIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
-        let cleanIp = rawIp.split(',')[0].trim();
-        if(cleanIp.includes('::ffff:')) cleanIp = cleanIp.replace('::ffff:', '');
-
-        const newLog = {
-            time: new Date().toLocaleTimeString(),
-            ip: cleanIp,
-            endpoint: req.path,
-            method: req.method
-        };
-
-        // අලුත්ම ලොග් එක මුලට එකතු කර ලොග් 25කට සීමා කිරීම
-        global.apiLogs.unshift(newLog);
-        if (global.apiLogs.length > 25) global.apiLogs.pop();
-    }
-    next();
-});
-
 // 🛡️ Global Rate Limiter
 const apiLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
@@ -56,17 +24,7 @@ const apiLimiter = rateLimit({
 app.use(apiLimiter);
 
 // ─────────────────────────────────────────────────────────
-// 📡 REAL-TIME API STATS COUNTER LINK
-// ─────────────────────────────────────────────────────────
-app.get('/api-stats', (req, res) => {
-    res.json({
-        totalHits: global.totalHits,
-        logs: global.apiLogs
-    });
-});
-
-// ─────────────────────────────────────────────────────────
-// 🌌 0. KOTI 100 ULTRA-PREMIUM SCREEN-FIT QUANTUM DASHBOARD
+// 🌌 0. PREMIUM MOBILE-FIT LANDING PAGE WITH ACTIVE TEST LINKS
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -75,356 +33,282 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - Quantum API Core</title>
+        <title>MR HASHUU - API Hub</title>
         <style>
             :root {
                 --purple: #7B2CBF;
-                --neon-cyan: #00F5FF;
-                --neon-magenta: #FF007F;
-                --bg-dark: #030305;
-                --glass: rgba(10, 10, 15, 0.7);
-                --border-neon: rgba(0, 245, 255, 0.2);
+                --cyan: #00F5FF;
+                --dark-bg: #06060c;
+                --glass: rgba(255, 255, 255, 0.02);
+                --border: rgba(0, 245, 255, 0.15);
             }
+            
             * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
-                background-color: var(--bg-dark);
+                background-color: var(--dark-bg);
                 color: #ffffff;
-                font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                height: 100vh;
-                width: 100vw;
-                overflow: hidden; /* Screen Fitted - No Scrolling Allowed */
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                position: relative;
-            }
-
-            /* Tech-Grid Background Design */
-            body::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background-image: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-                background-size: 30px 30px;
-                z-index: 0;
-            }
-
-            /* Quantum Ambient Light Blobs */
-            .blob {
-                position: absolute;
-                width: 500px;
-                height: 500px;
-                border-radius: 50%;
-                filter: blur(140px);
-                opacity: 0.25;
-                z-index: 0;
-                animation: floatBlob 12s infinite alternate ease-in-out;
-            }
-            .blob-purple { background: var(--purple); top: -10%; left: -5%; }
-            .blob-cyan { background: var(--neon-cyan); bottom: -10%; right: -5%; animation-delay: 6s; }
-
-            @keyframes floatBlob {
-                0% { transform: translate(0, 0) scale(1); }
-                100% { transform: translate(80px, 50px) scale(1.1); }
-            }
-
-            /* Master Layout Container */
-            .mainframe {
-                position: relative;
-                z-index: 1;
-                display: grid;
-                grid-template-rows: auto 1fr auto;
-                height: 100vh;
-                width: 100vw;
-                padding: 25px;
-                gap: 20px;
-            }
-
-            /* Top Cyber Header */
-            header {
-                background: var(--glass);
-                border: 1px solid var(--border-neon);
-                border-radius: 16px;
-                padding: 15px 30px;
-                display: flex;
                 justify-content: space-between;
                 align-items: center;
-                box-shadow: 0 0 25px rgba(0,245,255,0.05);
+                padding: 15px;
+                overflow-x: hidden;
+                position: relative;
             }
+
+            /* Neon Ambient Glow Effects */
+            body::before, body::after {
+                content: '';
+                position: absolute;
+                width: 250px;
+                height: 250px;
+                border-radius: 50%;
+                filter: blur(100px);
+                opacity: 0.3;
+                z-index: 0;
+                animation: pulseGlow 6s infinite alternate ease-in-out;
+            }
+            body::before { background: var(--purple); top: -5%; left: -5%; }
+            body::after { background: var(--cyan); bottom: -5%; right: -5%; animation-delay: 3s; }
+
+            @keyframes pulseGlow {
+                0% { transform: scale(1); opacity: 0.2; }
+                100% { transform: scale(1.3); opacity: 0.4; }
+            }
+
+            /* Full Screen Container */
+            .wrapper {
+                width: 100%;
+                max-width: 550px; /* Perfect sizing for Mobile & Desktop */
+                z-index: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            /* Top Glow Header */
+            header {
+                background: var(--glass);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 245, 255, 0.03);
+            }
+
             header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 font-weight: 900;
                 letter-spacing: -0.5px;
-                background: linear-gradient(90deg, #fff, var(--neon-cyan), var(--purple));
+                background: linear-gradient(90deg, #fff, var(--cyan), var(--purple));
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                text-shadow: 0 0 15px rgba(0,245,255,0.2);
+                margin-bottom: 8px;
             }
-            .server-status {
-                display: flex;
+
+            .status-badge {
+                display: inline-flex;
                 align-items: center;
+                gap: 8px;
+                font-size: 0.75rem;
+                font-weight: 800;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                background: rgba(0, 255, 102, 0.08);
+                color: #00FF66;
+                padding: 6px 14px;
+                border-radius: 30px;
+                border: 1px solid rgba(0, 255, 102, 0.2);
+            }
+
+            .pulse-dot {
+                width: 8px;
+                height: 8px;
+                background: #00FF66;
+                border-radius: 50%;
+                box-shadow: 0 0 10px #00FF66;
+                animation: blink 1.2s infinite;
+            }
+
+            @keyframes blink {
+                0%, 100% { opacity: 0.4; }
+                50% { opacity: 1; }
+            }
+
+            /* Main Endpoints Engine */
+            .panel {
+                background: var(--glass);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.04);
+                border-radius: 24px;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
                 gap: 10px;
+            }
+
+            .panel-title {
                 font-size: 0.85rem;
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: 1.5px;
-                color: #00FF66;
-            }
-            .pulse-dot {
-                width: 10px;
-                height: 10px;
-                background: #00FF66;
-                border-radius: 50%;
-                box-shadow: 0 0 12px #00FF66;
-                animation: pulse 1.2s infinite;
-            }
-            @keyframes pulse {
-                0% { transform: scale(0.9); opacity: 0.5; }
-                50% { transform: scale(1.3); opacity: 1; }
-                100% { transform: scale(0.9); opacity: 0.5; }
+                color: #8a8a9e;
+                padding: 5px 10px;
+                margin-bottom: 5px;
             }
 
-            /* Main Workspace Split Grid */
-            .workspace {
-                display: grid;
-                grid-template-columns: 350px 1fr;
-                gap: 20px;
-                height: 100%;
-                min-height: 0; /* Critical for inner scroll containers */
+            /* Endpoint Grid Items */
+            .route-card {
+                background: rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.02);
+                border-radius: 16px;
+                padding: 12px 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: transform 0.2s ease, border-color 0.2s ease;
             }
 
-            .glass-panel {
-                background: var(--glass);
-                border: 1px solid rgba(255, 255, 255, 0.04);
-                border-radius: 20px;
-                padding: 25px;
+            .route-card:hover {
+                border-color: rgba(123, 44, 191, 0.4);
+                transform: scale(1.01);
+            }
+
+            .route-info {
                 display: flex;
                 flex-direction: column;
-                height: 100%;
-                min-height: 0;
-                box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+                gap: 2px;
             }
 
-            .panel-title {
+            .route-name {
+                font-family: monospace;
                 font-size: 1.05rem;
                 font-weight: 700;
+                color: var(--cyan);
+            }
+
+            .route-desc {
+                font-size: 0.78rem;
+                color: #71718a;
+            }
+
+            /* Ultra-premium Clickable Test Buttons */
+            .btn-test {
+                background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(0, 245, 255, 0.1));
+                border: 1px solid rgba(0, 245, 255, 0.25);
+                color: #ffffff;
+                font-size: 0.75rem;
+                font-weight: 700;
                 text-transform: uppercase;
-                letter-spacing: 1px;
-                color: #a5a5b5;
-                margin-bottom: 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                padding-bottom: 10px;
+                letter-spacing: 0.5px;
+                padding: 8px 14px;
+                border-radius: 10px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             }
 
-            /* Left Sidebar Counters & Micro Mesh */
-            .stat-box {
-                background: rgba(255,255,255,0.02);
-                border: 1px solid rgba(123, 44, 191, 0.15);
-                border-radius: 14px;
-                padding: 15px 20px;
-                margin-bottom: 15px;
-            }
-            .stat-label { font-size: 0.75rem; color: #666677; text-transform: uppercase; letter-spacing: 1px; }
-            .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--neon-cyan); font-family: monospace; }
-            
-            .mesh-list {
-                flex-grow: 1;
-                overflow-y: auto;
-                padding-right: 5px;
-            }
-            .mesh-item {
-                padding: 10px 14px;
-                background: rgba(0,0,0,0.2);
-                border-radius: 8px;
-                margin-bottom: 8px;
-                font-size: 0.85rem;
-                display: flex;
-                justify-content: space-between;
-                font-family: monospace;
-                border-left: 3px solid var(--purple);
-            }
-            .mesh-item .name { color: #fff; font-weight: bold; }
-            .mesh-item .type { color: #444455; }
-
-            /* Right Panel: Ultimate Live Traffic Terminal Monitor */
-            .terminal-box {
-                background: #020204;
-                border: 1px solid rgba(0, 245, 255, 0.1);
-                border-radius: 16px;
-                padding: 20px;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                min-height: 0;
-                position: relative;
-            }
-            /* Glowing Scanning Line effect */
-            .terminal-box::after {
-                content: '';
-                position: absolute;
-                left: 0; top: 0; width: 100%; height: 2px;
-                background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-                opacity: 0.3;
-                animation: scanLine 6s linear infinite;
-            }
-            @keyframes scanLine {
-                0% { top: 0%; }
-                100% { top: 100%; }
+            .btn-test:hover {
+                background: linear-gradient(135deg, var(--purple), var(--cyan));
+                border-color: transparent;
+                box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
+                transform: translateY(-1px);
             }
 
-            .log-container {
-                flex-grow: 1;
-                overflow-y: auto;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 0.88rem;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                padding-right: 5px;
+            .btn-test:active {
+                transform: translateY(1px);
             }
-            
-            /* High-tech Log Stream rows */
-            .log-row {
-                background: rgba(255, 255, 255, 0.01);
-                border: 1px solid rgba(255, 255, 255, 0.02);
-                padding: 12px 16px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                animation: slideInLog 0.25s cubic-bezier(0.1, 1, 0.1, 1) forwards;
-            }
-            @keyframes slideInLog {
-                from { opacity: 0; transform: translateY(-10px) scale(0.98); filter: blur(4px); }
-                to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-            }
-
-            .tag-time { color: #444455; margin-right: 12px; }
-            .tag-ip { color: var(--purple); font-weight: bold; margin-right: 15px; background: rgba(123, 44, 191, 0.1); padding: 2px 6px; border-radius: 4px; }
-            .tag-method { color: var(--neon-magenta); font-weight: bold; margin-right: 10px; }
-            .tag-path { color: #ffffff; font-weight: bold; }
-            .tag-status { margin-left: auto; color: #00FF66; font-weight: bold; background: rgba(0, 255, 102, 0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-
-            /* Scrollbar styling */
-            ::-webkit-scrollbar { width: 5px; }
-            ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
-            ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
 
             footer {
                 text-align: center;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
                 color: #444455;
-                letter-spacing: 1px;
-                border-top: 1px solid rgba(255,255,255,0.02);
-                padding-top: 15px;
+                padding: 10px 0;
+                letter-spacing: 0.5px;
+                width: 100%;
             }
         </style>
     </head>
     <body>
 
-        <div class="blob blob-purple"></div>
-        <div class="blob blob-cyan"></div>
-
-        <div class="mainframe">
+        <div class="wrapper">
             <header>
-                <h1>MR HASHUU QUANTUM CORE v3.0</h1>
-                <div class="server-status">
+                <h1>MR HASHUU ENGINE</h1>
+                <div class="status-badge">
                     <div class="pulse-dot"></div>
-                    <span>Global Nodes Active</span>
+                    <span>Core Server Active</span>
                 </div>
             </header>
 
-            <div class="workspace">
-                <div class="glass-panel">
-                    <div class="panel-title">System Diagnostics</div>
-                    
-                    <div class="stat-box">
-                        <div class="stat-label">Total Authenticated Hits</div>
-                        <div class="stat-value" id="globalHitsCount">${global.totalHits}</div>
-                    </div>
+            <div class="panel">
+                <div class="panel-title">Available Operations</div>
 
-                    <div class="panel-title" style="margin-top: 10px; margin-bottom: 12px;">Mesh Router Map</div>
-                    <div class="mesh-list">
-                        <div class="mesh-item"><span class="name">/webdl</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/song</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/tiktok</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/pinterest</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/apk</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/facebook</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/obfuscate</span><span class="type">GET</span></div>
-                        <div class="mesh-item"><span class="name">/imgbb</span><span class="type">POST</span></div>
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/song</span>
+                        <span class="route-desc">YouTube MP3 Downloader Engine</span>
                     </div>
+                    <a href="/song?text=faded&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
                 </div>
 
-                <div class="glass-panel">
-                    <div class="panel-title">
-                        <span>Global Request Interceptor Stream</span>
-                        <span style="color: var(--neon-cyan); font-size: 0.8rem;">● Live Network Pulse</span>
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/tiktok</span>
+                        <span class="route-desc">TikTok Video Downloader No-WM</span>
                     </div>
-                    
-                    <div class="terminal-box">
-                        <div class="log-container" id="realtimeLogsBox">
-                            </div>
+                    <a href="/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                </div>
+
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/pinterest</span>
+                        <span class="route-desc">Pinterest High-Res Image Search</span>
                     </div>
+                    <a href="/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                </div>
+
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/apk</span>
+                        <span class="route-desc">Android Application APK Fetcher</span>
+                    </div>
+                    <a href="/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                </div>
+
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/facebook</span>
+                        <span class="route-desc">Facebook HD Video Link Extractor</span>
+                    </div>
+                    <a href="/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                </div>
+
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/webdl</span>
+                        <span class="route-desc">Website Source Code Cloner</span>
+                    </div>
+                    <a href="/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
+                </div>
+
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="route-name">/obfuscate</span>
+                        <span class="route-desc">JavaScript Source Anti-Tamper</span>
+                    </div>
+                    <a href="/obfuscate?code=console.log('hashu')&level=medium&apikey=MR_HASHUU_SECRET_123" target="_blank" class="btn-test">Try Link</a>
                 </div>
             </div>
-
-            <footer>Secured & Encrypted Architecture Engineered by MR HASHUU &copy; 2026</footer>
         </div>
 
-        <script>
-            const logsBox = document.getElementById('realtimeLogsBox');
-            const totalHitsCounter = document.getElementById('globalHitsCount');
-            let locallyRenderedTimes = new Set();
+        <footer>Engineered & Protected by MR HASHUU &copy; 2026</footer>
 
-            async function syncQuantumServerMetrics() {
-                try {
-                    // සැබෑ ලොග්ස් ලබාගැනීමට සර්වර් එකේ /api-stats එන්ඩ්පොයින්ට් එකට කතා කිරීම
-                    const response = await fetch('/api-stats');
-                    const data = await response.json();
-
-                    if(data) {
-                        // Total Hit count එක සජීවීව අප්ඩේට් කිරීම
-                        totalHitsCounter.innerText = data.totalHits;
-
-                        // පැමිණි සැබෑ ලොග්ස් ලූපයක් මඟින් ස්ක්‍රීන් එකට එක් කිරීම
-                        data.logs.reverse().forEach(log => {
-                            // එකම ලොග් එක නැවත නැවත වැටීම වැළැක්වීමට අනන්‍ය යතුරක් (Unique Key) සෑදීම
-                            const uniqueLogKey = log.time + '-' + log.ip + '-' + log.endpoint;
-                            
-                            if (!locallyRenderedTimes.has(uniqueLogKey)) {
-                                locallyRenderedTimes.add(uniqueLogKey);
-
-                                const row = document.createElement('div');
-                                row.className = 'log-row';
-                                row.innerHTML = \`
-                                    <span class="tag-time">[\${log.time}]</span>
-                                    <span class="tag-ip">\${log.ip}</span>
-                                    <span class="tag-method">\${log.method}</span>
-                                    <span class="tag-path">\${log.endpoint}</span>
-                                    <span class="tag-status">200 OK</span>
-                                \`;
-
-                                logsBox.insertBefore(row, logsBox.firstChild);
-
-                                // ස්ක්‍රීන් එක පිරී යාම වැළැක්වීමට පැරණි රෝස් ඉවත් කිරීම
-                                if (logsBox.children.length > 20) {
-                                    logsBox.removeChild(logsBox.lastChild);
-                                }
-                            }
-                        });
-                    }
-                } catch (error) {
-                    console.log("Quantum Link Core Sync Error: ", error);
-                }
-            }
-
-            // සෑම තත්පර 1.5කට වරක්ම සැබෑ ලොග්ස් සර්වර් එකෙන් ඇද බ්‍රවුසර් එකට ලයිව් අප්ඩේට් කිරීම ⚡
-            setInterval(syncQuantumServerMetrics, 1500);
-            syncQuantumServerMetrics(); // Initial Load
-        </script>
     </body>
     </html>
     `);
@@ -564,7 +448,7 @@ app.get('/webdl', async (req, res) => {
 // PORT LISTENER
 // ─────────────────────────────────────────────────────────
 if (require.main === module) {
-    app.listen(3000, () => console.log("HASHU-API Quantum Engine Running on port 3000"));
+    app.listen(3000, () => console.log("HASHU-API Master Engine Running on port 3000"));
 }
 
 module.exports = app;
