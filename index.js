@@ -34,7 +34,7 @@ const strictAuthGate = (req, res, next) => {
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "Mr Hashuu Bot",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
@@ -42,7 +42,7 @@ const strictAuthGate = (req, res, next) => {
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "Mr Hashuu Bot",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - Premium Core Matrix</title>
+        <title>MR HASHUU - Free Api Keys</title>
         <!-- Google Fonts Link for Luxury Typography -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -303,7 +303,7 @@ app.get('/', (req, res) => {
         <div class="vercel-box">
             
             <header>
-                <h1>mr-hashuu-v8</h1>
+                <h1>HASHU-API-STORE</h1>
                 <div class="badge-strict">
                     <div class="dot-red"></div>
                     <span>Strict Auth</span>
@@ -311,7 +311,7 @@ app.get('/', (req, res) => {
             </header>
 
             <div class="security-banner">
-                🔒 Access Restricted: Token Required
+                🔒 Premium Unlocked: Now Use Free
             </div>
 
             <div class="endpoint-list">
