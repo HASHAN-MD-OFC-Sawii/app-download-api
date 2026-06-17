@@ -256,10 +256,10 @@ app.get('/', (req, res) => {
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>Hashuu Matrix v13</h1>
+                <h1>HASHU APIS</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM OPERATIONAL</span>
+                    <span>SYSTEM</span>
                 </div>
             </header>
 
