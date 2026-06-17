@@ -241,10 +241,8 @@ app.get('/', (req, res) => {
     </head>
     <body>
 
-        <!-- GLOBAL APPLE TOAST COMPONENT -->
         <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
-        <!-- 🔥 PRE-LOADER LUXURY APPLE ENGINE LAYOUT -->
         <div id="cyber-loader">
             <div class="apple-loading-wrapper">
                 <div class="smooth-aura-glow"></div>
@@ -252,21 +250,20 @@ app.get('/', (req, res) => {
             </div>
         </div>
 
-        <!-- Master Viewport Interface -->
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>HASHU APIS</h1>
+                <h1>Hashuu Matrix v14</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM</span>
+                    <span>SYSTEM OPERATIONAL</span>
                 </div>
             </header>
 
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div class="stat-label">Total Requests</div>
-                    <div class="stat-value">201.5K</div>
+                    <div class="stat-value">245.8K</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">System Uptime</div>
@@ -274,7 +271,7 @@ app.get('/', (req, res) => {
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Top Core</div>
-                    <div class="stat-value">/ytmp4</div>
+                    <div class="stat-value">/xvideo</div>
                 </div>
             </div>
 
@@ -282,10 +279,28 @@ app.get('/', (req, res) => {
                 <input type="text" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
             </div>
 
-            <!-- Workspace Grid System -->
             <div class="endpoint-list" id="listWrapper">
                 
-                <!-- 1. YouTube MP4 (🆕 NEWLY ADDED) -->
+                <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/xvideo</span>
+                            <span class="endpoint-info">XVideos Video MP4 Direct CDN Resolver</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-xvideo')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-xvideo">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <div class="api-wrapper" data-name="ytmp4 youtube video downloader download mp4 high quality clip video">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -306,7 +321,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 2. Mediafire -->
                 <div class="api-wrapper" data-name="mediafire downloader direct storage parser">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -327,7 +341,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 3. Spotify -->
                 <div class="api-wrapper" data-name="spotify music hq audio downloader song">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -348,7 +361,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 4. Twitter -->
                 <div class="api-wrapper" data-name="twitter x stream extractor multi video">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -369,7 +381,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 5. Song -->
                 <div class="api-wrapper" data-name="song youtube play mp3 audio music stream">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -390,7 +401,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 6. TikTok -->
                 <div class="api-wrapper" data-name="tiktok video downloader no watermark">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -411,7 +421,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 7. Pinterest -->
                 <div class="api-wrapper" data-name="pinterest image search visual hd download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -432,7 +441,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 8. APK Downloader -->
                 <div class="api-wrapper" data-name="apk android package app mirror tool download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -453,7 +461,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 9. Facebook -->
                 <div class="api-wrapper" data-name="facebook fb video resolver cdn download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -474,7 +481,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 10. Website Cloner -->
                 <div class="api-wrapper" data-name="webdl website clone html static site page download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -495,7 +501,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 11. JS Obfuscator -->
                 <div class="api-wrapper" data-name="obfuscate javascript security protection code hide encrypt">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -516,7 +521,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 12. ImgBB Uploader -->
                 <div class="api-wrapper" data-name="imgbb photo cloud cdn image host upload post">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -537,12 +541,11 @@ app.get('/', (req, res) => {
             </div>
 
             <footer>
-                <span>&copy; 2026 MR HASHUU</span>
+                <span>© 2026 MR HASHUU</span>
                 <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">REQUEST CORE ACCESS</a>
             </footer>
         </div>
 
-        <!-- ENGINE SYSTEM INTERACTIONS -->
         <script>
             window.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
@@ -662,35 +665,49 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ ALL 12 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
+// 🛠️ ALL 13 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
 // ─────────────────────────────────────────────────────────
 
-// 🆕 1. YOUTUBE MP4 CONTROLLER
-app.get('/ytmp4', strictAuthGate, async (req, res) => {
+// 🆕 1. XVIDEOS CONTROLLER
+app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "YouTube URL required!" });
+        if (!url) return res.json({ success: false, message: "XVideo URL required!" });
         
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
         
-        if (data.success && data.result) {
+        if (data.success) {
             res.json({ 
                 creator: "Mr Hashuu Bot", 
                 status: "Authenticated", 
                 user: req.planOwner,
                 plan: req.planType,
                 success: true, 
-                result: data.result 
+                title: data.title,
+                thumbnail: data.thumbnail,
+                download_url: data.download_url
             });
         } else { 
-            res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); 
+            res.json({ success: false, message: "Conversion failed or invalid source link." }); 
         }
     } catch (e) { 
         res.json({ success: false, message: e.message }); 
     }
 });
 
-// 2. MEDIAFIRE CONTROLLER
+// 2. YOUTUBE MP4 CONTROLLER
+app.get('/ytmp4', strictAuthGate, async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "YouTube URL required!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
+        if (data.success && data.result) {
+            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
+        } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 3. MEDIAFIRE CONTROLLER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -700,7 +717,7 @@ app.get('/mediafire', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. SPOTIFY CONTROLLER
+// 4. SPOTIFY CONTROLLER
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -710,7 +727,7 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. TWITTER CONTROLLER
+// 5. TWITTER CONTROLLER
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -720,7 +737,7 @@ app.get('/twitter', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. SONG CONTROLLER
+// 6. SONG CONTROLLER
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -732,7 +749,7 @@ app.get('/song', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 6. TIKTOK CONTROLLER
+// 7. TIKTOK CONTROLLER
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -744,7 +761,7 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. PINTEREST CONTROLLER
+// 8. PINTEREST CONTROLLER
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -754,7 +771,7 @@ app.get('/pinterest', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. APK CONTROLLER
+// 9. APK CONTROLLER
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -764,7 +781,7 @@ app.get('/apk', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 9. FACEBOOK CONTROLLER
+// 10. FACEBOOK CONTROLLER
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -776,7 +793,7 @@ app.get('/facebook', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 10. WEBSITE CLONER CONTROLLER
+// 11. WEBSITE CLONER CONTROLLER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -788,7 +805,7 @@ app.get('/webdl', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 11. JS OBFUSCATOR CONTROLLER
+// 12. JS OBFUSCATOR CONTROLLER
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
@@ -798,7 +815,7 @@ app.get('/obfuscate', strictAuthGate, (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 12. IMGBB UPLOADER CONTROLLER
+// 13. IMGBB UPLOADER CONTROLLER
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
