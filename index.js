@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - Official Api Keys</title>
+        <title>MR HASHUU - Pro Developer Console</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -92,7 +92,7 @@ app.get('/', (req, res) => {
                 padding: 40px 0;
             }
 
-            /* ──🔥 APPLE STUDIO SHUTTER LOADER ── */
+            /* 🔥 APPLE STUDIO SHUTTER LOADER */
             #cyber-loader {
                 position: fixed;
                 top: 0; left: 0; width: 100vw; height: 100vh;
@@ -201,7 +201,7 @@ app.get('/', (req, res) => {
 
             .docs-section-title { font-size: 0.62rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 6px 0; letter-spacing: 0.5px; }
             
-            /* Action Buttons Sub-grid Panel */
+            /* Action Buttons Layout styling */
             .url-box-container { display: flex; gap: 6px; margin-top: 6px; }
             .url-display {
                 flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 10px;
@@ -209,14 +209,12 @@ app.get('/', (req, res) => {
                 overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             }
 
-            /* Action Buttons Layout styling */
             .btn-action {
                 border: none; font-size: 0.65rem; font-weight: 600; padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
             }
             .btn-copy { background: #ffffff; color: #000000; }
             .btn-copy:hover { opacity: 0.85; }
             
-            /* ──🔥 NEW ACTION COMPONENT: RUN API BUTTON ── */
             .btn-run { background: var(--apple-blue); color: #ffffff; }
             .btn-run:hover { opacity: 0.9; }
 
@@ -246,7 +244,7 @@ app.get('/', (req, res) => {
         <!-- GLOBAL APPLE TOAST COMPONENT -->
         <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
-        <!-- ──🔥 PRE-LOADER LUXURY APPLE ENGINE LAYOUT ── -->
+        <!-- 🔥 PRE-LOADER LUXURY APPLE ENGINE LAYOUT -->
         <div id="cyber-loader">
             <div class="apple-loading-wrapper">
                 <div class="smooth-aura-glow"></div>
@@ -258,17 +256,17 @@ app.get('/', (req, res) => {
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>HASHUZ-API-STORE</h1>
+                <h1>Hashuu Matrix v13</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SERVER</span>
+                    <span>SYSTEM OPERATIONAL</span>
                 </div>
             </header>
 
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div class="stat-label">Total Requests</div>
-                    <div class="stat-value">184.2K</div>
+                    <div class="stat-value">201.5K</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">System Uptime</div>
@@ -276,7 +274,7 @@ app.get('/', (req, res) => {
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Top Core</div>
-                    <div class="stat-value">/spotify</div>
+                    <div class="stat-value">/ytmp4</div>
                 </div>
             </div>
 
@@ -287,7 +285,28 @@ app.get('/', (req, res) => {
             <!-- Workspace Grid System -->
             <div class="endpoint-list" id="listWrapper">
                 
-                <!-- 1. Mediafire -->
+                <!-- 1. YouTube MP4 (🆕 NEWLY ADDED) -->
+                <div class="api-wrapper" data-name="ytmp4 youtube video downloader download mp4 high quality clip video">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/ytmp4</span>
+                            <span class="endpoint-info">YouTube HD Video MP4 High-Speed Extractor</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-ytmp4')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-ytmp4', 'res-ytmp4', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-ytmp4">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <!-- 2. Mediafire -->
                 <div class="api-wrapper" data-name="mediafire downloader direct storage parser">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -308,7 +327,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 2. Spotify -->
+                <!-- 3. Spotify -->
                 <div class="api-wrapper" data-name="spotify music hq audio downloader song">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -329,7 +348,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 3. Twitter -->
+                <!-- 4. Twitter -->
                 <div class="api-wrapper" data-name="twitter x stream extractor multi video">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -350,7 +369,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 4. Song -->
+                <!-- 5. Song -->
                 <div class="api-wrapper" data-name="song youtube play mp3 audio music stream">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -371,7 +390,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 5. TikTok -->
+                <!-- 6. TikTok -->
                 <div class="api-wrapper" data-name="tiktok video downloader no watermark">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -392,7 +411,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 6. Pinterest -->
+                <!-- 7. Pinterest -->
                 <div class="api-wrapper" data-name="pinterest image search visual hd download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -413,7 +432,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 7. APK Downloader -->
+                <!-- 8. APK Downloader -->
                 <div class="api-wrapper" data-name="apk android package app mirror tool download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -434,7 +453,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 8. Facebook -->
+                <!-- 9. Facebook -->
                 <div class="api-wrapper" data-name="facebook fb video resolver cdn download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -455,7 +474,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 9. Website Cloner -->
+                <!-- 10. Website Cloner -->
                 <div class="api-wrapper" data-name="webdl website clone html static site page download">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -476,7 +495,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 10. JS Obfuscator -->
+                <!-- 11. JS Obfuscator -->
                 <div class="api-wrapper" data-name="obfuscate javascript security protection code hide encrypt">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -497,7 +516,7 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- 11. ImgBB Uploader -->
+                <!-- 12. ImgBB Uploader -->
                 <div class="api-wrapper" data-name="imgbb photo cloud cdn image host upload post">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -525,7 +544,6 @@ app.get('/', (req, res) => {
 
         <!-- ENGINE SYSTEM INTERACTIONS -->
         <script>
-            // Ultra Elegant Apple Style Pre-loader Dismount Handler (Exactly 1.2s)
             window.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const loader = document.getElementById('cyber-loader');
@@ -538,7 +556,6 @@ app.get('/', (req, res) => {
                 }, 1200);
             });
 
-            // Interactive Open/Close Accordion Engine
             function toggleAccordion(element) {
                 const parent = element.parentElement;
                 const docsSection = parent.querySelector('.api-docs');
@@ -556,7 +573,6 @@ app.get('/', (req, res) => {
                 }
             }
 
-            // High Performance Filter
             function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const wrappers = document.getElementsByClassName('api-wrapper');
@@ -575,12 +591,10 @@ app.get('/', (req, res) => {
                 noResults.style.display = found ? 'none' : 'block';
             }
 
-            // ──🔥 FIXED BULLETPROOF CLIPBOARD COPY ENFORCER ──
             function copyLink(elementId) {
                 const pathText = document.getElementById(elementId).textContent.trim();
                 const fullUrl = window.location.origin + pathText;
                 
-                // Primary Strategy: Clipboard Web API
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(fullUrl).then(() => {
                         triggerToast();
@@ -590,7 +604,6 @@ app.get('/', (req, res) => {
                 }
             }
 
-            // Legacy input DOM text fallback protection
             function fallbackCopyEngine(textToCopy) {
                 const textArea = document.createElement("textarea");
                 textArea.value = textToCopy;
@@ -614,7 +627,6 @@ app.get('/', (req, res) => {
                 setTimeout(() => toast.classList.remove('show'), 2000);
             }
 
-            // ──🔥 NEW DYNAMIC ACTION ENFORCER: RUN REAL WEB REQUEST ──
             async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
                 const pathText = document.getElementById(urlElementId).textContent.trim();
                 const absoluteTargetUrl = window.location.origin + pathText;
@@ -630,14 +642,14 @@ app.get('/', (req, res) => {
                     const systemJsonPayload = await webStreamResponse.json();
                     
                     outputConsole.textContent = JSON.stringify(systemJsonPayload, null, 2);
-                    outputConsole.style.color = "var(--apple-green)"; // Dynamic Apple Green for Success
+                    outputConsole.style.color = "var(--apple-green)";
                 } catch (serverException) {
                     outputConsole.textContent = JSON.stringify({
                         success: false,
                         error: "Network stream deployment interrupted",
                         exception_log: serverException.message
                     }, null, 2);
-                    outputConsole.style.color = "var(--apple-red)"; // Dynamic Apple Red for Errors
+                    outputConsole.style.color = "var(--apple-red)";
                 } finally {
                     buttonElement.innerText = "RUN API";
                     buttonElement.disabled = false;
@@ -650,9 +662,35 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ ALL 11 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
+// 🛠️ ALL 12 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
 // ─────────────────────────────────────────────────────────
 
+// 🆕 1. YOUTUBE MP4 CONTROLLER
+app.get('/ytmp4', strictAuthGate, async (req, res) => {
+    try {
+        const { url } = req.query;
+        if (!url) return res.json({ success: false, message: "YouTube URL required!" });
+        
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
+        
+        if (data.success && data.result) {
+            res.json({ 
+                creator: "Mr Hashuu Bot", 
+                status: "Authenticated", 
+                user: req.planOwner,
+                plan: req.planType,
+                success: true, 
+                result: data.result 
+            });
+        } else { 
+            res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); 
+        }
+    } catch (e) { 
+        res.json({ success: false, message: e.message }); 
+    }
+});
+
+// 2. MEDIAFIRE CONTROLLER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -662,6 +700,7 @@ app.get('/mediafire', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 3. SPOTIFY CONTROLLER
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -671,6 +710,7 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 4. TWITTER CONTROLLER
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -680,6 +720,7 @@ app.get('/twitter', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 5. SONG CONTROLLER
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -691,6 +732,7 @@ app.get('/song', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 6. TIKTOK CONTROLLER
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -702,6 +744,7 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 7. PINTEREST CONTROLLER
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -711,6 +754,7 @@ app.get('/pinterest', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 8. APK CONTROLLER
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -720,6 +764,7 @@ app.get('/apk', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 9. FACEBOOK CONTROLLER
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -731,6 +776,7 @@ app.get('/facebook', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 10. WEBSITE CLONER CONTROLLER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -742,6 +788,7 @@ app.get('/webdl', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 11. JS OBFUSCATOR CONTROLLER
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
@@ -751,6 +798,7 @@ app.get('/obfuscate', strictAuthGate, (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
+// 12. IMGBB UPLOADER CONTROLLER
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
