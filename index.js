@@ -33,7 +33,7 @@ const strictAuthGate = (req, res, next) => {
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "Mr Hashuu Bot",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
@@ -270,8 +270,8 @@ app.get('/', (req, res) => {
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Top Core</div>
-                    <div class="stat-value">/xvideo</div>
+                    <div class="stat-label">Creator</div>
+                    <div class="stat-value">/hashuh</div>
                 </div>
             </div>
 
@@ -284,7 +284,7 @@ app.get('/', (req, res) => {
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
-                            <span class="endpoint-slug">/hashuh</span>
+                            <span class="endpoint-slug">/xvideo</span>
                             <span class="endpoint-info">XVideos Video MP4 Direct CDN Resolver</span>
                         </div>
                         <span class="arrow-icon">▶</span>
@@ -678,7 +678,7 @@ app.get('/xvideo', strictAuthGate, async (req, res) => {
         
         if (data.success) {
             res.json({ 
-                creator: "Mr Hashuu Bot", 
+                creator: "Mr Hashuu Ofc", 
                 status: "Authenticated", 
                 user: req.planOwner,
                 plan: req.planType,
@@ -702,7 +702,7 @@ app.get('/ytmp4', strictAuthGate, async (req, res) => {
         if (!url) return res.json({ success: false, message: "YouTube URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
         } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
@@ -713,7 +713,7 @@ app.get('/mediafire', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -723,7 +723,7 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -733,7 +733,7 @@ app.get('/twitter', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Twitter URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -744,7 +744,7 @@ app.get('/song', strictAuthGate, async (req, res) => {
         if (!text) return res.json({ success: false, message: "Song name or YouTube URL required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
         if (data.status && data.result) {
-            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.result });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
         } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
@@ -756,7 +756,7 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.result });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
         } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
@@ -767,7 +767,7 @@ app.get('/pinterest', strictAuthGate, async (req, res) => {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Query text required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.result || [] });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result || [] });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -777,7 +777,7 @@ app.get('/apk', strictAuthGate, async (req, res) => {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "App name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.apk || {} });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.apk || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -788,7 +788,7 @@ app.get('/facebook', strictAuthGate, async (req, res) => {
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
         if (data.status) {
-            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.video });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.video });
         } else { res.json({ success: false, message: "Could not fetch video." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
@@ -800,7 +800,7 @@ app.get('/webdl', strictAuthGate, async (req, res) => {
         if (!url) return res.json({ success: false, message: "Website URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
         } else { res.json({ success: false, message: "Failed to clone website." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
@@ -811,7 +811,7 @@ app.get('/obfuscate', strictAuthGate, (req, res) => {
         const { code } = req.query;
         if (!code) return res.json({ success: false, message: "Code parameter missing!" });
         const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.5 }).getObfuscatedCode();
-        res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: obfuscatedCode });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -822,7 +822,7 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "Mr Hashuu Bot", status: "Authenticated", success: true, result: data.data }); }
+        if (data.success) { res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.data }); }
         else { res.json({ success: false, message: "Upload failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
