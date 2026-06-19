@@ -40,7 +40,7 @@ const strictAuthGate = (req, res, next) => {
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "Mr Hashuu Bot",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU - Pro Developer Console</title>
+        <title>MR HASHUU FREE API</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -253,10 +253,10 @@ app.get('/', (req, res) => {
         <div class="vercel-box" id="main-interface">
             
             <header>
-                <h1>Hashuu Matrix v14</h1>
+                <h1>HASHU APIS</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM OPERATIONAL</span>
+                    <span>SYSTEM</span>
                 </div>
             </header>
 
@@ -284,7 +284,7 @@ app.get('/', (req, res) => {
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
-                            <span class="endpoint-slug">/xvideo</span>
+                            <span class="endpoint-slug">/hashuh</span>
                             <span class="endpoint-info">XVideos Video MP4 Direct CDN Resolver</span>
                         </div>
                         <span class="arrow-icon">▶</span>
