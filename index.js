@@ -276,11 +276,31 @@ app.get('/', (req, res) => {
             </div>
 
             <div class="search-container">
-                <input type="text" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
+                <input text="type" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
             </div>
 
             <div class="endpoint-list" id="listWrapper">
                 
+                <div class="api-wrapper" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/chat</span>
+                            <span class="endpoint-info">Hashan-md AI / ChatGPT-4o Smart Interface</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-chat')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-chat', 'res-chat', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-chat">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -665,10 +685,64 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ ALL 13 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
+// 🛠️ ALL 14 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
 // ─────────────────────────────────────────────────────────
 
-// 🆕 1. XVIDEOS CONTROLLER
+// 🆕 0. CHATGPT-4o AI CONTROLLER WITH CUSTOM INTERCEPTION GATE
+app.get('/api/chat', strictAuthGate, async (req, res) => {
+    try {
+        const { prompt } = req.query;
+        if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
+
+        // Normalize prompt for structural keyword testing
+        const cleanPrompt = prompt.toLowerCase().trim();
+
+        // 🎯 Custom Trigger Interceptions
+        if (cleanPrompt === 'hi') {
+            return res.json({
+                creator: "Mr Hashuu Ofc",
+                status: "Authenticated",
+                user: req.planOwner,
+                plan: req.planType,
+                success: true,
+                result: "Hellow Im Hashuu Ai Service"
+            });
+        }
+
+        if (cleanPrompt === 'kawad bn') {
+            return res.json({
+                creator: "Mr Hashuu Ofc",
+                status: "Authenticated",
+                user: req.planOwner,
+                plan: req.planType,
+                success: true,
+                result: "huththak kwa"
+            });
+        }
+
+        // 🌐 Routing to External ChatGPT System Engine
+        const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
+        const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
+        
+        const { data } = await axios.get(targetUrl);
+        
+        // Parse David Cyril's API Response format carefully
+        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural layout break. Retry.";
+
+        res.json({
+            creator: "Mr Hashuu Ofc",
+            status: "Authenticated",
+            user: req.planOwner,
+            plan: req.planType,
+            success: true,
+            result: aiReply
+        });
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 1. XVIDEOS CONTROLLER
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
