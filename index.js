@@ -10,13 +10,14 @@ const app = express();
 const upload = multer();
 
 app.use(cors());
+app.use(express.json());
 
 // ─────────────────────────────────────────────────────────
 // 🔑 AUTHORIZED PREMIUM API KEYS DATABASE
 // ─────────────────────────────────────────────────────────
 const PREMIUM_DATABASE = {
     "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM" },
-    "MR_HASHUU_SECRET_123": { owner: "Admin/Owner", plan: "PRO" },
+    "MR_HASHUU_SECRET_123": { owner: "MR HASHUU", plan: "PRO" },
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
@@ -33,14 +34,14 @@ const strictAuthGate = (req, res, next) => {
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "MR HASHUU",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "MR HASHUU",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
@@ -50,7 +51,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 APPLE PRO DIGITAL MATRIX INTERACTION UI
+// 🌌 LUXURY APPLE MATRIX INTERACTION UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -62,7 +63,7 @@ app.get('/', (req, res) => {
         <title>MR HASHUU FREE API</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
         
         <style>
             :root {
@@ -70,8 +71,8 @@ app.get('/', (req, res) => {
                 --apple-dark-gray: #161617;
                 --apple-card: #1c1c1e;
                 --apple-border: rgba(255, 255, 255, 0.08);
-                --apple-cyan: #29b6f6;
-                --apple-blue: #0071e3;
+                --apple-cyan: #00F5FF;
+                --apple-blue: #7B2CBF;
                 --apple-green: #34c759;
                 --apple-red: #ff453a;
                 --text-main: #f5f5f7;
@@ -90,6 +91,7 @@ app.get('/', (req, res) => {
                 align-items: center;
                 overflow-x: hidden;
                 padding: 40px 0;
+                background-image: radial-gradient(circle at 50% -20%, rgba(123, 44, 191, 0.15), transparent 70%);
             }
 
             /* 🔥 APPLE STUDIO SHUTTER LOADER */
@@ -116,7 +118,8 @@ app.get('/', (req, res) => {
             .smooth-aura-glow {
                 width: 60px; height: 60px;
                 border: 3px solid rgba(255, 255, 255, 0.05);
-                border-top-color: #ffffff;
+                border-top-color: var(--apple-cyan);
+                border-bottom-color: var(--apple-blue);
                 border-radius: 50%;
                 animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
@@ -149,10 +152,11 @@ app.get('/', (req, res) => {
             .status-container {
                 display: inline-flex; align-items: center; gap: 6px;
                 font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
-                color: var(--apple-green); background: rgba(52, 199, 89, 0.1);
+                color: var(--apple-cyan); background: rgba(0, 245, 255, 0.1);
                 padding: 5px 12px; border-radius: 30px;
+                border: 1px solid rgba(0, 245, 255, 0.2);
             }
-            .pulse-dot { width: 6px; height: 6px; background: var(--apple-green); border-radius: 50%; }
+            .pulse-dot { width: 6px; height: 6px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--apple-cyan); }
 
             /* Analytics Counters Grid */
             .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
@@ -170,7 +174,7 @@ app.get('/', (req, res) => {
                 border: 1px solid var(--apple-border); border-radius: 12px;
                 color: #ffffff; font-size: 0.85rem; outline: none; transition: all 0.2s;
             }
-            .search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(0, 0, 0, 0.5); }
+            .search-input:focus { border-color: rgba(0, 245, 255, 0.3); background: rgba(0, 0, 0, 0.5); }
             ::placeholder { color: #55555a; }
 
             /* Workspace Lists Layout */
@@ -186,11 +190,11 @@ app.get('/', (req, res) => {
             .meta-details { display: flex; flex-direction: column; gap: 2px; max-width: 85%; }
             .endpoint-slug { font-size: 0.95rem; font-weight: 600; color: #ffffff; font-family: monospace; }
             .endpoint-info { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .arrow-icon { font-size: 0.7rem; color: #444; transition: transform 0.2s; }
+            .arrow-icon { font-size: 0.7 r em; color: #444; transition: transform 0.2s; }
             
             /* Active Expand Configuration */
-            .api-wrapper.active { border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.02); }
-            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: #fff; }
+            .api-wrapper.active { border-color: rgba(0, 245, 255, 0.3); background: rgba(255, 255, 255, 0.02); }
+            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
 
             /* Core Premium Documentation Panel */
             .api-docs {
@@ -236,7 +240,7 @@ app.get('/', (req, res) => {
 
             #no-results { display: none; text-align: center; padding: 40px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
             footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 16px; margin-top: 12px; }
-            .buy-btn { color: #ffffff; text-decoration: none; font-weight: 600; }
+            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 600; }
         </style>
     </head>
     <body>
@@ -256,7 +260,7 @@ app.get('/', (req, res) => {
                 <h1>HASHU APIS</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM</span>
+                    <span>SYSTEM RUNNING</span>
                 </div>
             </header>
 
@@ -270,13 +274,13 @@ app.get('/', (req, res) => {
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Creator</div>
-                    <div class="stat-value">/hashuh</div>
+                    <div class="stat-label">Owner</div>
+                    <div class="stat-value">MR HASHUU</div>
                 </div>
             </div>
 
             <div class="search-container">
-                <input text="type" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
+                <input type="text" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()">
             </div>
 
             <div class="endpoint-list" id="listWrapper">
@@ -301,6 +305,26 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
+                <div class="api-wrapper" data-name="cuttly shorten url link tinyurl link-shortener short">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/url_shorten</span>
+                            <span class="endpoint-info">Cuttly Professional Link Shortener Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-shorten')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-shorten', 'res-shorten', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-shorten">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -312,7 +336,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-xvideo')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)">Run API</button>
                         </div>
@@ -372,7 +396,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-sf')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Run API</button>
                         </div>
@@ -562,7 +586,7 @@ app.get('/', (req, res) => {
 
             <footer>
                 <span>© 2026 MR HASHUU</span>
-                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">REQUEST CORE ACCESS</a>
+                <a href="#" class="buy-btn">REQUEST CORE ACCESS</a>
             </footer>
         </div>
 
@@ -639,7 +663,7 @@ app.get('/', (req, res) => {
                     document.execCommand('copy');
                     triggerToast();
                 } catch (err) {
-                    console.error('Fallback engine failed compilation', err);
+                    console.error('Fallback copy engine error', err);
                 }
                 document.body.removeChild(textArea);
             }
@@ -657,7 +681,7 @@ app.get('/', (req, res) => {
 
                 buttonElement.innerText = "RUNNING...";
                 buttonElement.disabled = true;
-                outputConsole.textContent = "// TRANSMITTING SECURE MATRIX HANDSHAKE SIGNAL... //";
+                outputConsole.textContent = "// TRANSMITTING SECURE SIGNAL... //";
                 outputConsole.style.color = "var(--apple-cyan)";
 
                 try {
@@ -685,25 +709,22 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ ALL 14 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
+// 🛠️ BACKEND CONTROLLERS LOGIC (CLEAN ONLY)
 // ─────────────────────────────────────────────────────────
 
-// 🆕 0. CHATGPT-4o AI CONTROLLER WITH CUSTOM INTERCEPTION GATE
+// 0. CHATGPT-4o SMART INTERFACE
 app.get('/api/chat', strictAuthGate, async (req, res) => {
     try {
         const { prompt } = req.query;
         if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
 
-        // Normalize prompt for structural keyword testing
         const cleanPrompt = prompt.toLowerCase().trim();
 
-        // 🎯 Custom Trigger Interceptions
+        // Custom Keyword Interceptions
         if (cleanPrompt === 'hi') {
             return res.json({
-                creator: "Mr Hashuu Ofc",
+                creator: "MR HASHUU",
                 status: "Authenticated",
-                user: req.planOwner,
-                plan: req.planType,
                 success: true,
                 result: "Hellow Im Hashuu Ai Service"
             });
@@ -711,29 +732,22 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
 
         if (cleanPrompt === 'kawad bn') {
             return res.json({
-                creator: "Mr Hashuu Ofc",
+                creator: "MR HASHUU",
                 status: "Authenticated",
-                user: req.planOwner,
-                plan: req.planType,
                 success: true,
                 result: "huththak kwa"
             });
         }
 
-        // 🌐 Routing to External ChatGPT System Engine
         const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
         const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
         
         const { data } = await axios.get(targetUrl);
-        
-        // Parse David Cyril's API Response format carefully
-        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural layout break. Retry.";
+        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
 
         res.json({
-            creator: "Mr Hashuu Ofc",
+            creator: "MR HASHUU",
             status: "Authenticated",
-            user: req.planOwner,
-            plan: req.planType,
             success: true,
             result: aiReply
         });
@@ -742,168 +756,176 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
     }
 });
 
-// 1. XVIDEOS CONTROLLER
+// 1. CUTTLY URL SHORTENER
+app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
+    try {
+        const { link } = req.query;
+        if (!link) return res.json({ success: false, message: "Link parameter missing!" });
+
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
+        
+        if (data.success) {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                original_url: data.original_url,
+                shortened_url: data.shortened_url
+            });
+        } else {
+            res.json({ success: false, message: "URL shortening failed at external server gate." });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 2. XVIDEOS DOWNLOADER
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "XVideo URL required!" });
-        
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
-        
         if (data.success) {
-            res.json({ 
-                creator: "Mr Hashuu Ofc", 
-                status: "Authenticated", 
-                user: req.planOwner,
-                plan: req.planType,
-                success: true, 
-                title: data.title,
-                thumbnail: data.thumbnail,
-                download_url: data.download_url
-            });
-        } else { 
-            res.json({ success: false, message: "Conversion failed or invalid source link." }); 
-        }
-    } catch (e) { 
-        res.json({ success: false, message: e.message }); 
-    }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
+        } else { res.json({ success: false, message: "Conversion failed or invalid source link." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. YOUTUBE MP4 CONTROLLER
+// 3. YOUTUBE MP4 DOWNLOADER
 app.get('/ytmp4', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "YouTube URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
         } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. MEDIAFIRE CONTROLLER
+// 4. MEDIAFIRE PARSER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. SPOTIFY CONTROLLER
+// 5. SPOTIFY EXTRACTOR
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. TWITTER CONTROLLER
+// 6. TWITTER STREAM CDN
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Twitter URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 6. SONG CONTROLLER
+// 7. YOUTUBE AUDIO SONG
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Song name or YouTube URL required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
         if (data.status && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
         } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. TIKTOK CONTROLLER
+// 8. TIKTOK NO-WATERMARK
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
         } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. PINTEREST CONTROLLER
+// 9. PINTEREST MEDIA IMAGE
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Query text required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result || [] });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || [] });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 9. APK CONTROLLER
+// 10. APK PACKAGE MIRROR
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "App name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.apk || {} });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.apk || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 10. FACEBOOK CONTROLLER
+// 11. FACEBOOK WATCH EXTRACTOR
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
         if (data.status) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.video });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
         } else { res.json({ success: false, message: "Could not fetch video." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 11. WEBSITE CLONER CONTROLLER
+// 12. STATIC WEBPAGE CLONER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
         } else { res.json({ success: false, message: "Failed to clone website." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 12. JS OBFUSCATOR CONTROLLER
+// 13. JS ANTI-SCRAPE OBFUSCATOR
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
         if (!code) return res.json({ success: false, message: "Code parameter missing!" });
         const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.5 }).getObfuscatedCode();
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: obfuscatedCode });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 13. IMGBB UPLOADER CONTROLLER
+// 14. IMGBB IMAGE CLOUD POST
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.data }); }
+        if (data.success) { res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data }); }
         else { res.json({ success: false, message: "Upload failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// PORT LISTENER
-if (require.main === module) {
-    app.listen(3000, () => console.log("Apple Pro HASHU-API Engine Running on port 3000"));
-}
+// ENGINE LISTENER PORT
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Apple Matrix HASHU-API Engine Running on port ${PORT}`));
 
 module.exports = app;
