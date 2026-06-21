@@ -21,14 +21,12 @@ const PREMIUM_DATABASE = {
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// Premium Rate Limiter
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
     message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
 });
 
-// Gatekeeper Middleware
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
     if (!apikey) {
@@ -51,7 +49,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 LUXURY APPLE MATRIX INTERACTION UI
+// 🌌 ULTRA LUXURY APPLE MATRIX INTERACTION UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -68,9 +66,9 @@ app.get('/', (req, res) => {
         <style>
             :root {
                 --apple-black: #000000;
-                --apple-dark-gray: #0b0b0c;
-                --apple-card: rgba(22, 22, 23, 0.8);
-                --apple-border: rgba(255, 255, 255, 0.08);
+                --apple-dark-gray: #09090a;
+                --apple-card: rgba(18, 18, 19, 0.75);
+                --apple-border: rgba(255, 255, 255, 0.07);
                 --apple-cyan: #00F5FF;
                 --apple-blue: #7B2CBF;
                 --apple-green: #00FF87;
@@ -79,7 +77,7 @@ app.get('/', (req, res) => {
                 --text-muted: #a1a1a6;
             }
             
-            * { box-sizing: border-box; margin: 0; padding: 0; }
+            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
             
             body {
                 background-color: var(--apple-black);
@@ -89,16 +87,15 @@ app.get('/', (req, res) => {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow-x: hidden;
-                padding: 20px 0;
+                padding: 40px 0;
                 position: relative;
             }
 
-            /* 🪐 PREMIUM BACKDROP ANIMATED GLOW */
+            /* 🪐 ANIMATED BACKGROUND GLOWS */
             .ambient-glow {
-                position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 50vh;
-                background: radial-gradient(circle, rgba(123, 44, 191, 0.2) 0%, rgba(0, 245, 255, 0.05) 50%, transparent 100%);
-                z-index: 1; pointer-events: none; filter: blur(60px);
+                position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 90vw; height: 60vh;
+                background: radial-gradient(circle, rgba(123, 44, 191, 0.25) 0%, rgba(0, 245, 255, 0.06) 45%, transparent 100%);
+                z-index: 1; pointer-events: none; filter: blur(70px);
             }
 
             /* 🔥 APPLE STUDIO SHUTTER LOADER */
@@ -108,16 +105,15 @@ app.get('/', (req, res) => {
                 display: flex; flex-direction: column; justify-content: center; align-items: center;
                 transition: opacity 0.4s ease-out;
             }
-
             .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
             .smooth-aura-glow {
-                width: 60px; height: 60px; border: 4px solid rgba(255, 255, 255, 0.03);
+                width: 65px; height: 65px; border: 4px solid rgba(255, 255, 255, 0.02);
                 border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue);
-                border-radius: 50%; animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                border-radius: 50%; animation: appleSpin 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
             .loader-brand {
-                font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffffff;
-                letter-spacing: 4px; text-transform: uppercase;
+                font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #ffffff;
+                letter-spacing: 5px; text-transform: uppercase;
                 background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue));
                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             }
@@ -125,113 +121,118 @@ app.get('/', (req, res) => {
 
             /* Premium Minimal Master Box */
             .vercel-box {
-                width: 94%; max-width: 600px;
-                background: var(--apple-card); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-                border: 1px solid var(--apple-border); border-radius: 24px;
-                padding: 30px; z-index: 2; position: relative;
-                box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
-                opacity: 0; transform: scale(0.97);
-                transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                width: 92%; max-width: 650px;
+                background: var(--apple-card); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+                border: 1px solid var(--apple-border); border-radius: 28px;
+                padding: 35px; z-index: 2; position: relative;
+                box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+                opacity: 0; transform: scale(0.96);
+                transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             }
             .vercel-box.system-ready { opacity: 1; transform: scale(1); }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
-            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
+            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
 
-            /* Status Pill */
             .status-container {
-                display: inline-flex; align-items: center; gap: 6px;
+                display: inline-flex; align-items: center; gap: 7px;
                 font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px;
                 color: var(--apple-cyan); background: rgba(0, 245, 255, 0.08);
-                padding: 6px 14px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2);
+                padding: 7px 15px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2);
             }
             .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
             @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
             /* Analytics Counters Grid */
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
-            .stat-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 16px; padding: 14px 10px; text-align: center; }
-            .stat-label { font-size: 0.65rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-            .stat-value { font-size: 1.1rem; font-weight: 900; color: #ffffff; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+            .stat-card { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--apple-border); border-radius: 18px; padding: 16px 12px; text-align: center; transition: all 0.3s; }
+            .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
+            .stat-label { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+            .stat-value { font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; }
 
             /* Filter Input Search Box */
-            .search-container { position: relative; margin-top: 20px; }
+            .search-container { position: relative; margin-top: 24px; }
             .search-input {
-                width: 100%; padding: 16px 20px; background: rgba(0, 0, 0, 0.4);
-                border: 1px solid var(--apple-border); border-radius: 14px;
-                color: #ffffff; font-size: 0.9rem; font-weight: 800; outline: none; transition: all 0.3s;
+                width: 100%; padding: 18px 22px; background: rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--apple-border); border-radius: 16px;
+                color: #ffffff; font-size: 0.95rem; font-weight: 800; outline: none; transition: all 0.3s;
             }
-            .search-input:focus { border-color: rgba(0, 245, 255, 0.4); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 20px rgba(0, 245, 255, 0.05); }
-            ::placeholder { color: #55555a; font-weight: 800; }
+            .search-input:focus { border-color: rgba(0, 245, 255, 0.5); background: rgba(0, 0, 0, 0.7); box-shadow: 0 0 25px rgba(0, 245, 255, 0.08); }
+            ::placeholder { color: #4e4e54; font-weight: 800; }
 
             /* Workspace Lists Layout */
-            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 16px; overflow: hidden; transition: all 0.25s; }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.03); }
+            .endpoint-list { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 18px; overflow: hidden; transition: all 0.25s; }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.02); }
             
-            .api-row { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 4px; max-width: 85%; }
-            .endpoint-slug { font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: monospace; }
-            .endpoint-info { font-size: 0.8rem; font-weight: 800; color: var(--text-muted); }
-            .arrow-icon { font-size: 0.75rem; color: #555; font-weight: 900; transition: transform 0.2s; }
+            .api-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .meta-details { display: flex; flex-direction: column; gap: 5px; max-width: 85%; }
+            .endpoint-slug { font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: monospace; letter-spacing: -0.3px; }
+            .endpoint-info { font-size: 0.82rem; font-weight: 800; color: var(--text-muted); }
+            .arrow-icon { font-size: 0.8rem; color: #444; font-weight: 900; transition: transform 0.25s; }
             
-            /* Active Expand Configuration */
-            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.5); background: rgba(0, 0, 0, 0.3); }
+            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.6); background: rgba(0, 0, 0, 0.4); box-shadow: inset 0 0 20px rgba(123, 44, 191, 0.05); }
             .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
 
             /* Core Premium Documentation Panel */
-            .api-docs { display: none; padding: 0 18px 18px 18px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
-            .docs-section-title { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 16px 0 6px 0; letter-spacing: 0.5px; }
+            .api-docs { display: none; padding: 0 20px 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
+            .docs-section-title { font-size: 0.7rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.6px; }
             
-            /* Action Buttons Layout styling */
-            .url-box-container { display: flex; gap: 8px; margin-top: 6px; }
+            .url-box-container { display: flex; gap: 10px; margin-top: 6px; }
             .url-display {
-                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 14px;
-                border-radius: 10px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: var(--apple-cyan);
+                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 15px;
+                border-radius: 12px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--apple-cyan);
                 overflow-x: auto; white-space: nowrap;
             }
+            /* Custom Scrollbar for URL display to ensure perfect mobile fit */
+            .url-display::-webkit-scrollbar { height: 4px; }
+            .url-display::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
             .btn-action {
-                border: none; font-size: 0.75rem; font-weight: 900; padding: 0 16px; border-radius: 10px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 44px;
+                border: none; font-size: 0.78rem; font-weight: 900; padding: 0 18px; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 46px;
             }
             .btn-copy { background: #ffffff; color: #000000; }
-            .btn-copy:hover { opacity: 0.85; }
+            .btn-copy:hover { opacity: 0.88; }
             .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
-            .btn-run:hover { box-shadow: 0 0 15px rgba(123, 44, 191, 0.4); }
+            .btn-run:hover { box-shadow: 0 0 18px rgba(123, 44, 191, 0.5); }
 
-            /* Real Live Web Request Console Screen */
+            /* Console Screen */
             .json-preview {
-                background: #000000; border: 1px solid var(--apple-border); border-radius: 10px;
-                padding: 14px; font-family: monospace; font-size: 0.75rem; font-weight: 700; color: #777;
-                white-space: pre-wrap; overflow-x: auto; max-height: 160px; line-height: 1.4;
+                background: #000000; border: 1px solid var(--apple-border); border-radius: 12px;
+                padding: 16px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #666;
+                white-space: pre-wrap; overflow-x: auto; max-height: 220px; line-height: 1.5;
             }
+            .json-preview::-webkit-scrollbar { width: 4px; height: 4px; }
+            .json-preview::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
-            /* Notification Banner Dynamic pop */
             #toast-alert {
-                position: fixed; bottom: 30px; background: #ffffff; color: #000000;
-                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.8rem; padding: 12px 24px; border-radius: 12px;
+                position: fixed; bottom: 35px; background: #ffffff; color: #000000;
+                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.85rem; padding: 14px 28px; border-radius: 14px;
                 z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
                 transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 20px; margin-top: 20px; flex-wrap: wrap; gap: 10px; }
-            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; }
+            #no-results { display: none; text-align: center; padding: 45px; font-size: 0.85rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 22px; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
+            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
+            .buy-btn:hover { color: #ffffff; }
 
-            /* 📱 RESPONSIVE MOBILE ADJUSTMENTS */
+            /* 📱 STAGE-PERFECT MOBILE RESPONSIVE ENGINE */
             @media (max-width: 600px) {
-                body { padding: 10px 0; }
-                .vercel-box { padding: 22px 16px; border-radius: 20px; }
-                header h1 { font-size: 1.5rem; }
-                .status-container { padding: 5px 10px; font-size: 0.65rem; }
-                .analytics-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 15px; }
-                .stat-card { padding: 12px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
-                .stat-value { margin-top: 0; font-size: 1rem; }
-                .url-box-container { flex-direction: column; gap: 8px; }
+                body { padding: 15px 0; }
+                .vercel-box { padding: 25px 18px; border-radius: 24px; width: 94%; }
+                header h1 { font-size: 1.6rem; }
+                .status-container { padding: 6px 12px; font-size: 0.68rem; }
+                .analytics-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
+                .stat-card { padding: 14px 18px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+                .stat-value { margin-top: 0; font-size: 1.05rem; }
+                .url-box-container { flex-direction: column; gap: 10px; }
                 .btn-action { width: 100%; justify-content: center; display: flex; align-items: center; }
-                .endpoint-slug { font-size: 0.95rem; }
-                .endpoint-info { font-size: 0.75rem; }
+                .endpoint-slug { font-size: 1rem; }
+                .endpoint-info { font-size: 0.78rem; }
+                .json-preview { max-height: 180px; }
             }
         </style>
     </head>
@@ -278,6 +279,27 @@ app.get('/', (req, res) => {
 
             <div class="endpoint-list" id="listWrapper">
                 
+                <!-- 🎬 NEW MOVIE DATABASE API -->
+                <div class="api-wrapper" data-name="movie database omdb cinema film guardians plot rating info tracker">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/movie</span>
+                            <span class="endpoint-info">OMDb Cinema & Film Data Information Tracking Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-movie')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-movie', 'res-movie', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-movie">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <div class="api-wrapper" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -702,8 +724,32 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ BACKEND CONTROLLERS LOGIC (CLEAN ONLY)
+// 🛠️ BACKEND CONTROLLERS LOGIC
 // ─────────────────────────────────────────────────────────
+
+// 🎬 NEW OMDb MOVIE CONTROLLER
+app.get('/api/movie', strictAuthGate, async (req, res) => {
+    try {
+        const { text } = req.query;
+        if (!text) return res.json({ success: false, message: "Movie title parameter (?text=) missing!" });
+
+        const movieUrl = `http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`;
+        const { data } = await axios.get(movieUrl);
+
+        if (data.Response === "True") {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                result: data
+            });
+        } else {
+            res.json({ success: false, message: data.Error || "Movie not found!" });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
 
 // 0. CHATGPT-4o SMART INTERFACE
 app.get('/api/chat', strictAuthGate, async (req, res) => {
@@ -713,23 +759,11 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
 
         const cleanPrompt = prompt.toLowerCase().trim();
 
-        // Custom Keyword Interceptions
         if (cleanPrompt === 'hi') {
-            return res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                result: "Hellow Im Hashuu Ai Service"
-            });
+            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
         }
-
         if (cleanPrompt === 'kawad bn') {
-            return res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                result: "huththak kwa"
-            });
+            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
         }
 
         const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
@@ -738,15 +772,8 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(targetUrl);
         const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
 
-        res.json({
-            creator: "MR HASHUU",
-            status: "Authenticated",
-            success: true,
-            result: aiReply
-        });
-    } catch (e) {
-        res.json({ success: false, message: e.message });
-    }
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: aiReply });
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
 // 1. CUTTLY URL SHORTENER
@@ -754,23 +781,11 @@ app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
     try {
         const { link } = req.query;
         if (!link) return res.json({ success: false, message: "Link parameter missing!" });
-
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
-        
         if (data.success) {
-            res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                original_url: data.original_url,
-                shortened_url: data.shortened_url
-            });
-        } else {
-            res.json({ success: false, message: "URL shortening failed at external server gate." });
-        }
-    } catch (e) {
-        res.json({ success: false, message: e.message });
-    }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
+        } else { res.json({ success: false, message: "URL shortening failed." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
 // 2. XVIDEOS DOWNLOADER
@@ -781,7 +796,7 @@ app.get('/xvideo', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
         if (data.success) {
             res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
-        } else { res.json({ success: false, message: "Conversion failed or invalid source link." }); }
+        } else { res.json({ success: false, message: "Conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -793,7 +808,7 @@ app.get('/ytmp4', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
             res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
+        } else { res.json({ success: false, message: "Media conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -831,11 +846,11 @@ app.get('/twitter', strictAuthGate, async (req, res) => {
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Song name or YouTube URL required" });
+        if (!text) return res.json({ success: false, message: "Song name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
         if (data.status && data.result) {
             res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
+        } else { res.json({ success: false, message: "Failed to fetch song." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -847,7 +862,7 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
             res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
+        } else { res.json({ success: false, message: "Invalid TikTok URL." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -917,7 +932,6 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// ENGINE LISTENER PORT
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Apple Matrix HASHU-API Engine Running on port ${PORT}`));
 
