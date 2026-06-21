@@ -59,24 +59,24 @@ app.get('/', (req, res) => {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU FREE API</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>MR HASHUU PREMIUM GATEWAY</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
         
         <style>
             :root {
                 --apple-black: #000000;
-                --apple-dark-gray: #161617;
-                --apple-card: #1c1c1e;
+                --apple-dark-gray: #0b0b0c;
+                --apple-card: rgba(22, 22, 23, 0.8);
                 --apple-border: rgba(255, 255, 255, 0.08);
                 --apple-cyan: #00F5FF;
                 --apple-blue: #7B2CBF;
-                --apple-green: #34c759;
+                --apple-green: #00FF87;
                 --apple-red: #ff453a;
-                --text-main: #f5f5f7;
-                --text-muted: #86868b;
+                --text-main: #ffffff;
+                --text-muted: #a1a1a6;
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,167 +84,160 @@ app.get('/', (req, res) => {
             body {
                 background-color: var(--apple-black);
                 color: var(--text-main);
-                font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
+                font-family: 'Inter', -apple-system, sans-serif;
                 min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 overflow-x: hidden;
-                padding: 40px 0;
-                background-image: radial-gradient(circle at 50% -20%, rgba(123, 44, 191, 0.15), transparent 70%);
+                padding: 20px 0;
+                position: relative;
+            }
+
+            /* 🪐 PREMIUM BACKDROP ANIMATED GLOW */
+            .ambient-glow {
+                position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 50vh;
+                background: radial-gradient(circle, rgba(123, 44, 191, 0.2) 0%, rgba(0, 245, 255, 0.05) 50%, transparent 100%);
+                z-index: 1; pointer-events: none; filter: blur(60px);
             }
 
             /* 🔥 APPLE STUDIO SHUTTER LOADER */
             #cyber-loader {
-                position: fixed;
-                top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--apple-black);
-                z-index: 9999;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: var(--apple-black); z-index: 9999;
+                display: flex; flex-direction: column; justify-content: center; align-items: center;
                 transition: opacity 0.4s ease-out;
             }
 
-            .apple-loading-wrapper {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-
+            .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
             .smooth-aura-glow {
-                width: 60px; height: 60px;
-                border: 3px solid rgba(255, 255, 255, 0.05);
-                border-top-color: var(--apple-cyan);
-                border-bottom-color: var(--apple-blue);
-                border-radius: 50%;
-                animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                width: 60px; height: 60px; border: 4px solid rgba(255, 255, 255, 0.03);
+                border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue);
+                border-radius: 50%; animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
-
             .loader-brand {
-                font-size: 0.85rem; font-weight: 600; color: #ffffff;
-                letter-spacing: 3px; text-transform: uppercase; opacity: 0.7;
+                font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffffff;
+                letter-spacing: 4px; text-transform: uppercase;
+                background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue));
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             }
-
             @keyframes appleSpin { to { transform: rotate(360deg); } }
 
             /* Premium Minimal Master Box */
             .vercel-box {
-                width: 92%; max-width: 520px;
-                background: rgba(22, 22, 23, 0.8);
-                backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-                border: 1px solid var(--apple-border); border-radius: 20px;
-                padding: 26px; z-index: 2;
-                box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
-                opacity: 0; transform: scale(0.98);
-                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                width: 94%; max-width: 600px;
+                background: var(--apple-card); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+                border: 1px solid var(--apple-border); border-radius: 24px;
+                padding: 30px; z-index: 2; position: relative;
+                box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
+                opacity: 0; transform: scale(0.97);
+                transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             }
-
             .vercel-box.system-ready { opacity: 1; transform: scale(1); }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--apple-border); }
-            header h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; color: #ffffff; }
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
+            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
 
             /* Status Pill */
             .status-container {
                 display: inline-flex; align-items: center; gap: 6px;
-                font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
-                color: var(--apple-cyan); background: rgba(0, 245, 255, 0.1);
-                padding: 5px 12px; border-radius: 30px;
-                border: 1px solid rgba(0, 245, 255, 0.2);
+                font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px;
+                color: var(--apple-cyan); background: rgba(0, 245, 255, 0.08);
+                padding: 6px 14px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2);
             }
-            .pulse-dot { width: 6px; height: 6px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--apple-cyan); }
+            .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
+            @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
             /* Analytics Counters Grid */
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
-            .stat-card {
-                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 12px;
-                padding: 12px 6px; text-align: center;
-            }
-            .stat-label { font-size: 0.58rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
-            .stat-value { font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-top: 3px; }
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+            .stat-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 16px; padding: 14px 10px; text-align: center; }
+            .stat-label { font-size: 0.65rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+            .stat-value { font-size: 1.1rem; font-weight: 900; color: #ffffff; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
 
             /* Filter Input Search Box */
-            .search-container { position: relative; margin-top: 18px; }
+            .search-container { position: relative; margin-top: 20px; }
             .search-input {
-                width: 100%; padding: 12px 16px; background: rgba(0, 0, 0, 0.3);
-                border: 1px solid var(--apple-border); border-radius: 12px;
-                color: #ffffff; font-size: 0.85rem; outline: none; transition: all 0.2s;
+                width: 100%; padding: 16px 20px; background: rgba(0, 0, 0, 0.4);
+                border: 1px solid var(--apple-border); border-radius: 14px;
+                color: #ffffff; font-size: 0.9rem; font-weight: 800; outline: none; transition: all 0.3s;
             }
-            .search-input:focus { border-color: rgba(0, 245, 255, 0.3); background: rgba(0, 0, 0, 0.5); }
-            ::placeholder { color: #55555a; }
+            .search-input:focus { border-color: rgba(0, 245, 255, 0.4); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 20px rgba(0, 245, 255, 0.05); }
+            ::placeholder { color: #55555a; font-weight: 800; }
 
             /* Workspace Lists Layout */
-            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 16px; overflow: hidden; transition: all 0.25s; }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.03); }
             
-            .api-wrapper {
-                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border);
-                border-radius: 14px; overflow: hidden; transition: all 0.2s;
-            }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
-            
-            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 2px; max-width: 85%; }
-            .endpoint-slug { font-size: 0.95rem; font-weight: 600; color: #ffffff; font-family: monospace; }
-            .endpoint-info { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .arrow-icon { font-size: 0.7 r em; color: #444; transition: transform 0.2s; }
+            .api-row { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .meta-details { display: flex; flex-direction: column; gap: 4px; max-width: 85%; }
+            .endpoint-slug { font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: monospace; }
+            .endpoint-info { font-size: 0.8rem; font-weight: 800; color: var(--text-muted); }
+            .arrow-icon { font-size: 0.75rem; color: #555; font-weight: 900; transition: transform 0.2s; }
             
             /* Active Expand Configuration */
-            .api-wrapper.active { border-color: rgba(0, 245, 255, 0.3); background: rgba(255, 255, 255, 0.02); }
+            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.5); background: rgba(0, 0, 0, 0.3); }
             .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
 
             /* Core Premium Documentation Panel */
-            .api-docs {
-                display: none; padding: 0 16px 16px 16px; border-top: 1px solid rgba(255, 255, 255, 0.04);
-                background: rgba(0,0,0,0.15); animation: appleReveal 0.2s ease-out;
-            }
-            @keyframes appleReveal { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
-
-            .docs-section-title { font-size: 0.62rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 6px 0; letter-spacing: 0.5px; }
+            .api-docs { display: none; padding: 0 18px 18px 18px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
+            .docs-section-title { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 16px 0 6px 0; letter-spacing: 0.5px; }
             
             /* Action Buttons Layout styling */
-            .url-box-container { display: flex; gap: 6px; margin-top: 6px; }
+            .url-box-container { display: flex; gap: 8px; margin-top: 6px; }
             .url-display {
-                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 10px;
-                border-radius: 8px; font-family: monospace; font-size: 0.7rem; color: #a1a1a6;
-                overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 14px;
+                border-radius: 10px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: var(--apple-cyan);
+                overflow-x: auto; white-space: nowrap;
             }
 
             .btn-action {
-                border: none; font-size: 0.65rem; font-weight: 600; padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
+                border: none; font-size: 0.75rem; font-weight: 900; padding: 0 16px; border-radius: 10px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 44px;
             }
             .btn-copy { background: #ffffff; color: #000000; }
             .btn-copy:hover { opacity: 0.85; }
-            
-            .btn-run { background: var(--apple-blue); color: #ffffff; }
-            .btn-run:hover { opacity: 0.9; }
+            .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
+            .btn-run:hover { box-shadow: 0 0 15px rgba(123, 44, 191, 0.4); }
 
             /* Real Live Web Request Console Screen */
             .json-preview {
-                background: #000000; border: 1px solid var(--apple-border); border-radius: 8px;
-                padding: 12px; font-family: monospace; font-size: 0.66rem; color: #888;
-                white-space: pre-wrap; overflow-x: auto; max-height: 140px; transition: color 0.2s;
+                background: #000000; border: 1px solid var(--apple-border); border-radius: 10px;
+                padding: 14px; font-family: monospace; font-size: 0.75rem; font-weight: 700; color: #777;
+                white-space: pre-wrap; overflow-x: auto; max-height: 160px; line-height: 1.4;
             }
 
             /* Notification Banner Dynamic pop */
             #toast-alert {
-                position: fixed; bottom: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-                color: #000000; font-weight: 600; font-size: 0.72rem; padding: 10px 20px; border-radius: 20px;
+                position: fixed; bottom: 30px; background: #ffffff; color: #000000;
+                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.8rem; padding: 12px 24px; border-radius: 12px;
                 z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
                 transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 16px; margin-top: 12px; }
-            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 600; }
+            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 20px; margin-top: 20px; flex-wrap: wrap; gap: 10px; }
+            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; }
+
+            /* 📱 RESPONSIVE MOBILE ADJUSTMENTS */
+            @media (max-width: 600px) {
+                body { padding: 10px 0; }
+                .vercel-box { padding: 22px 16px; border-radius: 20px; }
+                header h1 { font-size: 1.5rem; }
+                .status-container { padding: 5px 10px; font-size: 0.65rem; }
+                .analytics-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 15px; }
+                .stat-card { padding: 12px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+                .stat-value { margin-top: 0; font-size: 1rem; }
+                .url-box-container { flex-direction: column; gap: 8px; }
+                .btn-action { width: 100%; justify-content: center; display: flex; align-items: center; }
+                .endpoint-slug { font-size: 0.95rem; }
+                .endpoint-info { font-size: 0.75rem; }
+            }
         </style>
     </head>
     <body>
 
+        <div class="ambient-glow"></div>
         <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
         <div id="cyber-loader">
@@ -274,8 +267,8 @@ app.get('/', (req, res) => {
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Owner</div>
-                    <div class="stat-value">MR HASHUU</div>
+                    <div class="stat-label">Core Owner</div>
+                    <div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div>
                 </div>
             </div>
 
@@ -396,7 +389,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-sf')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Run API</button>
                         </div>
