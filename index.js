@@ -10,120 +10,47 @@ const app = express();
 const upload = multer();
 
 app.use(cors());
-app.use(express.json());
 
 // ─────────────────────────────────────────────────────────
 // 🔑 AUTHORIZED PREMIUM API KEYS DATABASE
 // ─────────────────────────────────────────────────────────
 const PREMIUM_DATABASE = {
     "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM" },
-    "MR_HASHUU_SECRET_123": { owner: "MR HASHUU", plan: "PRO" },
+    "MR_HASHUU_SECRET_123": { owner: "Admin/Owner", plan: "PRO" },
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// ─────────────────────────────────────────────────────────
-// 📊 USAGE TRACKING SYSTEM
-// ─────────────────────────────────────────────────────────
-const usageStats = {};
-const SERVER_START_TIME = Date.now();
-
-function trackUsage(apikey) {
-    const today = new Date().toISOString().split('T')[0];
-    if (!usageStats[apikey]) usageStats[apikey] = {};
-    if (!usageStats[apikey][today]) usageStats[apikey][today] = 0;
-    usageStats[apikey][today]++;
-}
-
-function getTodayUsage(apikey) {
-    const today = new Date().toISOString().split('T')[0];
-    return (usageStats[apikey] && usageStats[apikey][today]) || 0;
-}
-
-function getTotalUsage(apikey) {
-    if (!usageStats[apikey]) return 0;
-    return Object.values(usageStats[apikey]).reduce((a, b) => a + b, 0);
-}
-
+// Premium Rate Limiter
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
     message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
 });
 
+// Gatekeeper Middleware
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "MR HASHUU",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "MR HASHUU",
+            creator: "Mr Hashuu Ofc",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
     req.planOwner = PREMIUM_DATABASE[apikey].owner;
     req.planType = PREMIUM_DATABASE[apikey].plan;
-    req.apikey = apikey;
-    trackUsage(apikey);
     return premiumLimiter(req, res, next);
 };
 
 // ─────────────────────────────────────────────────────────
-// 📊 STATS API ENDPOINT
-// ─────────────────────────────────────────────────────────
-app.get('/api/stats', (req, res) => {
-    const { apikey } = req.query;
-    const uptimeMs = Date.now() - SERVER_START_TIME;
-    const hours = Math.floor(uptimeMs / 3600000);
-    const minutes = Math.floor((uptimeMs % 3600000) / 60000);
-    const seconds = Math.floor((uptimeMs % 60000) / 1000);
-
-    const allTotalRequests = Object.keys(usageStats).reduce((sum, key) => sum + getTotalUsage(key), 0);
-
-    if (apikey && PREMIUM_DATABASE[apikey]) {
-        const plan = PREMIUM_DATABASE[apikey];
-        const dailyLimit = plan.plan === 'PREMIUM' ? 5000 : 3000;
-        const todayUsage = getTodayUsage(apikey);
-        const totalUsage = getTotalUsage(apikey);
-
-        return res.json({
-            success: true,
-            key_info: {
-                owner: plan.owner,
-                plan: plan.plan,
-                daily_limit: dailyLimit,
-                today_usage: todayUsage,
-                today_remaining: Math.max(0, dailyLimit - todayUsage),
-                usage_percent: Math.min(100, Math.round((todayUsage / dailyLimit) * 100)),
-                total_all_time: totalUsage
-            },
-            server: {
-                uptime: `${hours}h ${minutes}m ${seconds}s`,
-                uptime_ms: uptimeMs,
-                total_requests_all_keys: allTotalRequests,
-                status: "ONLINE"
-            }
-        });
-    }
-
-    return res.json({
-        success: true,
-        server: {
-            uptime: `${hours}h ${minutes}m ${seconds}s`,
-            uptime_ms: uptimeMs,
-            total_requests_all_keys: allTotalRequests,
-            status: "ONLINE"
-        }
-    });
-});
-
-// ─────────────────────────────────────────────────────────
-// 🌌 ULTRA LUXURY APPLE MATRIX INTERACTION UI
+// 🌌 APPLE PRO DIGITAL MATRIX INTERACTION UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -131,249 +58,189 @@ app.get('/', (req, res) => {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU PREMIUM GATEWAY</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MR HASHUU FREE API</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         
         <style>
             :root {
                 --apple-black: #000000;
-                --apple-dark-gray: #09090a;
-                --apple-card: rgba(18, 18, 19, 0.75);
-                --apple-border: rgba(255, 255, 255, 0.07);
-                --apple-cyan: #00F5FF;
-                --apple-blue: #7B2CBF;
-                --apple-green: #00FF87;
+                --apple-dark-gray: #161617;
+                --apple-card: #1c1c1e;
+                --apple-border: rgba(255, 255, 255, 0.08);
+                --apple-cyan: #29b6f6;
+                --apple-blue: #0071e3;
+                --apple-green: #34c759;
                 --apple-red: #ff453a;
-                --text-main: #ffffff;
-                --text-muted: #a1a1a6;
+                --text-main: #f5f5f7;
+                --text-muted: #86868b;
             }
             
-            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
             
             body {
                 background-color: var(--apple-black);
                 color: var(--text-main);
-                font-family: 'Inter', -apple-system, sans-serif;
+                font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
                 min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                overflow-x: hidden;
                 padding: 40px 0;
-                position: relative;
-            }
-
-            /* 🪐 ANIMATED BACKGROUND GLOWS */
-            .ambient-glow {
-                position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 90vw; height: 60vh;
-                background: radial-gradient(circle, rgba(123, 44, 191, 0.25) 0%, rgba(0, 245, 255, 0.06) 45%, transparent 100%);
-                z-index: 1; pointer-events: none; filter: blur(70px);
             }
 
             /* 🔥 APPLE STUDIO SHUTTER LOADER */
             #cyber-loader {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--apple-black); z-index: 9999;
-                display: flex; flex-direction: column; justify-content: center; align-items: center;
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: var(--apple-black);
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 transition: opacity 0.4s ease-out;
             }
-            .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+            .apple-loading-wrapper {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
             .smooth-aura-glow {
-                width: 65px; height: 65px; border: 4px solid rgba(255, 255, 255, 0.02);
-                border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue);
-                border-radius: 50%; animation: appleSpin 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                width: 60px; height: 60px;
+                border: 3px solid rgba(255, 255, 255, 0.05);
+                border-top-color: #ffffff;
+                border-radius: 50%;
+                animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
+
             .loader-brand {
-                font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #ffffff;
-                letter-spacing: 5px; text-transform: uppercase;
-                background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue));
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                font-size: 0.85rem; font-weight: 600; color: #ffffff;
+                letter-spacing: 3px; text-transform: uppercase; opacity: 0.7;
             }
+
             @keyframes appleSpin { to { transform: rotate(360deg); } }
 
             /* Premium Minimal Master Box */
             .vercel-box {
-                width: 92%; max-width: 650px;
-                background: var(--apple-card); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-                border: 1px solid var(--apple-border); border-radius: 28px;
-                padding: 35px; z-index: 2; position: relative;
-                box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
-                opacity: 0; transform: scale(0.96);
-                transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                width: 92%; max-width: 520px;
+                background: rgba(22, 22, 23, 0.8);
+                backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+                border: 1px solid var(--apple-border); border-radius: 20px;
+                padding: 26px; z-index: 2;
+                box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+                opacity: 0; transform: scale(0.98);
+                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             }
+
             .vercel-box.system-ready { opacity: 1; transform: scale(1); }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
-            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--apple-border); }
+            header h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; color: #ffffff; }
 
+            /* Status Pill */
             .status-container {
-                display: inline-flex; align-items: center; gap: 7px;
-                font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px;
-                color: var(--apple-cyan); background: rgba(0, 245, 255, 0.08);
-                padding: 7px 15px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2);
+                display: inline-flex; align-items: center; gap: 6px;
+                font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
+                color: var(--apple-green); background: rgba(52, 199, 89, 0.1);
+                padding: 5px 12px; border-radius: 30px;
             }
-            .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
-            @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+            .pulse-dot { width: 6px; height: 6px; background: var(--apple-green); border-radius: 50%; }
 
             /* Analytics Counters Grid */
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
-            .stat-card { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--apple-border); border-radius: 18px; padding: 16px 12px; text-align: center; transition: all 0.3s; }
-            .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
-            .stat-label { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
-            .stat-value { font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; }
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+            .stat-card {
+                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 12px;
+                padding: 12px 6px; text-align: center;
+            }
+            .stat-label { font-size: 0.58rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+            .stat-value { font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-top: 3px; }
 
             /* Filter Input Search Box */
-            .search-container { position: relative; margin-top: 24px; }
+            .search-container { position: relative; margin-top: 18px; }
             .search-input {
-                width: 100%; padding: 18px 22px; background: rgba(0, 0, 0, 0.5);
-                border: 1px solid var(--apple-border); border-radius: 16px;
-                color: #ffffff; font-size: 0.95rem; font-weight: 800; outline: none; transition: all 0.3s;
+                width: 100%; padding: 12px 16px; background: rgba(0, 0, 0, 0.3);
+                border: 1px solid var(--apple-border); border-radius: 12px;
+                color: #ffffff; font-size: 0.85rem; outline: none; transition: all 0.2s;
             }
-            .search-input:focus { border-color: rgba(0, 245, 255, 0.5); background: rgba(0, 0, 0, 0.7); box-shadow: 0 0 25px rgba(0, 245, 255, 0.08); }
-            ::placeholder { color: #4e4e54; font-weight: 800; }
+            .search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(0, 0, 0, 0.5); }
+            ::placeholder { color: #55555a; }
 
             /* Workspace Lists Layout */
-            .endpoint-list { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
-            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 18px; overflow: hidden; transition: all 0.25s; }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.02); }
+            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
             
-            .api-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 5px; max-width: 85%; }
-            .endpoint-slug { font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: monospace; letter-spacing: -0.3px; }
-            .endpoint-info { font-size: 0.82rem; font-weight: 800; color: var(--text-muted); }
-            .arrow-icon { font-size: 0.8rem; color: #444; font-weight: 900; transition: transform 0.25s; }
+            .api-wrapper {
+                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border);
+                border-radius: 14px; overflow: hidden; transition: all 0.2s;
+            }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
             
-            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.6); background: rgba(0, 0, 0, 0.4); box-shadow: inset 0 0 20px rgba(123, 44, 191, 0.05); }
-            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
+            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .meta-details { display: flex; flex-direction: column; gap: 2px; max-width: 85%; }
+            .endpoint-slug { font-size: 0.95rem; font-weight: 600; color: #ffffff; font-family: monospace; }
+            .endpoint-info { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .arrow-icon { font-size: 0.7rem; color: #444; transition: transform 0.2s; }
+            
+            /* Active Expand Configuration */
+            .api-wrapper.active { border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.02); }
+            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: #fff; }
 
             /* Core Premium Documentation Panel */
-            .api-docs { display: none; padding: 0 20px 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
-            .docs-section-title { font-size: 0.7rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.6px; }
-            
-            .url-box-container { display: flex; gap: 10px; margin-top: 6px; }
-            .url-display {
-                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 15px;
-                border-radius: 12px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--apple-cyan);
-                overflow-x: auto; white-space: nowrap;
+            .api-docs {
+                display: none; padding: 0 16px 16px 16px; border-top: 1px solid rgba(255, 255, 255, 0.04);
+                background: rgba(0,0,0,0.15); animation: appleReveal 0.2s ease-out;
             }
-            /* Custom Scrollbar for URL display to ensure perfect mobile fit */
-            .url-display::-webkit-scrollbar { height: 4px; }
-            .url-display::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+            @keyframes appleReveal { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+
+            .docs-section-title { font-size: 0.62rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 6px 0; letter-spacing: 0.5px; }
+            
+            /* Action Buttons Layout styling */
+            .url-box-container { display: flex; gap: 6px; margin-top: 6px; }
+            .url-display {
+                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 10px;
+                border-radius: 8px; font-family: monospace; font-size: 0.7rem; color: #a1a1a6;
+                overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            }
 
             .btn-action {
-                border: none; font-size: 0.78rem; font-weight: 900; padding: 0 18px; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 46px;
+                border: none; font-size: 0.65rem; font-weight: 600; padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
             }
             .btn-copy { background: #ffffff; color: #000000; }
-            .btn-copy:hover { opacity: 0.88; }
-            .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
-            .btn-run:hover { box-shadow: 0 0 18px rgba(123, 44, 191, 0.5); }
+            .btn-copy:hover { opacity: 0.85; }
+            
+            .btn-run { background: var(--apple-blue); color: #ffffff; }
+            .btn-run:hover { opacity: 0.9; }
 
-            /* Console Screen */
+            /* Real Live Web Request Console Screen */
             .json-preview {
-                background: #000000; border: 1px solid var(--apple-border); border-radius: 12px;
-                padding: 16px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #666;
-                white-space: pre-wrap; overflow-x: auto; max-height: 220px; line-height: 1.5;
+                background: #000000; border: 1px solid var(--apple-border); border-radius: 8px;
+                padding: 12px; font-family: monospace; font-size: 0.66rem; color: #888;
+                white-space: pre-wrap; overflow-x: auto; max-height: 140px; transition: color 0.2s;
             }
-            .json-preview::-webkit-scrollbar { width: 4px; height: 4px; }
-            .json-preview::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
+            /* Notification Banner Dynamic pop */
             #toast-alert {
-                position: fixed; bottom: 35px; background: #ffffff; color: #000000;
-                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.85rem; padding: 14px 28px; border-radius: 14px;
+                position: fixed; bottom: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+                color: #000000; font-weight: 600; font-size: 0.72rem; padding: 10px 20px; border-radius: 20px;
                 z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
                 transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            /* 📊 USAGE DASHBOARD PANEL */
-            .dashboard-panel { margin-top: 24px; padding: 22px; background: rgba(0,0,0,0.4); border: 1px solid rgba(123,44,191,0.3); border-radius: 20px; }
-            .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-            .dashboard-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 900; color: var(--apple-blue); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-            .dashboard-title::before { content: "📊"; }
-            .btn-refresh { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.3); color: var(--apple-blue); font-size: 0.7rem; font-weight: 900; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
-            .btn-refresh:hover { background: rgba(123,44,191,0.3); }
-            .btn-refresh.spinning { animation: spin 0.6s linear infinite; }
-            @keyframes spin { to { transform: rotate(360deg); } }
-
-            .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-            .dash-card { background: rgba(255,255,255,0.02); border: 1px solid var(--apple-border); border-radius: 14px; padding: 14px 16px; }
-            .dash-card-label { font-size: 0.65rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
-            .dash-card-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 4px; }
-            .dash-card-value.cyan { color: var(--apple-cyan); }
-            .dash-card-value.green { color: var(--apple-green); }
-            .dash-card-value.red { color: var(--apple-red); }
-            .dash-card-value.purple { background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-            /* Usage Progress Bar */
-            .usage-bar-section { margin-top: 4px; }
-            .usage-bar-label { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 900; color: var(--text-muted); margin-bottom: 8px; }
-            .usage-bar-label span:last-child { color: #fff; }
-            .usage-bar-track { width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; }
-            .usage-bar-fill { height: 100%; border-radius: 20px; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); }
-            .usage-bar-fill.warn { background: linear-gradient(90deg, #FFD60A, #FF9F0A); }
-            .usage-bar-fill.danger { background: linear-gradient(90deg, #FF9F0A, var(--apple-red)); }
-
-            /* Plan Badge */
-            .plan-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 900; padding: 5px 12px; border-radius: 20px; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-            .plan-badge.PREMIUM { background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3); color: var(--apple-cyan); }
-            .plan-badge.PRO { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.4); color: #bf7eff; }
-            .plan-badge.FREE { background: rgba(255,255,255,0.05); border: 1px solid var(--apple-border); color: var(--text-muted); }
-
-            .dash-no-key { text-align: center; padding: 20px; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
-            .server-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--apple-border); }
-            .server-stat { text-align: center; }
-            .server-stat-label { font-size: 0.6rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-            .server-stat-value { font-size: 0.85rem; font-weight: 900; color: #fff; font-family: 'Space Grotesk', sans-serif; margin-top: 3px; }
-
-            @media (max-width: 600px) { .dash-grid { grid-template-columns: 1fr; } .server-row { grid-template-columns: repeat(3,1fr); } }
-
-            /* API Key Input Section */
-            .apikey-section { margin-top: 24px; padding: 20px; background: rgba(0, 245, 255, 0.04); border: 1px solid rgba(0, 245, 255, 0.15); border-radius: 18px; }
-            .apikey-label { font-size: 0.7rem; font-weight: 900; color: var(--apple-cyan); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-            .apikey-label::before { content: "🔑"; font-size: 0.9rem; }
-            .apikey-row { display: flex; gap: 10px; }
-            .apikey-input {
-                flex-grow: 1; padding: 14px 18px; background: rgba(0, 0, 0, 0.6);
-                border: 1px solid rgba(0, 245, 255, 0.25); border-radius: 12px;
-                color: var(--apple-cyan); font-size: 0.9rem; font-weight: 800; font-family: monospace;
-                outline: none; transition: all 0.3s; letter-spacing: 1px;
-            }
-            .apikey-input:focus { border-color: var(--apple-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.1); }
-            .apikey-input::placeholder { color: #333; font-weight: 700; letter-spacing: 0; }
-            .btn-setkey { background: linear-gradient(135deg, var(--apple-cyan), #00bcd4); color: #000000; font-size: 0.75rem; font-weight: 900; padding: 0 20px; border-radius: 12px; border: none; cursor: pointer; text-transform: uppercase; min-height: 46px; transition: all 0.2s; white-space: nowrap; }
-            .btn-setkey:hover { box-shadow: 0 0 20px rgba(0, 245, 255, 0.4); }
-            .apikey-status { font-size: 0.72rem; font-weight: 800; color: var(--text-muted); margin-top: 8px; font-family: monospace; }
-            .apikey-status.active { color: var(--apple-green); }
-            @media (max-width: 600px) { .apikey-row { flex-direction: column; } .btn-setkey { width: 100%; } }
-
-            #no-results { display: none; text-align: center; padding: 45px; font-size: 0.85rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 22px; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
-            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
-            .buy-btn:hover { color: #ffffff; }
-
-            /* 📱 STAGE-PERFECT MOBILE RESPONSIVE ENGINE */
-            @media (max-width: 600px) {
-                body { padding: 15px 0; }
-                .vercel-box { padding: 25px 18px; border-radius: 24px; width: 94%; }
-                header h1 { font-size: 1.6rem; }
-                .status-container { padding: 6px 12px; font-size: 0.68rem; }
-                .analytics-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
-                .stat-card { padding: 14px 18px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
-                .stat-value { margin-top: 0; font-size: 1.05rem; }
-                .url-box-container { flex-direction: column; gap: 10px; }
-                .btn-action { width: 100%; justify-content: center; display: flex; align-items: center; }
-                .endpoint-slug { font-size: 1rem; }
-                .endpoint-info { font-size: 0.78rem; }
-                .json-preview { max-height: 180px; }
-            }
+            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 16px; margin-top: 12px; }
+            .buy-btn { color: #ffffff; text-decoration: none; font-weight: 600; }
         </style>
     </head>
     <body>
 
-        <div class="ambient-glow"></div>
         <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
         <div id="cyber-loader">
@@ -389,7 +256,7 @@ app.get('/', (req, res) => {
                 <h1>HASHU APIS</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM RUNNING</span>
+                    <span>SYSTEM</span>
                 </div>
             </header>
 
@@ -403,30 +270,9 @@ app.get('/', (req, res) => {
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Core Owner</div>
-                    <div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div>
+                    <div class="stat-label">Creator</div>
+                    <div class="stat-value">/hashuh</div>
                 </div>
-            </div>
-
-            <!-- 📊 USAGE DASHBOARD PANEL -->
-            <div class="dashboard-panel">
-                <div class="dashboard-header">
-                    <div class="dashboard-title">Usage Dashboard</div>
-                    <button class="btn-refresh" id="refreshBtn" onclick="loadDashboard()">↻ REFRESH</button>
-                </div>
-                <div id="dashContent">
-                    <div class="dash-no-key">// Set your API key above to view your usage stats //</div>
-                </div>
-            </div>
-
-            <!-- 🔑 API KEY INPUT SECTION -->
-            <div class="apikey-section">
-                <div class="apikey-label">Your API Key</div>
-                <div class="apikey-row">
-                    <input type="text" id="userApiKey" class="apikey-input" placeholder="Enter your API key here... (e.g. HASHUU_PRO_KING_99)" oninput="onKeyInput()" />
-                    <button class="btn-setkey" onclick="setApiKey()">SET KEY</button>
-                </div>
-                <div class="apikey-status" id="keyStatus">// No API key set — endpoints will use default example key //</div>
             </div>
 
             <div class="search-container">
@@ -435,67 +281,6 @@ app.get('/', (req, res) => {
 
             <div class="endpoint-list" id="listWrapper">
                 
-                <!-- 🎬 NEW MOVIE DATABASE API -->
-                <div class="api-wrapper" data-name="movie database omdb cinema film guardians plot rating info tracker">
-                    <div class="api-row" onclick="toggleAccordion(this)">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/movie</span>
-                            <span class="endpoint-info">OMDb Cinema & Film Data Information Tracking Engine</span>
-                        </div>
-                        <span class="arrow-icon">▶</span>
-                    </div>
-                    <div class="api-docs">
-                        <div class="docs-section-title">Execution Gateway Endpoint</div>
-                        <div class="url-box-container">
-                            <div class="url-display" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-action btn-copy" onclick="copyLink('url-movie')">Copy</button>
-                            <button class="btn-action btn-run" onclick="runEndpoint('url-movie', 'res-movie', this)">Run API</button>
-                        </div>
-                        <div class="docs-section-title">Live Server Response Output</div>
-                        <pre class="json-preview" id="res-movie">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
-                    <div class="api-row" onclick="toggleAccordion(this)">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/chat</span>
-                            <span class="endpoint-info">Hashan-md AI / ChatGPT-4o Smart Interface</span>
-                        </div>
-                        <span class="arrow-icon">▶</span>
-                    </div>
-                    <div class="api-docs">
-                        <div class="docs-section-title">Execution Gateway Endpoint</div>
-                        <div class="url-box-container">
-                            <div class="url-display" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-action btn-copy" onclick="copyLink('url-chat')">Copy</button>
-                            <button class="btn-action btn-run" onclick="runEndpoint('url-chat', 'res-chat', this)">Run API</button>
-                        </div>
-                        <div class="docs-section-title">Live Server Response Output</div>
-                        <pre class="json-preview" id="res-chat">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper" data-name="cuttly shorten url link tinyurl link-shortener short">
-                    <div class="api-row" onclick="toggleAccordion(this)">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/url_shorten</span>
-                            <span class="endpoint-info">Cuttly Professional Link Shortener Engine</span>
-                        </div>
-                        <span class="arrow-icon">▶</span>
-                    </div>
-                    <div class="api-docs">
-                        <div class="docs-section-title">Execution Gateway Endpoint</div>
-                        <div class="url-box-container">
-                            <div class="url-display" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-action btn-copy" onclick="copyLink('url-shorten')">Copy</button>
-                            <button class="btn-action btn-run" onclick="runEndpoint('url-shorten', 'res-shorten', this)">Run API</button>
-                        </div>
-                        <div class="docs-section-title">Live Server Response Output</div>
-                        <pre class="json-preview" id="res-shorten">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
-                    </div>
-                </div>
-
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -507,7 +292,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-xvideo')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)">Run API</button>
                         </div>
@@ -567,7 +352,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-sf')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Run API</button>
                         </div>
@@ -757,7 +542,7 @@ app.get('/', (req, res) => {
 
             <footer>
                 <span>© 2026 MR HASHUU</span>
-                <a href="#" class="buy-btn">REQUEST CORE ACCESS</a>
+                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">REQUEST CORE ACCESS</a>
             </footer>
         </div>
 
@@ -791,122 +576,6 @@ app.get('/', (req, res) => {
                 }
             }
 
-            // ─── API KEY MANAGER ───
-            let activeApiKey = null;
-
-            function onKeyInput() {
-                const val = document.getElementById('userApiKey').value.trim();
-                if (!val) {
-                    activeApiKey = null;
-                    const status = document.getElementById('keyStatus');
-                    status.textContent = '// No API key set — endpoints will use default example key //';
-                    status.classList.remove('active');
-                }
-            }
-
-            function setApiKey() {
-                const input = document.getElementById('userApiKey').value.trim();
-                const status = document.getElementById('keyStatus');
-                if (!input) {
-                    status.textContent = '// No API key entered! Please type your key above. //';
-                    status.classList.remove('active');
-                    return;
-                }
-                activeApiKey = input;
-                status.textContent = '✔ API Key set: ' + input + ' — all endpoints will now use your key';
-                status.classList.add('active');
-                loadDashboard();
-            }
-
-            async function loadDashboard() {
-                const dashContent = document.getElementById('dashContent');
-                const refreshBtn = document.getElementById('refreshBtn');
-                refreshBtn.classList.add('spinning');
-
-                const keyParam = activeApiKey ? '?apikey=' + encodeURIComponent(activeApiKey) : '';
-
-                try {
-                    const res = await fetch('/api/stats' + keyParam);
-                    const data = await res.json();
-
-                    if (!data.success) throw new Error('Failed');
-
-                    const s = data.server;
-                    const k = data.key_info;
-
-                    let keySection = '';
-                    if (k) {
-                        const pct = k.usage_percent;
-                        const fillClass = pct >= 90 ? 'danger' : pct >= 60 ? 'warn' : '';
-                        const planClass = k.plan;
-                        keySection = \`
-                            <div class="dash-grid">
-                                <div class="dash-card">
-                                    <div class="dash-card-label">Plan Owner</div>
-                                    <div class="dash-card-value purple">\${k.owner}</div>
-                                    <div class="plan-badge \${planClass}">\${planClass === 'PREMIUM' ? '⚡' : '🔷'} \${planClass}</div>
-                                </div>
-                                <div class="dash-card">
-                                    <div class="dash-card-label">Today's Usage</div>
-                                    <div class="dash-card-value \${pct >= 90 ? 'red' : pct >= 60 ? 'cyan' : 'green'}">\${k.today_usage} <span style="font-size:0.7rem;color:var(--text-muted)">/ \${k.daily_limit}</span></div>
-                                </div>
-                                <div class="dash-card">
-                                    <div class="dash-card-label">Remaining Today</div>
-                                    <div class="dash-card-value \${k.today_remaining < 500 ? 'red' : 'green'}">\${k.today_remaining.toLocaleString()}</div>
-                                </div>
-                                <div class="dash-card">
-                                    <div class="dash-card-label">All-Time Requests</div>
-                                    <div class="dash-card-value cyan">\${k.total_all_time.toLocaleString()}</div>
-                                </div>
-                            </div>
-                            <div class="usage-bar-section">
-                                <div class="usage-bar-label"><span>Daily Limit Usage</span><span>\${pct}% used</span></div>
-                                <div class="usage-bar-track"><div class="usage-bar-fill \${fillClass}" style="width:\${pct}%"></div></div>
-                            </div>
-                        \`;
-                    } else {
-                        keySection = '<div class="dash-no-key">// Set a valid API key to see per-key usage stats //</div>';
-                    }
-
-                    dashContent.innerHTML = keySection + \`
-                        <div class="server-row">
-                            <div class="server-stat">
-                                <div class="server-stat-label">Server Status</div>
-                                <div class="server-stat-value" style="color:var(--apple-green)">● ONLINE</div>
-                            </div>
-                            <div class="server-stat">
-                                <div class="server-stat-label">Uptime</div>
-                                <div class="server-stat-value">\${s.uptime}</div>
-                            </div>
-                            <div class="server-stat">
-                                <div class="server-stat-label">Total Hits</div>
-                                <div class="server-stat-value">\${s.total_requests_all_keys.toLocaleString()}</div>
-                            </div>
-                        </div>
-                    \`;
-
-                } catch (e) {
-                    dashContent.innerHTML = '<div class="dash-no-key" style="color:var(--apple-red)">// Failed to load stats — server error //</div>';
-                } finally {
-                    refreshBtn.classList.remove('spinning');
-                }
-            }
-
-            // Auto refresh every 30 seconds if key is set
-            setInterval(() => { if (activeApiKey) loadDashboard(); }, 30000);
-            // Load server stats on page load
-            window.addEventListener('DOMContentLoaded', () => { setTimeout(loadDashboard, 1500); });
-
-            function getActiveKey() {
-                return activeApiKey || null;
-            }
-
-            function injectKeyIntoUrl(urlText) {
-                if (!activeApiKey) return urlText;
-                // Replace any existing apikey= value with the user's key
-                return urlText.replace(/apikey=[^&\s]*/g, 'apikey=' + activeApiKey);
-            }
-
             function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const wrappers = document.getElementsByClassName('api-wrapper');
@@ -927,8 +596,7 @@ app.get('/', (req, res) => {
 
             function copyLink(elementId) {
                 const pathText = document.getElementById(elementId).textContent.trim();
-                const injected = injectKeyIntoUrl(pathText);
-                const fullUrl = window.location.origin + injected;
+                const fullUrl = window.location.origin + pathText;
                 
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(fullUrl).then(() => {
@@ -951,7 +619,7 @@ app.get('/', (req, res) => {
                     document.execCommand('copy');
                     triggerToast();
                 } catch (err) {
-                    console.error('Fallback copy engine error', err);
+                    console.error('Fallback engine failed compilation', err);
                 }
                 document.body.removeChild(textArea);
             }
@@ -964,13 +632,12 @@ app.get('/', (req, res) => {
 
             async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
                 const pathText = document.getElementById(urlElementId).textContent.trim();
-                const injected = injectKeyIntoUrl(pathText);
-                const absoluteTargetUrl = window.location.origin + injected;
+                const absoluteTargetUrl = window.location.origin + pathText;
                 const outputConsole = document.getElementById(responseContainerId);
 
                 buttonElement.innerText = "RUNNING...";
                 buttonElement.disabled = true;
-                outputConsole.textContent = "// TRANSMITTING SECURE SIGNAL... //";
+                outputConsole.textContent = "// TRANSMITTING SECURE MATRIX HANDSHAKE SIGNAL... //";
                 outputConsole.style.color = "var(--apple-cyan)";
 
                 try {
@@ -998,215 +665,171 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ BACKEND CONTROLLERS LOGIC
+// 🛠️ ALL 13 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
 // ─────────────────────────────────────────────────────────
 
-// 🎬 NEW OMDb MOVIE CONTROLLER
-app.get('/api/movie', strictAuthGate, async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Movie title parameter (?text=) missing!" });
-
-        const movieUrl = `http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`;
-        const { data } = await axios.get(movieUrl);
-
-        if (data.Response === "True") {
-            res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                result: data
-            });
-        } else {
-            res.json({ success: false, message: data.Error || "Movie not found!" });
-        }
-    } catch (e) {
-        res.json({ success: false, message: e.message });
-    }
-});
-
-// 0. CHATGPT-4o SMART INTERFACE
-app.get('/api/chat', strictAuthGate, async (req, res) => {
-    try {
-        const { prompt } = req.query;
-        if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
-
-        const cleanPrompt = prompt.toLowerCase().trim();
-
-        if (cleanPrompt === 'hi') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
-        }
-        if (cleanPrompt === 'kawad bn') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
-        }
-
-        const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
-        const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
-        
-        const { data } = await axios.get(targetUrl);
-        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
-
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: aiReply });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// 1. CUTTLY URL SHORTENER
-app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
-    try {
-        const { link } = req.query;
-        if (!link) return res.json({ success: false, message: "Link parameter missing!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
-        if (data.success) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
-        } else { res.json({ success: false, message: "URL shortening failed." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// 2. XVIDEOS DOWNLOADER
+// 🆕 1. XVIDEOS CONTROLLER
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "XVideo URL required!" });
+        
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
+        
         if (data.success) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
-        } else { res.json({ success: false, message: "Conversion failed." }); }
-    } catch (e) { res.json({ success: false, message: e.message }); }
+            res.json({ 
+                creator: "Mr Hashuu Ofc", 
+                status: "Authenticated", 
+                user: req.planOwner,
+                plan: req.planType,
+                success: true, 
+                title: data.title,
+                thumbnail: data.thumbnail,
+                download_url: data.download_url
+            });
+        } else { 
+            res.json({ success: false, message: "Conversion failed or invalid source link." }); 
+        }
+    } catch (e) { 
+        res.json({ success: false, message: e.message }); 
+    }
 });
 
-// 3. YOUTUBE MP4 DOWNLOADER
+// 2. YOUTUBE MP4 CONTROLLER
 app.get('/ytmp4', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "YouTube URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Media conversion failed." }); }
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
+        } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. MEDIAFIRE PARSER
+// 3. MEDIAFIRE CONTROLLER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. SPOTIFY EXTRACTOR
+// 4. SPOTIFY CONTROLLER
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 6. TWITTER STREAM CDN
+// 5. TWITTER CONTROLLER
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Twitter URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. YOUTUBE AUDIO SONG
+// 6. SONG CONTROLLER
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Song name required" });
+        if (!text) return res.json({ success: false, message: "Song name or YouTube URL required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
         if (data.status && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Failed to fetch song." }); }
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. TIKTOK NO-WATERMARK
+// 7. TIKTOK CONTROLLER
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid TikTok URL." }); }
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 9. PINTEREST MEDIA IMAGE
+// 8. PINTEREST CONTROLLER
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Query text required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || [] });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result || [] });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 10. APK PACKAGE MIRROR
+// 9. APK CONTROLLER
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "App name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.apk || {} });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.apk || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 11. FACEBOOK WATCH EXTRACTOR
+// 10. FACEBOOK CONTROLLER
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
         if (data.status) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.video });
         } else { res.json({ success: false, message: "Could not fetch video." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 12. STATIC WEBPAGE CLONER
+// 11. WEBSITE CLONER CONTROLLER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
+            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
         } else { res.json({ success: false, message: "Failed to clone website." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 13. JS ANTI-SCRAPE OBFUSCATOR
+// 12. JS OBFUSCATOR CONTROLLER
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
         if (!code) return res.json({ success: false, message: "Code parameter missing!" });
         const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.5 }).getObfuscatedCode();
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: obfuscatedCode });
+        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 14. IMGBB IMAGE CLOUD POST
+// 13. IMGBB UPLOADER CONTROLLER
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data }); }
+        if (data.success) { res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.data }); }
         else { res.json({ success: false, message: "Upload failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Apple Matrix HASHU-API Engine Running on port ${PORT}`));
+// PORT LISTENER
+if (require.main === module) {
+    app.listen(3000, () => console.log("Apple Pro HASHU-API Engine Running on port 3000"));
+}
 
 module.exports = app;
