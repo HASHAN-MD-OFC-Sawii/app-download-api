@@ -21,6 +21,29 @@ const PREMIUM_DATABASE = {
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
+// ─────────────────────────────────────────────────────────
+// 📊 USAGE TRACKING SYSTEM
+// ─────────────────────────────────────────────────────────
+const usageStats = {};
+const SERVER_START_TIME = Date.now();
+
+function trackUsage(apikey) {
+    const today = new Date().toISOString().split('T')[0];
+    if (!usageStats[apikey]) usageStats[apikey] = {};
+    if (!usageStats[apikey][today]) usageStats[apikey][today] = 0;
+    usageStats[apikey][today]++;
+}
+
+function getTodayUsage(apikey) {
+    const today = new Date().toISOString().split('T')[0];
+    return (usageStats[apikey] && usageStats[apikey][today]) || 0;
+}
+
+function getTotalUsage(apikey) {
+    if (!usageStats[apikey]) return 0;
+    return Object.values(usageStats[apikey]).reduce((a, b) => a + b, 0);
+}
+
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
@@ -45,8 +68,59 @@ const strictAuthGate = (req, res, next) => {
     }
     req.planOwner = PREMIUM_DATABASE[apikey].owner;
     req.planType = PREMIUM_DATABASE[apikey].plan;
+    req.apikey = apikey;
+    trackUsage(apikey);
     return premiumLimiter(req, res, next);
 };
+
+// ─────────────────────────────────────────────────────────
+// 📊 STATS API ENDPOINT
+// ─────────────────────────────────────────────────────────
+app.get('/api/stats', (req, res) => {
+    const { apikey } = req.query;
+    const uptimeMs = Date.now() - SERVER_START_TIME;
+    const hours = Math.floor(uptimeMs / 3600000);
+    const minutes = Math.floor((uptimeMs % 3600000) / 60000);
+    const seconds = Math.floor((uptimeMs % 60000) / 1000);
+
+    const allTotalRequests = Object.keys(usageStats).reduce((sum, key) => sum + getTotalUsage(key), 0);
+
+    if (apikey && PREMIUM_DATABASE[apikey]) {
+        const plan = PREMIUM_DATABASE[apikey];
+        const dailyLimit = plan.plan === 'PREMIUM' ? 5000 : 3000;
+        const todayUsage = getTodayUsage(apikey);
+        const totalUsage = getTotalUsage(apikey);
+
+        return res.json({
+            success: true,
+            key_info: {
+                owner: plan.owner,
+                plan: plan.plan,
+                daily_limit: dailyLimit,
+                today_usage: todayUsage,
+                today_remaining: Math.max(0, dailyLimit - todayUsage),
+                usage_percent: Math.min(100, Math.round((todayUsage / dailyLimit) * 100)),
+                total_all_time: totalUsage
+            },
+            server: {
+                uptime: `${hours}h ${minutes}m ${seconds}s`,
+                uptime_ms: uptimeMs,
+                total_requests_all_keys: allTotalRequests,
+                status: "ONLINE"
+            }
+        });
+    }
+
+    return res.json({
+        success: true,
+        server: {
+            uptime: `${hours}h ${minutes}m ${seconds}s`,
+            uptime_ms: uptimeMs,
+            total_requests_all_keys: allTotalRequests,
+            status: "ONLINE"
+        }
+    });
+});
 
 // ─────────────────────────────────────────────────────────
 // 🌌 ULTRA LUXURY APPLE MATRIX INTERACTION UI
@@ -214,6 +288,48 @@ app.get('/', (req, res) => {
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
+            /* 📊 USAGE DASHBOARD PANEL */
+            .dashboard-panel { margin-top: 24px; padding: 22px; background: rgba(0,0,0,0.4); border: 1px solid rgba(123,44,191,0.3); border-radius: 20px; }
+            .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+            .dashboard-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 900; color: var(--apple-blue); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+            .dashboard-title::before { content: "📊"; }
+            .btn-refresh { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.3); color: var(--apple-blue); font-size: 0.7rem; font-weight: 900; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+            .btn-refresh:hover { background: rgba(123,44,191,0.3); }
+            .btn-refresh.spinning { animation: spin 0.6s linear infinite; }
+            @keyframes spin { to { transform: rotate(360deg); } }
+
+            .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+            .dash-card { background: rgba(255,255,255,0.02); border: 1px solid var(--apple-border); border-radius: 14px; padding: 14px 16px; }
+            .dash-card-label { font-size: 0.65rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+            .dash-card-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 4px; }
+            .dash-card-value.cyan { color: var(--apple-cyan); }
+            .dash-card-value.green { color: var(--apple-green); }
+            .dash-card-value.red { color: var(--apple-red); }
+            .dash-card-value.purple { background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+            /* Usage Progress Bar */
+            .usage-bar-section { margin-top: 4px; }
+            .usage-bar-label { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 900; color: var(--text-muted); margin-bottom: 8px; }
+            .usage-bar-label span:last-child { color: #fff; }
+            .usage-bar-track { width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; }
+            .usage-bar-fill { height: 100%; border-radius: 20px; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); }
+            .usage-bar-fill.warn { background: linear-gradient(90deg, #FFD60A, #FF9F0A); }
+            .usage-bar-fill.danger { background: linear-gradient(90deg, #FF9F0A, var(--apple-red)); }
+
+            /* Plan Badge */
+            .plan-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 900; padding: 5px 12px; border-radius: 20px; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+            .plan-badge.PREMIUM { background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3); color: var(--apple-cyan); }
+            .plan-badge.PRO { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.4); color: #bf7eff; }
+            .plan-badge.FREE { background: rgba(255,255,255,0.05); border: 1px solid var(--apple-border); color: var(--text-muted); }
+
+            .dash-no-key { text-align: center; padding: 20px; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
+            .server-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--apple-border); }
+            .server-stat { text-align: center; }
+            .server-stat-label { font-size: 0.6rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+            .server-stat-value { font-size: 0.85rem; font-weight: 900; color: #fff; font-family: 'Space Grotesk', sans-serif; margin-top: 3px; }
+
+            @media (max-width: 600px) { .dash-grid { grid-template-columns: 1fr; } .server-row { grid-template-columns: repeat(3,1fr); } }
+
             /* API Key Input Section */
             .apikey-section { margin-top: 24px; padding: 20px; background: rgba(0, 245, 255, 0.04); border: 1px solid rgba(0, 245, 255, 0.15); border-radius: 18px; }
             .apikey-label { font-size: 0.7rem; font-weight: 900; color: var(--apple-cyan); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
@@ -289,6 +405,17 @@ app.get('/', (req, res) => {
                 <div class="stat-card">
                     <div class="stat-label">Core Owner</div>
                     <div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div>
+                </div>
+            </div>
+
+            <!-- 📊 USAGE DASHBOARD PANEL -->
+            <div class="dashboard-panel">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">Usage Dashboard</div>
+                    <button class="btn-refresh" id="refreshBtn" onclick="loadDashboard()">↻ REFRESH</button>
+                </div>
+                <div id="dashContent">
+                    <div class="dash-no-key">// Set your API key above to view your usage stats //</div>
                 </div>
             </div>
 
@@ -688,7 +815,87 @@ app.get('/', (req, res) => {
                 activeApiKey = input;
                 status.textContent = '✔ API Key set: ' + input + ' — all endpoints will now use your key';
                 status.classList.add('active');
+                loadDashboard();
             }
+
+            async function loadDashboard() {
+                const dashContent = document.getElementById('dashContent');
+                const refreshBtn = document.getElementById('refreshBtn');
+                refreshBtn.classList.add('spinning');
+
+                const keyParam = activeApiKey ? '?apikey=' + encodeURIComponent(activeApiKey) : '';
+
+                try {
+                    const res = await fetch('/api/stats' + keyParam);
+                    const data = await res.json();
+
+                    if (!data.success) throw new Error('Failed');
+
+                    const s = data.server;
+                    const k = data.key_info;
+
+                    let keySection = '';
+                    if (k) {
+                        const pct = k.usage_percent;
+                        const fillClass = pct >= 90 ? 'danger' : pct >= 60 ? 'warn' : '';
+                        const planClass = k.plan;
+                        keySection = \`
+                            <div class="dash-grid">
+                                <div class="dash-card">
+                                    <div class="dash-card-label">Plan Owner</div>
+                                    <div class="dash-card-value purple">\${k.owner}</div>
+                                    <div class="plan-badge \${planClass}">\${planClass === 'PREMIUM' ? '⚡' : '🔷'} \${planClass}</div>
+                                </div>
+                                <div class="dash-card">
+                                    <div class="dash-card-label">Today's Usage</div>
+                                    <div class="dash-card-value \${pct >= 90 ? 'red' : pct >= 60 ? 'cyan' : 'green'}">\${k.today_usage} <span style="font-size:0.7rem;color:var(--text-muted)">/ \${k.daily_limit}</span></div>
+                                </div>
+                                <div class="dash-card">
+                                    <div class="dash-card-label">Remaining Today</div>
+                                    <div class="dash-card-value \${k.today_remaining < 500 ? 'red' : 'green'}">\${k.today_remaining.toLocaleString()}</div>
+                                </div>
+                                <div class="dash-card">
+                                    <div class="dash-card-label">All-Time Requests</div>
+                                    <div class="dash-card-value cyan">\${k.total_all_time.toLocaleString()}</div>
+                                </div>
+                            </div>
+                            <div class="usage-bar-section">
+                                <div class="usage-bar-label"><span>Daily Limit Usage</span><span>\${pct}% used</span></div>
+                                <div class="usage-bar-track"><div class="usage-bar-fill \${fillClass}" style="width:\${pct}%"></div></div>
+                            </div>
+                        \`;
+                    } else {
+                        keySection = '<div class="dash-no-key">// Set a valid API key to see per-key usage stats //</div>';
+                    }
+
+                    dashContent.innerHTML = keySection + \`
+                        <div class="server-row">
+                            <div class="server-stat">
+                                <div class="server-stat-label">Server Status</div>
+                                <div class="server-stat-value" style="color:var(--apple-green)">● ONLINE</div>
+                            </div>
+                            <div class="server-stat">
+                                <div class="server-stat-label">Uptime</div>
+                                <div class="server-stat-value">\${s.uptime}</div>
+                            </div>
+                            <div class="server-stat">
+                                <div class="server-stat-label">Total Hits</div>
+                                <div class="server-stat-value">\${s.total_requests_all_keys.toLocaleString()}</div>
+                            </div>
+                        </div>
+                    \`;
+
+                } catch (e) {
+                    dashContent.innerHTML = '<div class="dash-no-key" style="color:var(--apple-red)">// Failed to load stats — server error //</div>';
+                } finally {
+                    refreshBtn.classList.remove('spinning');
+                }
+            }
+
+            // Auto refresh every 30 seconds if key is set
+            setInterval(() => { if (activeApiKey) loadDashboard(); }, 30000);
+            // Load server stats on page load
+            window.addEventListener('DOMContentLoaded', () => { setTimeout(loadDashboard, 1500); });
 
             function getActiveKey() {
                 return activeApiKey || null;
