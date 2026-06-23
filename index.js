@@ -49,7 +49,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 NEXT-GEN ULTRA LUXURY CYBERPUNK INTERACTION UI
+// 🌌 VAJIRA STYLED PREMIUM WEB INTERACTION UI (NO EMOJIS)
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -58,769 +58,712 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU | PREMIUM DEVELOPER GATEWAY</title>
+        <title>MR HASHUU OFFICIAL API GATEWAY</title>
+        
+        <!-- FONTS & OFFICIAL BRAND LOGO ICONS (FONT AWESOME & DEV ICONS) -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         
         <style>
             :root {
-                --bg-black: #050507;
-                --sidebar-bg: #0b0b0f;
-                --card-bg: rgba(18, 18, 24, 0.65);
-                --border-color: rgba(255, 255, 255, 0.06);
-                --neon-cyan: #00F5FF;
-                --neon-purple: #7B2CBF;
-                --accent-green: #00FF87;
-                --accent-red: #FF3B30;
-                --text-main: #FFFFFF;
-                --text-muted: #7E7E86;
-                --sidebar-width: 260px;
+                --brand-dark: #06070d;
+                --brand-card: #0d0f1a;
+                --brand-border: rgba(255, 255, 255, 0.08);
+                --brand-cyan: #00F5FF;
+                --brand-purple: #7B2CBF;
+                --brand-green: #00FF87;
+                --brand-red: #ff453a;
+                --text-main: #ffffff;
+                --text-muted: #8e92a6;
             }
             
-            * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
             
             body {
-                background-color: var(--bg-black);
+                background-color: var(--brand-dark);
                 color: var(--text-main);
+                font-family: 'Plus Jakarta Sans', sans-serif;
                 min-height: 100vh;
                 display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 40px 0;
+                position: relative;
                 overflow-x: hidden;
             }
 
-            /* ✨ PREMIUM BACKGROUND GLOWS */
-            .glow-sphere {
-                position: fixed; width: 600px; height: 600px;
-                background: radial-gradient(circle, rgba(123, 44, 191, 0.15) 0%, rgba(0, 245, 255, 0.03) 50%, transparent 100%);
-                z-index: 0; pointer-events: none; filter: blur(80px);
-                animation: floatGlow 12s infinite alternate ease-in-out;
-            }
-            .glow-1 { top: -200px; right: -100px; }
-            .glow-2 { bottom: -200px; left: -100px; background: radial-gradient(circle, rgba(0, 245, 255, 0.12) 0%, transparent 70%); }
-
-            @keyframes floatGlow {
-                0% { transform: translateY(0) scale(1); }
-                100% { transform: translateY(30px) scale(1.1); }
+            /* ANIMATED METEOR EFFECT BACKGROUND */
+            .bg-glow {
+                position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 100vw; height: 50vh;
+                background: radial-gradient(circle, rgba(0, 245, 255, 0.1) 0%, rgba(123, 44, 191, 0.05) 50%, transparent 100%);
+                z-index: 1; pointer-events: none; filter: blur(80px);
             }
 
-            /* 🌀 APP LOADER */
-            #cyber-loader {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--bg-black); z-index: 9999;
-                display: flex; flex-direction: column; justify-content: center; align-items: center;
-                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            /* MASTER WEB CONTAINER (VAJIRA STYLE STRUCTURE) */
+            .main-panel {
+                width: 92%; max-width: 750px;
+                background: var(--brand-card);
+                border: 1px solid var(--brand-border); border-radius: 20px;
+                padding: 35px; z-index: 2; position: relative;
+                box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+                animation: panelFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             }
-            .loader-ring {
-                width: 70px; height: 70px; border: 3px solid rgba(255, 255, 255, 0.02);
-                border-top-color: var(--neon-cyan); border-bottom-color: var(--neon-purple);
-                border-radius: 50%; animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-                box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
-            }
-            .loader-text {
-                margin-top: 24px; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
-                font-weight: 700; letter-spacing: 4px; color: #fff; text-transform: uppercase;
-                background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            }
-            @keyframes spin { to { transform: rotate(360deg); } }
+            @keyframes panelFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-            /* 🧭 SIDEBAR NAVIGATION */
-            .sidebar {
-                width: var(--sidebar-width); background: var(--sidebar-bg);
-                border-right: 1px solid var(--border-color); display: flex; flex-direction: column;
-                position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; transition: transform 0.3s;
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 25px; border-bottom: 1px solid var(--brand-border); flex-wrap: wrap; gap: 15px; }
+            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; color: #ffffff; text-transform: uppercase; }
+            header h1 span { color: var(--brand-cyan); }
+
+            .status-tag {
+                display: inline-flex; align-items: center; gap: 8px;
+                font-size: 0.8rem; font-weight: 900; letter-spacing: 0.5px;
+                color: var(--brand-green); background: rgba(0, 255, 135, 0.08);
+                padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(0, 255, 135, 0.2);
             }
-            .sidebar-brand {
-                padding: 30px 24px; font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem;
-                font-weight: 700; letter-spacing: -0.5px; border-bottom: 1px solid var(--border-color);
-                display: flex; align-items: center; gap: 10px;
+            .pulse-circle { width: 8px; height: 8px; background: var(--brand-green); border-radius: 50%; box-shadow: 0 0 10px var(--brand-green); animation: pulseAnim 1.5s infinite; }
+            @keyframes pulseAnim { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+            /* ANALYTICS GRID */
+            .dashboard-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; }
+            .stat-node { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--brand-border); border-radius: 12px; padding: 18px 15px; text-align: center; transition: all 0.25s; }
+            .stat-node:hover { border-color: rgba(0, 245, 255, 0.3); background: rgba(255, 255, 255, 0.04); }
+            .stat-heading { font-size: 0.75rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+            .stat-data { font-size: 1.3rem; font-weight: 900; color: #ffffff; margin-top: 6px; font-family: 'Space Grotesk', sans-serif; }
+
+            /* SEARCH ARCHITECTURE */
+            .search-wrapper { position: relative; margin-top: 25px; }
+            .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
+            .search-bar {
+                width: 100%; padding: 18px 22px 18px 52px; background: #07080e;
+                border: 1px solid var(--brand-border); border-radius: 14px;
+                color: #ffffff; font-size: 1rem; font-weight: 900; outline: none; transition: all 0.3s;
             }
-            .brand-dot { width: 10px; height: 10px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); }
+            .search-bar:focus { border-color: var(--brand-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.15); }
+            ::placeholder { color: #4b4f63; font-weight: 800; }
+
+            /* API CARDS ARCHITECTURE (ACCORDION STYLING WITH SMOOTH SLIDE) */
+            .api-stream-list { margin-top: 25px; display: flex; flex-direction: column; gap: 14px; }
+            .api-card { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--brand-border); border-radius: 14px; overflow: hidden; transition: all 0.25s ease-out; }
+            .api-card:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
             
-            .nav-menu { padding: 24px 16px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
-            .nav-item {
-                display: flex; align-items: center; gap: 12px; padding: 14px 18px;
-                color: var(--text-muted); font-weight: 700; font-size: 0.9rem; text-decoration: none;
-                border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
+            .api-head { padding: 22px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .api-identity { display: flex; align-items: center; gap: 16px; max-width: 85%; }
+            .api-icon-container {
+                width: 45px; height: 45px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--brand-border); 
+                border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; color: var(--brand-cyan);
+                transition: all 0.3s;
             }
-            .nav-item:hover, .nav-item.active {
-                color: #fff; background: rgba(255, 255, 255, 0.03);
-                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-            }
-            .nav-item.active {
-                background: linear-gradient(135deg, rgba(123, 44, 191, 0.15), rgba(0, 245, 255, 0.05));
-                box-shadow: inset 0 0 0 1px rgba(0, 245, 255, 0.2); color: var(--neon-cyan);
-            }
-
-            /* 🖥️ MAIN CONTAINER LAYER */
-            .main-content {
-                margin-left: var(--sidebar-width); flex-grow: 1; padding: 40px;
-                position: relative; z-index: 10; max-width: 1200px; width: calc(100% - var(--sidebar-width));
-            }
-
-            header {
-                display: flex; justify-content: space-between; align-items: center;
-                margin-bottom: 35px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px;
-            }
-            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; }
+            .api-card:hover .api-icon-container { background: var(--brand-cyan); color: #000; box-shadow: 0 0 15px var(--brand-cyan); border-color: var(--brand-cyan); }
             
-            .system-status {
-                display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 800;
-                background: rgba(0, 255, 135, 0.06); color: var(--accent-green); border: 1px solid rgba(0, 255, 135, 0.15);
-                padding: 8px 16px; border-radius: 100px; letter-spacing: 0.5px;
-            }
-            .pulse-indicator { width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse 1.6s infinite; }
-            @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-            /* 📊 TOP ANALYTICS CARDS */
-            .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px; }
-            .metric-card {
-                background: var(--card-bg); border: 1px solid var(--border-color); backdrop-filter: blur(20px);
-                border-radius: 20px; padding: 24px; transition: border-color 0.3s;
-            }
-            .metric-card:hover { border-color: rgba(255, 255, 255, 0.12); }
-            .metric-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-            .metric-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; margin-top: 8px; color: #fff; }
-
-            /* 🔍 INTERACTIVE SEARCH */
-            .search-box-wrapper { position: relative; margin-bottom: 30px; }
-            .search-box {
-                width: 100%; padding: 20px 24px; background: rgba(0,0,0,0.4);
-                border: 1px solid var(--border-color); border-radius: 16px; color: #fff;
-                font-size: 1rem; font-weight: 600; outline: none; transition: all 0.3s;
-            }
-            .search-box:focus {
-                border-color: rgba(0, 245, 255, 0.4);
-                box-shadow: 0 0 30px rgba(0, 245, 255, 0.05);
-                background: rgba(0,0,0,0.6);
-            }
-
-            /* 🗂️ API ENDPOINT ACCORDIONS */
-            .apis-grid { display: flex; flex-direction: column; gap: 16px; }
-            .api-card {
-                background: var(--card-bg); border: 1px solid var(--border-color); backdrop-filter: blur(20px);
-                border-radius: 18px; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .api-card:hover { border-color: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+            .api-meta-strings { display: flex; flex-direction: column; gap: 4px; }
+            .route-path { font-size: 1.15rem; font-weight: 900; color: #ffffff; font-family: monospace; letter-spacing: -0.3px; }
+            .route-summary { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); }
+            .action-angle { font-size: 0.9rem; color: var(--text-muted); font-weight: 900; transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
             
-            .api-trigger { padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .api-title-block { display: flex; flex-direction: column; gap: 6px; }
-            .api-badge-row { display: flex; align-items: center; gap: 10px; }
-            .method-badge { font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; letter-spacing: 0.5px; background: rgba(0, 245, 255, 0.1); color: var(--neon-cyan); }
-            .method-badge.post { background: rgba(123, 44, 191, 0.15); color: #b76eff; }
-            
-            .endpoint-path { font-family: monospace; font-size: 1.15rem; font-weight: 700; color: #fff; }
-            .endpoint-desc { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
-            .chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.3s; font-weight: 700; }
-            
-            .api-card.active { border-color: rgba(123, 44, 191, 0.4); background: rgba(11, 11, 15, 0.85); }
-            .api-card.active .chevron { transform: rotate(90deg); color: var(--neon-cyan); }
+            /* ACTIVE ACCORDION STATE */
+            .api-card.active { border-color: var(--brand-purple); background: #080a12; }
+            .api-card.active .action-angle { transform: rotate(90deg); color: var(--brand-cyan); }
 
-            /* 📄 DOCUMENTATION PANEL & DEV TESTER */
-            .api-panel { display: none; padding: 0 28px 28px 28px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
-            .panel-title { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 20px 0 8px 0; letter-spacing: 1px; }
+            /* API BODY PANEL */
+            .api-body { display: none; padding: 0 22px 22px 22px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
+            .meta-section-header { font-size: 0.75rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.8px; }
             
-            .console-bar { display: flex; gap: 12px; margin-top: 8px; }
-            .path-box {
-                flex-grow: 1; background: #000; border: 1px solid var(--border-color); padding: 16px;
-                border-radius: 12px; font-family: monospace; font-size: 0.85rem; font-weight: 600; color: var(--neon-cyan);
+            .uri-input-box { display: flex; gap: 10px; margin-top: 6px; }
+            .uri-string-view {
+                flex-grow: 1; background: #030408; border: 1px solid var(--brand-border); padding: 16px;
+                border-radius: 10px; font-family: monospace; font-size: 0.85rem; font-weight: 800; color: var(--brand-cyan);
                 overflow-x: auto; white-space: nowrap;
             }
-            .path-box::-webkit-scrollbar { height: 4px; }
-            .path-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+            .uri-string-view::-webkit-scrollbar { height: 4px; }
+            .uri-string-view::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
 
-            .btn {
-                border: none; font-size: 0.8rem; font-weight: 700; padding: 0 22px; border-radius: 12px;
-                cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 50px; display: flex; align-items: center; justify-content: center;
+            .btn-trigger {
+                border: none; font-size: 0.8rem; font-weight: 900; padding: 0 20px; border-radius: 10px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 48px;
+                display: inline-flex; align-items: center; gap: 8px;
             }
-            .btn-copy { background: #fff; color: #000; }
-            .btn-copy:hover { opacity: 0.85; }
-            .btn-fire { background: linear-gradient(135deg, var(--neon-purple), #531cb3); color: #fff; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.2); }
-            .btn-fire:hover { box-shadow: 0 6px 20px rgba(123, 44, 191, 0.4); transform: translateY(-1px); }
-            .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+            .btn-clipboard { background: #ffffff; color: #000000; }
+            .btn-clipboard:hover { opacity: 0.88; }
+            .btn-execute { background: linear-gradient(135deg, var(--brand-purple), #531cb3); color: #ffffff; }
+            .btn-execute:hover { box-shadow: 0 0 15px rgba(123, 44, 191, 0.6); }
 
-            /* 💻 TERMINAL LIVE OUTPUT SCREEN */
-            .terminal-screen {
-                background: #020203; border: 1px solid var(--border-color); border-radius: 12px;
-                padding: 18px; font-family: monospace; font-size: 0.85rem; font-weight: 600; color: #555;
-                white-space: pre-wrap; overflow-x: auto; max-height: 250px; line-height: 1.6;
+            /* CONSOLE NODE SCREEN */
+            .terminal-node-view {
+                background: #030408; border: 1px solid var(--brand-border); border-radius: 10px;
+                padding: 16px; font-family: monospace; font-size: 0.82rem; font-weight: 800; color: #4e536b;
+                white-space: pre-wrap; overflow-x: auto; max-height: 220px; line-height: 1.5;
             }
-            .terminal-screen::-webkit-scrollbar { width: 5px; height: 5px; }
-            .terminal-screen::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+            .terminal-node-view::-webkit-scrollbar { width: 4px; height: 4px; }
+            .terminal-node-view::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
-            /* 🔔 TOAST SYSTEM */
-            #toast {
-                position: fixed; bottom: 30px; right: 30px; background: #fff; color: #000;
-                font-size: 0.85rem; font-weight: 800; padding: 16px 30px; border-radius: 14px;
+            /* REAL BRAND LOGOS FOR REPLIES */
+            .method-get-tag { font-size: 0.65rem; font-weight: 900; background: rgba(0, 245, 255, 0.1); color: var(--brand-cyan); padding: 3px 6px; border-radius: 4px; margin-right: 5px; }
+            .method-post-tag { font-size: 0.65rem; font-weight: 900; background: rgba(123, 44, 191, 0.15); color: #b76eff; padding: 3px 6px; border-radius: 4px; margin-right: 5px; }
+
+            /* INTERACTIVE TOAST POPUP */
+            #floating-toast {
+                position: fixed; bottom: 35px; background: #ffffff; color: #000000;
+                font-weight: 900; font-size: 0.85rem; padding: 15px 30px; border-radius: 12px;
                 z-index: 10000; opacity: 0; transform: translateY(15px); pointer-events: none;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                display: flex; align-items: center; gap: 10px;
             }
-            #toast.show { opacity: 1; transform: translateY(0); }
+            #floating-toast.visible { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 50px; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); font-family: monospace; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 25px; margin-top: 40px; }
-            .req-btn { color: var(--neon-cyan); text-decoration: none; font-weight: 700; }
+            #no-results { display: none; text-align: center; padding: 50px; font-size: 0.9rem; font-weight: 900; color: var(--text-muted); font-family: monospace; border: 1px dashed var(--brand-border); border-radius: 14px; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--brand-border); padding-top: 25px; margin-top: 30px; flex-wrap: wrap; gap: 10px; }
+            .req-key-anchor { color: var(--brand-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
+            .req-key-anchor:hover { color: #ffffff; }
 
-            /* 📱 RESPONSIVE FIT FOR MOBILE PLATFORMS */
-            @media (max-width: 900px) {
-                body { flex-direction: column; }
-                .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border-color); }
-                .nav-menu { flex-direction: row; overflow-x: auto; padding: 12px 20px; gap: 10px; }
-                .nav-menu::-webkit-scrollbar { display: none; }
-                .nav-item { white-space: nowrap; padding: 10px 16px; }
-                .main-content { margin-left: 0; width: 100%; padding: 24px; }
-                .metrics-row { grid-template-columns: 1fr; gap: 12px; }
-                .console-bar { flex-direction: column; }
-                .btn { width: 100%; }
-                #toast { right: 50%; transform: translate(50%, 15px); width: 85%; text-align: center; }
-                #toast.show { transform: translate(50%, 0); }
+            /* 📱 STAGE-PERFECT MOBILE RESPONSIVE ENGINE (100% SCREEN FIT) */
+            @media (max-width: 650px) {
+                body { padding: 15px 0; }
+                .main-panel { padding: 25px 16px; border-radius: 16px; width: 94%; }
+                header h1 { font-size: 1.7rem; }
+                .status-tag { padding: 6px 12px; font-size: 0.75rem; }
+                .dashboard-stats { grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+                .stat-node { padding: 14px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+                .stat-data { margin-top: 0; font-size: 1.1rem; }
+                .uri-input-box { flex-direction: column; gap: 8px; }
+                .btn-trigger { width: 100%; justify-content: center; }
+                .route-path { font-size: 1rem; }
+                .route-summary { font-size: 0.8rem; }
+                .api-head { padding: 16px; }
+                .api-icon-container { width: 38px; height: 38px; font-size: 1rem; }
+                .terminal-node-view { max-height: 180px; font-size: 0.78rem; }
+                #floating-toast { width: 90%; left: 5%; right: 5%; justify-content: center; bottom: 20px; }
             }
         </style>
     </head>
     <body>
 
-        <div class="glow-sphere glow-1"></div>
-        <div class="glow-sphere glow-2"></div>
+        <div class="bg-glow"></div>
+        <div id="floating-toast"><i class="fa-solid fa-circle-check"></i> REQUEST PATH SECURED TO CLIPBOARD</div>
 
-        <div id="toast">SYSTEM: LINK SECURED TO CLIPBOARD ✔</div>
-
-        <div id="cyber-loader">
-            <div class="loader-ring"></div>
-            <div class="loader-text">MR HASHUU ENGINE</div>
-        </div>
-
-        <div class="sidebar">
-            <div class="sidebar-brand">
-                <div class="brand-dot"></div>
-                <span>HASHU APIS</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item active" onclick="switchCategory('all', this)">⚡ ALL CORE APIS</div>
-                <div class="nav-item" onclick="switchCategory('media', this)">🎬 MEDIA & DOWNLOADS</div>
-                <div class="nav-item" onclick="switchCategory('security', this)">🛡️ CODE SECURITY</div>
-                <div class="nav-item" onclick="switchCategory('tools', this)">⚙️ UTILITY TOOLS</div>
-            </div>
-        </div>
-
-        <div class="main-content">
+        <div class="main-panel">
+            
             <header>
-                <div>
-                    <h1 style="font-weight: 800;">DASHBOARD PLATFORM</h1>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; font-weight: 600;">Secure REST API Hub Owned by MR HASHUU</p>
-                </div>
-                <div class="system-status">
-                    <div class="pulse-indicator"></div>
-                    <span>CORE ACTIVE v2.5</span>
+                <h1>HASHU <span>APIS</span></h1>
+                <div class="status-tag">
+                    <div class="pulse-circle"></div>
+                    <span>SYSTEM ONLINE</span>
                 </div>
             </header>
 
-            <div class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-label">Total Traffic Stream</div>
-                    <div class="metric-value">245.8K Req</div>
+            <!-- STATS ENGINE PANEL -->
+            <div class="dashboard-stats">
+                <div class="stat-node">
+                    <div class="stat-heading">Total Secure Requests</div>
+                    <div class="stat-data">245.8K</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">Cloud Latency</div>
-                    <div class="metric-value">99.99% Uptime</div>
+                <div class="stat-node">
+                    <div class="stat-heading">Node Server Latency</div>
+                    <div class="stat-data">99.99%</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">System Architecture</div>
-                    <div class="metric-value" style="background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PRO EDITION</div>
+                <div class="stat-node">
+                    <div class="stat-heading">Main Developer</div>
+                    <div class="stat-data" style="color: var(--brand-cyan);">MR HASHUU</div>
                 </div>
             </div>
 
-            <div class="search-box-wrapper">
-                <input type="text" id="apiSearch" class="search-box" placeholder="Search operational endpoints natively..." onkeyup="searchFilter()">
+            <!-- SEARCH ENGINE HUB -->
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="apiSearch" class="search-bar" placeholder="Search developer operational secure endpoints..." onkeyup="filterEndpoints()">
             </div>
 
-            <div class="apis-grid" id="masterGrid">
+            <!-- CORE APIS GRID LIST (ALL 15 ENDPOINTS ATTACHED) -->
+            <div class="api-stream-list" id="listWrapper">
                 
-                <div class="api-card" data-category="tools" data-tags="movie database omdb cinema film plot rating info tracking">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/api/movie</span>
+                <!-- 1. MOVIE DATABASE API -->
+                <div class="api-card" data-name="movie database omdb cinema film guardians plot rating info tracker">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-clapperboard"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/api/movie</span>
+                                <span class="route-summary">OMDb Cinema & Film Data Information Tracking Engine</span>
                             </div>
-                            <span class="endpoint-desc">OMDb Cinema & Film Data Information Tracking Engine</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-movie')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-movie', 'out-movie', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-movie')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-movie', 'res-movie', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-movie">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-movie">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="tools" data-tags="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/api/chat</span>
+                <!-- 2. CHAT AI INTERFACE -->
+                <div class="api-card" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-robot"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/api/chat</span>
+                                <span class="route-summary">Hashan-md AI / ChatGPT-4o Smart Interface</span>
                             </div>
-                            <span class="endpoint-desc">Hashan-md AI / ChatGPT-4o Smart Interface Wrapper</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-chat')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-chat', 'out-chat', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-chat')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-chat', 'res-chat', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-chat">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-chat">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="tools" data-tags="cuttly shorten url link tinyurl link-shortener short">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/api/url_shorten</span>
+                <!-- 3. LINK SHORTENER -->
+                <div class="api-card" data-name="cuttly shorten url link tinyurl link-shortener short">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-link"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/api/url_shorten</span>
+                                <span class="route-summary">Cuttly Professional Link Shortener Engine</span>
                             </div>
-                            <span class="endpoint-desc">Cuttly Professional Link Shortener Engine</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-short">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-short')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-short', 'out-short', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-shorten')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-shorten', 'res-shorten', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-short">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-shorten">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="xvideo xvideos adult downloader download mp4 hot clip video premium">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/xvideo</span>
+                <!-- 4. XVIDEOS DOWNLOADER -->
+                <div class="api-card" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-video"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/xvideo</span>
+                                <span class="route-summary">XVideos Video MP4 Direct CDN Resolver</span>
                             </div>
-                            <span class="endpoint-desc">XVideos Video MP4 Direct CDN Resolver</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-xv">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-xv')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-xv', 'out-xv', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-xvideo')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-xv">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-xvideo">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="ytmp4 youtube video downloader download mp4 high quality clip video">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/ytmp4</span>
+                <!-- 5. YOUTUBE MP4 DOWNLOADER -->
+                <div class="api-card" data-name="ytmp4 youtube video downloader download mp4 high quality clip video">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-youtube"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/ytmp4</span>
+                                <span class="route-summary">YouTube HD Video MP4 High-Speed Extractor</span>
                             </div>
-                            <span class="endpoint-desc">YouTube HD Video MP4 High-Speed Extractor</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-yt">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-yt')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-yt', 'out-yt', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-ytmp4')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-ytmp4', 'res-ytmp4', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-yt">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-ytmp4">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="mediafire downloader direct storage parser">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/mediafire</span>
+                <!-- 6. MEDIAFIRE PARSER -->
+                <div class="api-card" data-name="mediafire downloader direct storage parser">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-fire-flame-simple"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/mediafire</span>
+                                <span class="route-summary">Mediafire Direct Link Storage Parser Engine</span>
                             </div>
-                            <span class="endpoint-desc">Mediafire Direct Link Storage Parser Engine</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-mf')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-mf', 'out-mf', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-mf')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-mf', 'res-mf', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-mf">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-mf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="spotify music hq audio downloader song">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/spotify</span>
+                <!-- 7. SPOTIFY EXTRACTOR -->
+                <div class="api-card" data-name="spotify music hq audio downloader song">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-spotify"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/spotify</span>
+                                <span class="route-summary">Spotify Premium Lossless Audio Extractor</span>
                             </div>
-                            <span class="endpoint-desc">Spotify Premium Lossless Audio Extractor</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-sf')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-sf', 'out-sf', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-sf')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-sf', 'res-sf', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-sf">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-sf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="twitter x stream extractor multi video">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/twitter</span>
+                <!-- 8. TWITTER STREAM CDN -->
+                <div class="api-card" data-name="twitter x stream extractor multi video">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-x-twitter"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/twitter</span>
+                                <span class="route-summary">Twitter / X Multi-Quality Stream CDN Resolver</span>
                             </div>
-                            <span class="endpoint-desc">Twitter / X Multi-Quality Stream CDN Resolver</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-tw">/twitter?url=https://x.com/elonmusk/status/1870901510319833540&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-tw')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-tw', 'out-tw', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-tw">/twitter?url=https://x.com/elonmusk/status/1870901510319833540&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-tw')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-tw', 'res-tw', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-tw">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-tw">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="song youtube play mp3 audio music stream">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/song</span>
+                <!-- 9. YOUTUBE AUDIO SONG -->
+                <div class="api-card" data-name="song youtube play mp3 audio music stream">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-music"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/song</span>
+                                <span class="route-summary">YouTube High-Fidelity Audio Stream Grabber</span>
                             </div>
-                            <span class="endpoint-desc">YouTube High-Fidelity Audio Stream Grabber</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-sg">/song?text=faded&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-sg')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-sg', 'out-sg', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-sg">/song?text=faded&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-sg')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-sg', 'res-sg', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-sg">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-sg">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="tiktok video downloader no watermark">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/tiktok</span>
+                <!-- 10. TIKTOK NO-WATERMARK -->
+                <div class="api-card" data-name="tiktok video downloader no watermark">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-tiktok"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/tiktok</span>
+                                <span class="route-summary">TikTok Studio Source No-Watermark Downloader</span>
                             </div>
-                            <span class="endpoint-desc">TikTok Studio Source No-Watermark Downloader</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-tk">/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-tk')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-tk', 'out-tk', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-tk">/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-tk')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-tk', 'res-tk', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-tk">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-tk">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="pinterest image search visual hd download">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/pinterest</span>
+                <!-- 11. PINTEREST MEDIA IMAGE -->
+                <div class="api-card" data-name="pinterest image search visual hd download">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-pinterest"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/pinterest</span>
+                                <span class="route-summary">Pinterest Ultra-HD Media Image Source Finder</span>
                             </div>
-                            <span class="endpoint-desc">Pinterest Ultra-HD Media Image Source Finder</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-pin">/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-pin')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-pin', 'out-pin', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-pin">/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-pin')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-pin', 'res-pin', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-pin">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-pin">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="tools" data-tags="apk android package app mirror tool download">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/apk</span>
+                <!-- 12. APK PACKAGE MIRROR -->
+                <div class="api-card" data-name="apk android package app mirror tool download">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-android"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/apk</span>
+                                <span class="route-summary">Android App Core Binary Package Mirror Fetcher</span>
                             </div>
-                            <span class="endpoint-desc">Android App Core Binary Package Mirror Fetcher</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-apk">/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-apk')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-apk', 'out-apk', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-apk">/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-apk')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-apk', 'res-apk', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-apk">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-apk">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="media" data-tags="facebook fb video resolver cdn download">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/facebook</span>
+                <!-- 13. FACEBOOK WATCH EXTRACTOR -->
+                <div class="api-card" data-name="facebook fb video resolver cdn download">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-brands fa-facebook"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/facebook</span>
+                                <span class="route-summary">Facebook Architecture Video Stream Extractor</span>
                             </div>
-                            <span class="endpoint-desc">Facebook Architecture Video Stream Extractor</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-fb">/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-fb')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-fb', 'out-fb', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-fb">/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-fb')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-fb', 'res-fb', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-fb">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-fb">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="tools" data-tags="webdl website clone html static site page download">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/webdl</span>
+                <!-- 14. STATIC WEBPAGE CLONER -->
+                <div class="api-card" data-name="webdl website clone html static site page download">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-globe"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/webdl</span>
+                                <span class="route-summary">Static Production Webpage Structural Pack Cloner</span>
                             </div>
-                            <span class="endpoint-desc">Static Production Webpage Structural Pack Cloner</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-wdl">/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-wdl')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-wdl', 'out-wdl', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-wdl">/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-wdl')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-wdl', 'res-wdl', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-wdl">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-wdl">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="security" data-tags="obfuscate javascript security protection code hide encrypt">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge">GET</span>
-                                <span class="endpoint-path">/obfuscate</span>
+                <!-- 15. JS ANTI-SCRAPE OBFUSCATOR -->
+                <div class="api-card" data-name="obfuscate javascript security protection code hide encrypt">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-user-shield"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-get-tag">GET</span>/obfuscate</span>
+                                <span class="route-summary">Dynamic Structural JavaScript Anti-Scrape Guardian</span>
                             </div>
-                            <span class="endpoint-desc">Dynamic Structural JavaScript Anti-Scrape Guardian</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">Developer Access URI</div>
-                        <div class="console-bar">
-                            <div class="path-box" id="path-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn btn-copy" onclick="copyRoute('path-obf')">Copy</button>
-                            <button class="btn btn-fire" onclick="fireTest('path-obf', 'out-obf', this)">Fire Request</button>
+                    <div class="api-body">
+                        <div class="meta-section-header">Execution Gateway Endpoint</div>
+                        <div class="uri-input-box">
+                            <div class="uri-string-view" id="url-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-trigger btn-clipboard" onclick="copyLink('url-obf')"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="btn-trigger btn-execute" onclick="runEndpoint('url-obf', 'res-obf', this)"><i class="fa-solid fa-play"></i> Run API</button>
                         </div>
-                        <div class="panel-title">Response Node Stream Output</div>
-                        <pre class="terminal-screen" id="out-obf">{ "status": "ready", "message": "Fire Request to capture active stream data." }</pre>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view" id="res-obf">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
                     </div>
                 </div>
 
-                <div class="api-card" data-category="security" data-tags="imgbb photo cloud cdn image host upload post">
-                    <div class="api-trigger" onclick="toggleCard(this)">
-                        <div class="api-title-block">
-                            <div class="api-badge-row">
-                                <span class="method-badge post">POST</span>
-                                <span class="endpoint-path">/imgbb</span>
+                <!-- 16. IMGBB IMAGE CLOUD POST -->
+                <div class="api-card" data-name="imgbb photo cloud cdn image host upload post">
+                    <div class="api-head" onclick="toggleAccordion(this)">
+                        <div class="api-identity">
+                            <div class="api-icon-container"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                            <div class="api-meta-strings">
+                                <span class="route-path"><span class="method-post-tag">POST</span>/imgbb</span>
+                                <span class="route-summary">Multipart Binary Object Cloud Image CDN Interface</span>
                             </div>
-                            <span class="endpoint-desc">Multipart Binary Object Cloud Image CDN Interface</span>
                         </div>
-                        <span class="chevron">▶</span>
+                        <span class="action-angle"><i class="fa-solid fa-chevron-right"></i></span>
                     </div>
-                    <div class="api-panel">
-                        <div class="panel-title">HTTP METHOD COMPONENT</div>
-                        <div class="path-box" style="color:var(--neon-purple)">POST DIRECT ACCESS (Multipart Form-Data)</div>
-                        <div class="panel-title">Testing Parameters Node</div>
-                        <pre class="terminal-screen">{ "info": "Requires file attachment. Real-time REST testing disabled in UI dashboard console." }</pre>
+                    <div class="api-body">
+                        <div class="meta-section-header">HTTP METHOD COMPONENT</div>
+                        <div class="uri-string-view" style="color:var(--brand-purple)">POST DIRECT ACCESS (Multipart Form-Data)</div>
+                        <div class="meta-section-header">Live Server Response Output</div>
+                        <pre class="terminal-node-view">{ "info": "Requires file attachment. Real-time REST testing disabled in UI dashboard console." }</pre>
                     </div>
                 </div>
 
-                <div id="no-results">// SEARCH METADATA MISMATCHED //</div>
+                <div id="no-results">// SEARCH ATTRIBUTE MISMATCHED //</div>
             </div>
 
             <footer>
-                <span style="font-weight: 700;">© 2026 MR HASHUU WORKSPACE</span>
-                <a href="#" class="req-btn">REQUEST ACCESS KEYS</a>
+                <span>© 2026 MR HASHUU API WORKSPACE</span>
+                <a href="#" class="req-key-anchor">REQUEST CORE ACCESS KEYS</a>
             </footer>
         </div>
 
         <script>
-            let activeCategory = 'all';
-
-            window.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => {
-                    const loader = document.getElementById('cyber-loader');
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 500);
-                }, 1000);
-            });
-
-            function toggleCard(element) {
+            function toggleAccordion(element) {
                 const parent = element.parentElement;
-                const panel = parent.querySelector('.api-panel');
-                const isCurrentlyActive = parent.classList.contains('active');
+                const bodySection = parent.querySelector('.api-body');
+                const isOpen = parent.classList.contains('active');
 
-                // Close all existing open panels
                 const allCards = document.getElementsByClassName('api-card');
                 for (let card of allCards) {
                     card.classList.remove('active');
-                    card.querySelector('.api-panel').style.display = 'none';
+                    card.querySelector('.api-body').style.display = 'none';
                 }
 
-                if (!isCurrentlyActive) {
+                if (!isOpen) {
                     parent.classList.add('active');
-                    panel.style.display = 'block';
+                    bodySection.style.display = 'block';
                 }
             }
 
-            function switchCategory(category, button) {
-                activeCategory = category;
-                
-                // Toggle active category menu selector look
-                const items = document.getElementsByClassName('nav-item');
-                for(let item of items) item.classList.remove('active');
-                button.classList.add('active');
-                
-                searchFilter();
-            }
-
-            function searchFilter() {
+            function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const cards = document.getElementsByClassName('api-card');
                 const noResults = document.getElementById('no-results');
-                let matchesFound = false;
+                let found = false;
 
-                for (let card of cards) {
-                    const tags = card.getAttribute('data-tags');
-                    const cat = card.getAttribute('data-category');
-                    
-                    const matchesCategory = (activeCategory === 'all' || cat === activeCategory);
-                    const matchesSearch = tags.includes(query);
-
-                    if (matchesCategory && matchesSearch) {
-                        card.style.display = 'block';
-                        matchesFound = true;
+                for (let i = 0; i < cards.length; i++) {
+                    const dataTags = cards[i].getAttribute('data-name');
+                    if (dataTags.includes(query)) {
+                        cards[i].style.display = 'block';
+                        found = true;
                     } else {
-                        card.style.display = 'none';
+                        cards[i].style.display = 'none';
                     }
                 }
-                noResults.style.display = matchesFound ? 'none' : 'block';
+                noResults.style.display = found ? 'none' : 'block';
             }
 
-            function copyRoute(id) {
-                const routeText = document.getElementById(id).textContent.trim();
-                const absoluteUrl = window.location.origin + routeText;
+            function copyLink(elementId) {
+                const pathText = document.getElementById(elementId).textContent.trim();
+                const fullUrl = window.location.origin + pathText;
                 
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(absoluteUrl).then(() => alertToast());
+                    navigator.clipboard.writeText(fullUrl).then(() => {
+                        triggerToast();
+                    }).catch(() => fallbackCopyEngine(fullUrl));
                 } else {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = absoluteUrl;
-                    textArea.style.position = "fixed"; textArea.style.opacity = "0";
-                    document.body.appendChild(textArea);
-                    textArea.focus(); textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    alertToast();
+                    fallbackCopyEngine(fullUrl);
                 }
             }
 
-            function alertToast() {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2500);
+            function fallbackCopyEngine(textToCopy) {
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "fixed"; 
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    triggerToast();
+                } catch (err) {
+                    console.error('Fallback copy engine error', err);
+                }
+                document.body.removeChild(textArea);
             }
 
-            async function fireTest(pathId, screenId, btn) {
-                const routeText = document.getElementById(pathId).textContent.trim();
-                const finalUrl = window.location.origin + routeText;
-                const terminal = document.getElementById(screenId);
+            function triggerToast() {
+                const toast = document.getElementById('floating-toast');
+                toast.classList.add('visible');
+                setTimeout(() => toast.classList.remove('visible'), 2000);
+            }
 
-                btn.innerText = "TRANSMITTING...";
-                btn.disabled = true;
-                terminal.textContent = "// EVALUATING CLOUD RUNTIME INSTANCE SYSTEM SIGNAL... //";
-                terminal.style.color = "var(--neon-cyan)";
+            async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
+                const pathText = document.getElementById(urlElementId).textContent.trim();
+                const absoluteTargetUrl = window.location.origin + pathText;
+                const outputConsole = document.getElementById(responseContainerId);
+
+                buttonElement.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> RUNNING...";
+                buttonElement.disabled = true;
+                outputConsole.textContent = "// TRANSMITTING SECURE SIGNAL TO HOST... //";
+                outputConsole.style.color = "var(--brand-cyan)";
 
                 try {
-                    const stream = await fetch(finalUrl);
-                    const parsedPayload = await stream.json();
+                    const webStreamResponse = await fetch(absoluteTargetUrl);
+                    const systemJsonPayload = await webStreamResponse.json();
                     
-                    terminal.textContent = JSON.stringify(parsedPayload, null, 2);
-                    terminal.style.color = "var(--accent-green)";
-                } catch (err) {
-                    terminal.textContent = JSON.stringify({
+                    outputConsole.textContent = JSON.stringify(systemJsonPayload, null, 2);
+                    outputConsole.style.color = "var(--brand-green)";
+                } catch (serverException) {
+                    outputConsole.textContent = JSON.stringify({
                         success: false,
-                        log_exception: "Execution environment pipeline was disconnected",
-                        msg: err.message
+                        error: "Network stream deployment interrupted",
+                        exception_log: serverException.message
                     }, null, 2);
-                    terminal.style.color = "var(--accent-red)";
+                    outputConsole.style.color = "var(--brand-red)";
                 } finally {
-                    btn.innerText = "Fire Request";
-                    btn.disabled = false;
+                    buttonElement.innerHTML = "<i class='fa-solid fa-play'></i> Run API";
+                    buttonElement.disabled = false;
                 }
             }
         </script>
