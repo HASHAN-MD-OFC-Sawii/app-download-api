@@ -21,9 +21,6 @@ const PREMIUM_DATABASE = {
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// ─────────────────────────────────────────────────────────
-// 📊 USAGE TRACKING SYSTEM
-// ─────────────────────────────────────────────────────────
 const usageStats = {};
 const SERVER_START_TIME = Date.now();
 
@@ -47,24 +44,13 @@ function getTotalUsage(apikey) {
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
-    message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
+    message: { success: false, message: "PREMIUM DAILY LIMIT REACHED." }
 });
 
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
-    if (!apikey) {
-        return res.status(401).json({
-            success: false,
-            creator: "MR HASHUU",
-            message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
-        });
-    }
-    if (!PREMIUM_DATABASE[apikey]) {
-        return res.status(403).json({
-            success: false,
-            creator: "MR HASHUU",
-            message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
-        });
+    if (!apikey || !PREMIUM_DATABASE[apikey]) {
+        return res.status(403).json({ success: false, message: "INVALID OR MISSING API KEY." });
     }
     req.planOwner = PREMIUM_DATABASE[apikey].owner;
     req.planType = PREMIUM_DATABASE[apikey].plan;
@@ -83,826 +69,320 @@ app.get('/api/stats', (req, res) => {
     const minutes = Math.floor((uptimeMs % 3600000) / 60000);
     const seconds = Math.floor((uptimeMs % 60000) / 1000);
 
-    const allTotalRequests = Object.keys(usageStats).reduce((sum, key) => sum + getTotalUsage(key), 0);
-
     if (apikey && PREMIUM_DATABASE[apikey]) {
         const plan = PREMIUM_DATABASE[apikey];
-        const dailyLimit = plan.plan === 'PREMIUM' ? 5000 : 3000;
-        const todayUsage = getTodayUsage(apikey);
-        const totalUsage = getTotalUsage(apikey);
-
         return res.json({
             success: true,
             key_info: {
                 owner: plan.owner,
                 plan: plan.plan,
-                daily_limit: dailyLimit,
-                today_usage: todayUsage,
-                today_remaining: Math.max(0, dailyLimit - todayUsage),
-                usage_percent: Math.min(100, Math.round((todayUsage / dailyLimit) * 100)),
-                total_all_time: totalUsage
+                today_usage: getTodayUsage(apikey),
+                daily_limit: plan.plan === 'PREMIUM' ? 5000 : 3000,
+                usage_percent: Math.min(100, Math.round((getTodayUsage(apikey) / (plan.plan === 'PREMIUM' ? 5000 : 3000)) * 100))
             },
-            server: {
-                uptime: `${hours}h ${minutes}m ${seconds}s`,
-                uptime_ms: uptimeMs,
-                total_requests_all_keys: allTotalRequests,
-                status: "ONLINE"
-            }
+            server: { uptime: `${hours}h ${minutes}m ${seconds}s` }
         });
     }
-
-    return res.json({
-        success: true,
-        server: {
-            uptime: `${hours}h ${minutes}m ${seconds}s`,
-            uptime_ms: uptimeMs,
-            total_requests_all_keys: allTotalRequests,
-            status: "ONLINE"
-        }
-    });
+    res.json({ success: true, server: { uptime: `${hours}h ${minutes}m ${seconds}s` } });
 });
 
 // ─────────────────────────────────────────────────────────
-// 🌌 ULTRA LUXURY INTERACTION UI (RESPONSIVE & MOBILE READY)
+// 🌌 LUXURY INTERFACE RESPOSIVE GATEWAY UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
     <!DOCTYPE html>
-    <html lang="en" data-theme="dark">
+    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU PREMIUM GATEWAY</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-        
+        <title>MR HASHUU - PREMIUM PORTAL</title>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
         <style>
-            :root[data-theme="dark"] {
-                --bg-main: #000000;
-                --bg-card: rgba(18, 18, 19, 0.75);
-                --border-color: rgba(255, 255, 255, 0.08);
-                --text-main: #ffffff;
-                --text-muted: #a1a1a6;
-                --input-bg: rgba(0, 0, 0, 0.6);
-                --apple-cyan: #00F5FF;
-                --apple-blue: #7B2CBF;
-                --apple-green: #00FF87;
-                --apple-red: #ff453a;
-                --blur-intensity: 8px;
+            :root {
+                --bg: #0B0612;
+                --surface: #160F24;
+                --primary: #00F5FF;
+                --secondary: #7B2CBF;
+                --text: #F3EEFA;
+                --text-muted: #9486A8;
+                --error: #FF3366;
+                --success: #00FF87;
             }
 
-            :root[data-theme="light"] {
-                --bg-main: #f5f5f7;
-                --bg-card: rgba(255, 255, 255, 0.85);
-                --border-color: rgba(0, 0, 0, 0.08);
-                --text-main: #000000;
-                --text-muted: #6e6e73;
-                --input-bg: rgba(255, 255, 255, 0.95);
-                --apple-cyan: #0071e3;
-                --apple-blue: #5100a8;
-                --apple-green: #1d1d1f;
-                --apple-red: #d22115;
-                --blur-intensity: 5px;
-            }
-            
-            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-            
-            body {
-                background-color: var(--bg-main);
-                color: var(--text-main);
-                font-family: 'Inter', -apple-system, sans-serif;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 15px 10px 100px 10px;
-                position: relative;
-                transition: background-color 0.3s, color 0.3s;
-                overflow-x: hidden;
-            }
+            * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; -webkit-tap-highlight-color: transparent; }
+            body, html { background: var(--bg); color: var(--text); width: 100%; min-height: 100vh; overflow-x: hidden; }
 
-            .ambient-glow {
-                position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 100vw; height: 50vh;
-                background: radial-gradient(circle, rgba(123, 44, 191, 0.12) 0%, rgba(0, 245, 255, 0.03) 50%, transparent 100%);
-                z-index: 1; pointer-events: none; filter: blur(60px);
-            }
-
-            #cyber-loader {
+            /* INITIAL ACCESS GATE */
+            #access-gate {
                 position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--bg-main); z-index: 9999;
-                display: flex; flex-direction: column; justify-content: center; align-items: center;
-                transition: opacity 0.4s ease-out;
+                background: radial-gradient(circle at center, #190A2E 0%, var(--bg) 100%);
+                display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px;
             }
-            .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; }
-            .smooth-aura-glow {
-                width: 50px; height: 50px; border: 3px solid rgba(255, 255, 255, 0.02);
-                border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue);
-                border-radius: 50%; animation: appleSpin 0.7s linear infinite;
+            .gate-card {
+                background: rgba(22, 15, 36, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                border: 2px solid var(--secondary); padding: 40px 30px; border-radius: 24px;
+                width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 40px rgba(123, 44, 191, 0.3);
             }
-            @keyframes appleSpin { to { transform: rotate(360deg); } }
-
-            .container-box {
-                width: 100%; max-width: 650px;
-                background: var(--bg-card); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-                border: 1px solid var(--border-color); border-radius: 24px;
-                padding: 20px; z-index: 2; position: relative;
-                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-                opacity: 0; transform: scale(0.98);
-                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .container-box.system-ready { opacity: 1; transform: scale(1); }
-
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; }
-
-            .theme-toggle-btn {
-                background: var(--border-color); border: none;
-                color: var(--text-main); font-size: 1.1rem; cursor: pointer;
-                padding: 8px 12px; border-radius: 12px; transition: 0.2s;
-            }
-
-            /* 🔔 RATE LIMIT WARNING ALERT */
-            .rate-warning {
-                display: none; background: rgba(255, 69, 58, 0.12); border: 1px solid var(--apple-red);
-                color: #ff453a; padding: 12px; border-radius: 14px; margin-top: 15px;
-                font-size: 0.8rem; font-weight: 700; align-items: center; gap: 8px;
-            }
-
-            /* 🔑 API KEY INPUT SECTION */
-            .apikey-section { margin-top: 15px; padding: 15px; background: rgba(0, 245, 255, 0.04); border: 1px solid rgba(0, 245, 255, 0.12); border-radius: 16px; }
-            .apikey-row { display: flex; gap: 8px; margin-top: 8px; }
-            .apikey-input {
-                flex-grow: 1; padding: 12px; background: var(--input-bg);
-                border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 10px;
-                color: var(--apple-cyan); font-size: 0.85rem; font-weight: 700; font-family: monospace; outline: none; width: 50%;
-            }
-            .btn-setkey { background: var(--apple-cyan); color: #000; font-size: 0.75rem; font-weight: 900; padding: 0 15px; border-radius: 10px; border: none; cursor: pointer; }
-
-            /* 📊 DASHBOARD */
-            .dashboard-panel { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 16px; }
-            .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-            .dash-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; }
-            .stat-label { font-size: 0.65rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-            .stat-value { font-size: 1rem; font-weight: 900; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
-            .usage-bar-track { width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 6px; overflow: hidden; }
-            .usage-bar-fill { height: 100%; width: 0; background: var(--apple-cyan); transition: width 0.4s; }
-
-            /* 🔒 ENDPOINTS BLUR/LOCK SYSTEM */
-            .endpoint-list { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
+            .gate-card.shake { animation: shake 0.4s ease-in-out; border-color: var(--error); }
+            @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
             
-            .api-wrapper { 
-                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); 
-                border-radius: 16px; overflow: hidden; transition: all 0.2s; position: relative;
+            .gate-logo { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 20px; }
+            .gate-input {
+                width: 100%; background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(148, 134, 168, 0.3);
+                padding: 16px; border-radius: 12px; color: var(--primary); font-family: 'JetBrains Mono', monospace;
+                font-size: 16px; text-align: center; outline: none; margin-bottom: 20px; transition: 0.3s;
             }
+            .gate-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); }
+            .gate-btn {
+                width: 100%; background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%);
+                border: none; padding: 16px; border-radius: 12px; color: #FFF; font-size: 16px; cursor: pointer;
+            }
+
+            /* MAIN CONSOLE APP */
+            #main-app { display: none; flex-direction: column; min-height: 100vh; padding-bottom: 80px; }
+            nav {
+                background: rgba(22, 15, 36, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid rgba(123, 44, 191, 0.3); padding: 16px 20px;
+                display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
+            }
+            .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; color: var(--text); }
+            .brand svg { width: 24px; height: 24px; fill: var(--primary); }
             
-            .api-wrapper.locked {
-                filter: blur(var(--blur-intensity));
-                pointer-events: none;
-                user-select: none;
-                opacity: 0.4;
-            }
-
-            #global-lock-shield {
-                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                z-index: 100; background: rgba(0,0,0,0.9); padding: 15px 20px; border-radius: 14px;
-                border: 1px solid var(--apple-cyan); color: #fff; font-size: 0.8rem; font-weight: 900;
-                text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); max-width: 90%; width: 320px;
-            }
-
-            .api-row { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 3px; max-width: 80%; }
-            .endpoint-slug { font-size: 0.95rem; font-weight: 800; font-family: monospace; overflow-wrap: break-word; word-break: break-all; }
+            .container { max-width: 800px; width: 100%; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
             
-            .fav-star { font-size: 1.2rem; color: #4e4e54; cursor: pointer; padding: 5px; }
-            .fav-star.active { color: #FFD60A; }
+            /* METRICS DASHBOARD */
+            .panel { background: var(--surface); border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 20px; padding: 20px; }
+            .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+            .dash-card { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+            .dash-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+            .dash-value { font-size: 18px; color: var(--text); }
+            .bar-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+            .bar-fill { height: 100%; width: 0%; background: var(--primary); transition: 0.4s; }
 
-            .api-docs { display: none; padding: 15px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.15); }
+            /* API ENDPOINTS LIST */
+            .api-list { display: flex; flex-direction: column; gap: 12px; }
+            .api-card { background: var(--surface); border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 16px; overflow: hidden; }
+            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .api-meta { display: flex; flex-direction: column; gap: 2px; }
+            .api-slug { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--primary); word-break: break-all; }
+            .api-name { font-size: 12px; color: var(--text-muted); }
+            .api-arrow { width: 16px; height: 16px; fill: var(--text-muted); transition: 0.3s; }
+            .api-card.open .api-arrow { transform: rotate(90deg); fill: var(--primary); }
+
+            /* API EXPANDED DOCS & RUNNER */
+            .api-docs { display: none; padding: 16px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(123, 44, 191, 0.15); }
+            .field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+            .field-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+            .field-input {
+                width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(148, 134, 168, 0.2);
+                border-radius: 8px; color: #FFF; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none;
+            }
+            .field-input:focus { border-color: var(--primary); }
             
-            /* 🔍 DYNAMIC PARAMETER INPUTS */
-            .param-input-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
-            .param-input-group label { font-size: 0.68rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-            .param-field { padding: 10px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-family: monospace; font-size: 0.85rem; outline: none; }
-
-            .url-box-container { display: flex; flex-direction: column; gap: 8px; margin-top: 5px; }
-            .url-display {
-                background: #000000; border: 1px solid var(--border-color); padding: 10px;
-                border-radius: 8px; font-family: monospace; font-size: 0.75rem; color: var(--apple-cyan);
-                overflow-x: auto; white-space: nowrap;
+            .url-box {
+                background: #000; padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace;
+                font-size: 11px; color: var(--primary); overflow-x: auto; white-space: nowrap; margin-bottom: 12px;
+                border: 1px solid rgba(255,255,255,0.05);
+            }
+            .action-row { display: flex; gap: 8px; }
+            .btn-action {
+                padding: 12px; border: none; border-radius: 8px; font-size: 12px; cursor: pointer; text-transform: uppercase;
+            }
+            .btn-copy { background: var(--surface); color: var(--text); border: 1px solid rgba(148, 134, 168, 0.2); }
+            .btn-run { background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%); color: #FFF; flex-grow: 1; }
+            
+            .response-window {
+                background: #05020A; border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 8px;
+                padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);
+                white-space: pre-wrap; overflow-x: auto; max-height: 180px; margin-top: 12px; display: none;
             }
 
-            .action-btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
-            .btn-action { border: none; font-size: 0.68rem; font-weight: 900; padding: 10px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
-            .btn-copy { background: #ffffff; color: #000; }
-            .btn-curl { background: #2c2c2e; color: #fff; }
-            .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; flex-grow: 1; }
-
-            /* 🌐 RESPONSE PING SPEED DISPLAY */
-            .speed-tag { font-size: 0.68rem; font-weight: 800; color: var(--text-muted); margin-top: 6px; display: none; }
-
-            .json-preview {
-                background: #000000; border: 1px solid var(--border-color); border-radius: 8px;
-                padding: 12px; font-family: monospace; font-size: 0.75rem; color: #888;
-                white-space: pre-wrap; overflow-x: auto; max-height: 180px; margin-top: 8px;
-            }
-
-            /* 🕐 REQUEST HISTORY LOG PANEL */
-            .history-panel { margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 16px; }
-            .history-title { font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted); }
-            .history-list { display: flex; flex-direction: column; gap: 5px; font-family: monospace; font-size: 0.7rem; }
-            .history-item { display: flex; justify-content: space-between; padding: 6px; background: rgba(0,0,0,0.2); border-radius: 6px; }
-
-            /* 📱 MOBILE BOTTOM NAV BAR */
-            .mobile-nav-bar {
+            /* BOTTOM MOBILE DOCK */
+            .bottom-dock {
                 position: fixed; bottom: 0; left: 0; width: 100vw; height: 60px;
-                background: var(--bg-card); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-                border-top: 1px solid var(--border-color); z-index: 999;
+                background: rgba(22, 15, 36, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+                border-top: 1px solid rgba(123, 44, 191, 0.3); z-index: 999;
                 display: flex; justify-content: space-around; align-items: center;
             }
-            .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; gap: 3px; cursor: pointer; }
-            .nav-item.active { color: var(--apple-cyan); }
-            .nav-icon { font-size: 1.1rem; }
+            .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 10px; text-transform: uppercase; }
+            .dock-item svg { width: 18px; height: 18px; fill: currentColor; }
+            .dock-item.active { color: var(--primary); }
 
-            #toast-alert {
-                position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%); background: #ffffff; color: #000000;
-                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.8rem; padding: 10px 20px; border-radius: 10px;
-                z-index: 10000; opacity: 0; pointer-events: none; transition: all 0.2s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            }
-            #toast-alert.show { opacity: 1; }
-
-            @media (max-width: 480px) {
-                header h1 { font-size: 1.4rem; }
-                .endpoint-slug { font-size: 0.85rem; }
+            @media(max-width: 600px) {
+                .dash-grid { grid-template-columns: 1fr; }
+                .container { padding: 12px; }
             }
         </style>
     </head>
     <body>
 
-        <div class="ambient-glow"></div>
-        <div id="toast-alert">COPIED SUCCESSFULLY ✔</div>
-        <div id="cyber-loader"><div class="apple-loading-wrapper"><div class="smooth-aura-glow"></div></div></div>
-
-        <div id="global-lock-shield">🔑 ENTER VALID API KEY TO UNLOCK UI</div>
-
-        <div class="container-box" id="main-interface">
-            <header>
-                <h1>HASHUU PORTAL</h1>
-                <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
-            </header>
-
-            <div class="rate-warning" id="rateLimitAlert">
-                ⚠️ WARNING: API key usage has exceeded 85% of your daily limit!
-            </div>
-
-            <div class="apikey-section">
-                <div style="font-size:0.7rem; font-weight:800; color:var(--text-muted);">PREMIUM USER API AUTHENTICATION</div>
-                <div class="apikey-row">
-                    <input type="text" id="userApiKey" class="apikey-input" placeholder="e.g. HASHUU_PRO_KING_99" oninput="checkKeyPossibility()" />
-                    <button class="btn-setkey" onclick="validateAndUnlock()">UNLOCK</button>
-                </div>
-            </div>
-
-            <div class="dashboard-panel">
-                <div class="dash-grid">
-                    <div class="dash-card">
-                        <div class="stat-label">System Uptime</div>
-                        <div class="stat-value" id="val-uptime">--</div>
-                    </div>
-                    <div class="dash-card">
-                        <div class="stat-label">Your Daily Usage</div>
-                        <div class="stat-value" id="val-hits">0 / 0</div>
-                        <div class="usage-bar-track"><div class="usage-bar-fill" id="val-bar"></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="endpoint-list" id="endpointsContainer">
-                
-                <div class="api-wrapper locked" id="wrap-tiktok">
-                    <div class="api-row" onclick="toggleAccordion('tiktok')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/tiktok</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">TikTok Video Downloader</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('tiktok', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-tiktok">
-                        <div class="param-input-group"><label>Video Link URL (?url=)</label><input type="text" class="param-field" id="param-tiktok-url" value="https://vt.tiktok.com/ZS2amV76G/" oninput="rebuildUrl('tiktok')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-tiktok">/api/tiktok?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-tiktok')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('tiktok')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('tiktok', '/api/tiktok', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-tiktok">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-tiktok">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-tiktoksearch">
-                    <div class="api-row" onclick="toggleAccordion('tiktoksearch')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/tiktok_search</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">TikTok Video Search Engine</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('tiktoksearch', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-tiktoksearch">
-                        <div class="param-input-group"><label>Search Query (?text=)</label><input type="text" class="param-field" id="param-tiktoksearch-text" value="sl meme" oninput="rebuildUrl('tiktoksearch')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-tiktoksearch">/api/tiktok_search?text=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-tiktoksearch')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('tiktoksearch')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('tiktoksearch', '/api/tiktok_search', ['text'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-tiktoksearch">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-tiktoksearch">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-yt">
-                    <div class="api-row" onclick="toggleAccordion('yt')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/yt_download</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">YouTube MP4/MP3 Multi Downloader</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('yt', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-yt">
-                        <div class="param-input-group"><label>YouTube URL (?url=)</label><input type="text" class="param-field" id="param-yt-url" value="https://youtube.com/watch?v=dQw4w9WgXcQ" oninput="rebuildUrl('yt')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-yt">/api/yt_download?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-yt')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('yt')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('yt', '/api/yt_download', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-yt">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-yt">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-fbdl">
-                    <div class="api-row" onclick="toggleAccordion('fbdl')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/fbdl</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Facebook HD Video Downloader</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('fbdl', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-fbdl">
-                        <div class="param-input-group"><label>Facebook Post URL (?url=)</label><input type="text" class="param-field" id="param-fbdl-url" value="https://www.facebook.com/watch/?v=123" oninput="rebuildUrl('fbdl')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-fbdl">/api/fbdl?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-fbdl')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('fbdl')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('fbdl', '/api/fbdl', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-fbdl">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-fbdl">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-mediafire">
-                    <div class="api-row" onclick="toggleAccordion('mediafire')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/mediafire</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Mediafire File Scraper</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('mediafire', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-mediafire">
-                        <div class="param-input-group"><label>Mediafire URL (?url=)</label><input type="text" class="param-field" id="param-mediafire-url" value="https://www.mediafire.com/file/xxx" oninput="rebuildUrl('mediafire')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-mediafire">/api/mediafire?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-mediafire')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('mediafire')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('mediafire', '/api/mediafire', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-mediafire">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-mediafire">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-remini">
-                    <div class="api-row" onclick="toggleAccordion('remini')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/remini</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">AI Photo Quality Restorer</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('remini', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-remini">
-                        <div class="param-input-group"><label>Image URL (?url=)</label><input type="text" class="param-field" id="param-remini-url" value="https://example.com/image.jpg" oninput="rebuildUrl('remini')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-remini">/api/remini?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-remini')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('remini')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('remini', '/api/remini', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-remini">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-remini">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-chat">
-                    <div class="api-row" onclick="toggleAccordion('chat')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/chat</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">ChatGPT-4o Brain Core</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('chat', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-chat">
-                        <div class="param-input-group"><label>Prompt Parameter (?prompt=)</label><input type="text" class="param-field" id="param-chat-prompt" value="Hi" oninput="rebuildUrl('chat')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-chat">/api/chat?prompt=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-chat')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('chat')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('chat', '/api/chat', ['prompt'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-chat">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-chat">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-movie">
-                    <div class="api-row" onclick="toggleAccordion('movie')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/movie</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">OMDb Movie database lookup</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('movie', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-movie">
-                        <div class="param-input-group"><label>Movie Name (?text=)</label><input type="text" class="param-field" id="param-movie-text" value="Avengers" oninput="rebuildUrl('movie')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-movie">/api/movie?text=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-movie')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('movie')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('movie', '/api/movie', ['text'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-movie">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-movie">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-shorten">
-                    <div class="api-row" onclick="toggleAccordion('shorten')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/url_shorten</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Cuttly Link Redirection Generator</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('shorten', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-shorten">
-                        <div class="param-input-group"><label>Target URL Link (?link=)</label><input type="text" class="param-field" id="param-shorten-link" value="https://google.com" oninput="rebuildUrl('shorten')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-shorten">/api/url_shorten?link=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-shorten')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('shorten')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('shorten', '/api/url_shorten', ['link'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-shorten">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-shorten">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-anime">
-                    <div class="api-row" onclick="toggleAccordion('anime')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/anime</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Waifu Random Anime Database</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('anime', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-anime">
-                        <div class="param-input-group"><label>Category Tag (?category=)</label><input type="text" class="param-field" id="param-anime-category" value="waifu" oninput="rebuildUrl('anime')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-anime">/api/anime?category=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-anime')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('anime')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('anime', '/api/anime', ['category'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-anime">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-anime">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-stalk">
-                    <div class="api-row" onclick="toggleAccordion('stalk')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/repo_stalk</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Github Code Repository Metrics</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('stalk', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-stalk">
-                        <div class="param-input-group"><label>Username / Repo (?url=)</label><input type="text" class="param-field" id="param-stalk-url" value="https://github.com/expressjs/express" oninput="rebuildUrl('stalk')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-stalk">/api/repo_stalk?url=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-stalk')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('stalk')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('stalk', '/api/repo_stalk', ['url'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-stalk">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-stalk">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-wallpaper">
-                    <div class="api-row" onclick="toggleAccordion('wallpaper')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/wallpaper</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Ultra HD Wallpapers Scraper</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('wallpaper', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-wallpaper">
-                        <div class="param-input-group"><label>Wallpaper Query (?text=)</label><input type="text" class="param-field" id="param-wallpaper-text" value="Cyberpunk" oninput="rebuildUrl('wallpaper')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-wallpaper">/api/wallpaper?text=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-wallpaper')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('wallpaper')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('wallpaper', '/api/wallpaper', ['text'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-wallpaper">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-wallpaper">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-obfuscate">
-                    <div class="api-row" onclick="toggleAccordion('obfuscate')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/obfuscate</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Advanced Security Encryption Code Guard</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('obfuscate', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-obfuscate">
-                        <div class="param-input-group"><label>Source Code Payload (?code=)</label><input type="text" class="param-field" id="param-obfuscate-code" value="console.log('hello world');" oninput="rebuildUrl('obfuscate')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-obfuscate">/api/obfuscate?code=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-obfuscate')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('obfuscate')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('obfuscate', '/api/obfuscate', ['code'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-obfuscate">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-obfuscate">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-imgbb">
-                    <div class="api-row" onclick="toggleAccordion('imgbb')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">POST /imgbb</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Cloud Engine Direct Uploader (Simulated Link)</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('imgbb', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-imgbb">
-                        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Note: Production form data submission requires multipart/form-data. Below executes a dummy key execution check.</div>
-                        <div class="url-box-container"><div class="url-display" id="url-imgbb">/imgbb</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="navigator.clipboard.writeText(window.location.origin+'/imgbb?apikey='+activeApiKey); triggerToast();">Copy URL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('imgbb', '/api/stats', [])">Verify Backend Status</button>
-                            </div>
-                        </div>
-                        <pre class="json-preview" id="res-imgbb">{}</pre>
-                    </div>
-                </div>
-
-                <div class="api-wrapper locked" id="wrap-weather">
-                    <div class="api-row" onclick="toggleAccordion('weather')">
-                        <div class="meta-details">
-                            <span class="endpoint-slug">/api/weather</span>
-                            <span style="font-size:0.7rem; color:var(--text-muted)">Global Climate Report Engine</span>
-                        </div>
-                        <span class="fav-star" onclick="toggleFavourite('weather', event)">★</span>
-                    </div>
-                    <div class="api-docs" id="docs-weather">
-                        <div class="param-input-group"><label>City Name (?text=)</label><input type="text" class="param-field" id="param-weather-text" value="Colombo" oninput="rebuildUrl('weather')"></div>
-                        <div class="url-box-container"><div class="url-display" id="url-weather">/api/weather?text=</div>
-                            <div class="action-btn-row">
-                                <button class="btn-action btn-copy" onclick="copyLink('url-weather')">Copy</button>
-                                <button class="btn-action btn-curl" onclick="copyAsCurl('weather')">📋 cURL</button>
-                                <button class="btn-action btn-run" onclick="runEndpoint('weather', '/api/weather', ['text'])">Run API</button>
-                            </div>
-                        </div>
-                        <div class="speed-tag" id="speed-weather">⚡ Speed: <span class="ms">0</span>ms</div><pre class="json-preview" id="res-weather">{}</pre>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="history-panel">
-                <div class="history-title">🕐 Request History Log (Last 10 calls)</div>
-                <div class="history-list" id="historyLogList">
-                    <div style="color:var(--text-muted)">No active log signals yet.</div>
-                </div>
+        <div id="access-gate">
+            <div class="gate-card" id="gate-box">
+                <svg class="gate-logo" viewBox="0 0 24 24"><path d="M12,1A5,5,0,0,0,7,6v4H6a3,3,0,0,0,-3,3v7a3,3,0,0,0,3,3h12a3,3,0,0,0,3,-3V13a3,3,0,0,0,-3,-3H17V6A5,5,0,0,0,12,1Zm3,9H9V6a3,3,0,0,1,6,0Z"/></svg>
+                <div style="font-size:20px; margin-bottom:10px;">AUTHENTICATION REQUIRED</div>
+                <input type="password" id="gate-key" class="gate-input" placeholder="ENTER ACCESS MASTER KEY">
+                <button class="gate-btn" onclick="unlockGateway()">VERIFY SYSTEM</button>
             </div>
         </div>
 
-        <div class="mobile-nav-bar">
-            <div class="nav-item active" onclick="filterNav('all')"><span class="nav-icon">⚡</span><span>All APIs</span></div>
-            <div class="nav-item" onclick="filterNav('fav')"><span class="nav-icon">⭐</span><span>Bookmarks</span></div>
-            <div class="nav-item" onclick="scrollToTop()"><span class="nav-icon">🔑</span><span>Unlock Key</span></div>
+        <div id="main-app">
+            <nav>
+                <div class="brand">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <span>MR HASHUU CORE</span>
+                </div>
+            </nav>
+
+            <div class="container">
+                <div class="panel">
+                    <div class="dash-grid">
+                        <div class="dash-card">
+                            <div class="dash-label">GATEWAY UPTIME</div>
+                            <div class="dash-value" id="runtime-uptime">--</div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-label">TOKEN RUN RATIO</div>
+                            <div class="dash-value" id="runtime-hits">0 / 0</div>
+                            <div class="bar-track"><div class="bar-fill" id="runtime-bar"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-list" id="api-master-list"></div>
+            </div>
+
+            <div class="bottom-dock">
+                <div class="dock-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>CONSOLE</span>
+                </div>
+                <div class="dock-item" onclick="location.reload()">
+                    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                    <span>LOCK KEY</span>
+                </div>
+            </div>
         </div>
 
         <script>
-            let activeApiKey = "";
-            let historyLog = [];
-            let favouriteEndpoints = JSON.parse(localStorage.getItem('fav_endpoints') || '[]');
+            let activeKey = "";
+            
+            // THE 15 ORIGINAL APIS METADATA DEFINITIONS
+            const ENDPOINTS_DB = [
+                { id: "tiktok", slug: "/api/tiktok", name: "TIKTOK VIDEO DOWNLOADER", param: "url", placeholder: "https://vt.tiktok.com/xxx/" },
+                { id: "tiktoksearch", slug: "/api/tiktok_search", name: "TIKTOK SEARCH ENGINE", param: "text", placeholder: "sl memes" },
+                { id: "yt", slug: "/api/yt_download", name: "YOUTUBE VIDEO DOWNLOADER", param: "url", placeholder: "https://youtube.com/watch?v=xxx" },
+                { id: "fbdl", slug: "/api/fbdl", name: "FACEBOOK HD DOWNLOADER", param: "url", placeholder: "https://www.facebook.com/watch/xxx" },
+                { id: "mediafire", slug: "/api/mediafire", name: "MEDIAFIRE FILE SCROLLER", param: "url", placeholder: "https://www.mediafire.com/file/xxx" },
+                { id: "remini", slug: "/api/remini", name: "AI REMINI IMAGE ENHANCER", param: "url", placeholder: "https://example.com/image.jpg" },
+                { id: "chat", slug: "/api/chat", name: "CHATGPT CORE BRAIN INTELLIGENCE", param: "prompt", placeholder: "Hi" },
+                { id: "movie", slug: "/api/movie", name: "OMDB MOVIE METRICS ENGINE", param: "text", placeholder: "Avengers" },
+                { id: "shorten", slug: "/api/url_shorten", name: "URL CUTTLY LINK SHORTENER", param: "link", placeholder: "https://google.com" },
+                { id: "anime", slug: "/api/anime", name: "WAIFU ANIME DB EXTRACTOR", param: "category", placeholder: "waifu" },
+                { id: "stalk", slug: "/api/repo_stalk", name: "GITHUB REPOSITORY SEARCH ENGINE", param: "url", placeholder: "https://github.com/expressjs/express" },
+                { id: "wallpaper", slug: "/api/wallpaper", name: "ULTRA HD WALLPAPER SCRAIPER", param: "text", placeholder: "Cyberpunk" },
+                { id: "obfuscate", slug: "/api/obfuscate", name: "JAVASCRIPT ENCRYPTION OBFUSCATOR", param: "code", placeholder: "console.log('hello');" },
+                { id: "imgbb", slug: "/api/stats", name: "IMGBB BACKEND VERIFICATION ROUTE (POST DETECTOR)", param: "check", placeholder: "true" },
+                { id: "weather", slug: "/api/weather", name: "GLOBAL CLIMATE REALTIME METRIC", param: "text", placeholder: "Colombo" }
+            ];
 
-            window.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => { document.getElementById('cyber-loader').style.opacity = '0'; setTimeout(() => document.getElementById('cyber-loader').remove(), 300); }, 600);
-                document.getElementById('main-interface').classList.add('system-ready');
-                renderFavouritesState();
-                fetchGlobalStats();
-            });
+            function renderEndpoints() {
+                const container = document.getElementById('api-master-list');
+                container.innerHTML = ENDPOINTS_DB.map(api => `
+                    <div class="api-card" id="card-${api.id}">
+                        <div class="api-row" onclick="toggleCard('${api.id}')">
+                            <div class="api-meta">
+                                <span class="api-slug">${api.slug}</span>
+                                <span class="api-name">${api.name}</span>
+                            </div>
+                            <svg class="api-arrow" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="api-docs" id="docs-${api.id}">
+                            <div class="field-group">
+                                <label class="field-label">PARAMETER REQUIREMENT (?${api.param}=)</label>
+                                <input type="text" class="field-input" id="input-${api.id}" value="${api.placeholder}" oninput="updateUrlDisplay('${api.id}', '${api.slug}', '${api.param}')">
+                            </div>
+                            <div class="url-box" id="urlbox-${api.id}">fetching setup...</div>
+                            <div class="action-row">
+                                <button class="btn-action btn-copy" onclick="copyRoute('${api.id}')">COPY URL</button>
+                                <button class="btn-action btn-run" onclick="runRoute('${api.id}', '${api.slug}', '${api.param}')">EXECUTE REQUEST</button>
+                            </div>
+                            <pre class="response-window" id="res-${api.id}"></pre>
+                        </div>
+                    </div>
+                `).join('');
+            }
 
-            function toggleTheme() {
-                const html = document.documentElement;
-                const btn = document.querySelector('.theme-toggle-btn');
-                if(html.getAttribute('data-theme') === 'dark') {
-                    html.setAttribute('data-theme', 'light'); btn.innerText = "☀️";
+            function unlockGateway() {
+                const input = document.getElementById('gate-key').value.trim();
+                if (input === "MR_HASHUU_SECRET_123") {
+                    activeKey = input;
+                    document.getElementById('access-gate').style.display = 'none';
+                    document.getElementById('main-app').style.display = 'flex';
+                    renderEndpoints();
+                    ENDPOINTS_DB.forEach(api => updateUrlDisplay(api.id, api.slug, api.param));
+                    refreshMetrics();
                 } else {
-                    html.setAttribute('data-theme', 'dark'); btn.innerText = "🌙";
+                    const box = document.getElementById('gate-box');
+                    box.classList.add('shake');
+                    setTimeout(() => box.classList.remove('shake'), 400);
                 }
             }
 
-            function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
-
-            function checkKeyPossibility() {
-                const input = document.getElementById('userApiKey').value.trim();
-                if(!input) lockSystem();
-            }
-
-            function validateAndUnlock() {
-                const input = document.getElementById('userApiKey').value.trim();
-                if(!input) return;
-
-                activeApiKey = input;
-                document.getElementById('global-lock-shield').style.display = 'none';
-                
-                document.querySelectorAll('.api-wrapper').forEach(w => {
-                    w.classList.remove('locked');
-                    const id = w.id.replace('wrap-', '');
-                    rebuildUrl(id);
-                });
-
-                triggerToast("INTERFACE ACCESS GRANTED");
-                fetchGlobalStats();
-            }
-
-            function lockSystem() {
-                activeApiKey = "";
-                document.getElementById('global-lock-shield').style.display = 'block';
-                document.querySelectorAll('.api-wrapper').forEach(w => w.classList.add('locked'));
-            }
-
-            function rebuildUrl(id) {
-                const container = document.getElementById('wrap-' + id);
-                if(!container || container.classList.contains('locked')) return;
-
-                const fields = container.querySelectorAll('.param-field');
-                let params = [];
-                fields.forEach(f => {
-                    const paramKey = f.id.replace('param-' + id + '-', '');
-                    params.push(paramKey + '=' + encodeURIComponent(f.value));
-                });
-                if(activeApiKey) params.push('apikey=' + encodeURIComponent(activeApiKey));
-                
-                const slug = container.querySelector('.endpoint-slug').innerText.replace('POST ', '');
-                document.getElementById('url-' + id).innerText = slug + '?' + params.join('&');
-            }
-
-            function toggleAccordion(id) {
+            function toggleCard(id) {
                 const docs = document.getElementById('docs-' + id);
-                if(docs.style.display === 'block') {
-                    docs.style.display = 'none';
-                } else {
-                    document.querySelectorAll('.api-docs').forEach(d => d.style.display = 'none');
+                const card = document.getElementById('card-' + id);
+                const isOpen = card.classList.contains('open');
+                
+                document.querySelectorAll('.api-card').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.api-docs').forEach(d => d.style.display = 'none');
+
+                if (!isOpen) {
+                    card.classList.add('open');
                     docs.style.display = 'block';
                 }
             }
 
-            function toggleFavourite(id, e) {
-                e.stopPropagation();
-                if(favouriteEndpoints.includes(id)) {
-                    favouriteEndpoints = favouriteEndpoints.filter(x => x !== id);
-                } else {
-                    favouriteEndpoints.push(id);
-                }
-                localStorage.setItem('fav_endpoints', JSON.stringify(favouriteEndpoints));
-                renderFavouritesState();
+            function updateUrlDisplay(id, slug, param) {
+                const val = encodeURIComponent(document.getElementById('input-' + id).value);
+                document.getElementById('urlbox-' + id).innerText = `${slug}?${param}=${val}&apikey=${activeKey}`;
             }
 
-            function renderFavouritesState() {
-                document.querySelectorAll('.api-wrapper').forEach(w => {
-                    const id = w.id.replace('wrap-', '');
-                    const star = w.querySelector('.fav-star');
-                    if(favouriteEndpoints.includes(id)) star.classList.add('active');
-                    else star.classList.remove('active');
-                });
+            function copyRoute(id) {
+                const txt = document.getElementById('urlbox-' + id).innerText;
+                navigator.clipboard.writeText(window.location.origin + txt);
             }
 
-            function filterNav(mode) {
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                event.currentTarget.classList.add('active');
+            async function runRoute(id, slug, param) {
+                const val = document.getElementById('input-' + id).value;
+                const windowRes = document.getElementById('res-' + id);
+                windowRes.style.display = "block";
+                windowRes.innerText = "// TRANSFERRING SIGNALS ON NETWORK BUS... //";
+                windowRes.style.color = "var(--text-muted)";
 
-                document.querySelectorAll('.api-wrapper').forEach(w => {
-                    const id = w.id.replace('wrap-', '');
-                    if(mode === 'fav') {
-                        w.style.display = favouriteEndpoints.includes(id) ? 'block' : 'none';
-                    } else {
-                        w.style.display = 'block';
-                    }
-                });
-            }
-
-            function copyAsCurl(id) {
-                const currentUrlDisplay = document.getElementById('url-' + id).innerText;
-                const curlCommand = \`curl -X GET "\${window.location.origin}\${currentUrlDisplay}"\`;
-                navigator.clipboard.writeText(curlCommand).then(() => triggerToast("cURL COMMAND COPIED"));
-            }
-
-            function copyLink(elementId) {
-                const text = document.getElementById(elementId).innerText;
-                navigator.clipboard.writeText(window.location.origin + text).then(() => triggerToast());
-            }
-
-            function triggerToast(msg = "COPIED TO CLIPBOARD ✔") {
-                const toast = document.getElementById('toast-alert');
-                toast.innerText = msg; toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 1500);
-            }
-
-            async function runEndpoint(id, route, paramKeys) {
-                const consoleBox = document.getElementById('res-' + id);
-                const speedTag = document.getElementById('speed-' + id);
-                
-                let queryParts = [];
-                paramKeys.forEach(k => {
-                    const val = document.getElementById('param-' + id + '-' + k).value;
-                    queryParts.push(k + '=' + encodeURIComponent(val));
-                });
-                queryParts.push('apikey=' + encodeURIComponent(activeApiKey));
-
-                const finalUrl = route + '?' + queryParts.join('&');
-                consoleBox.textContent = "// EVALUATING NETWORK SIGNAL TRANSFER... //";
-                
-                const startTime = performance.now();
                 try {
-                    const res = await fetch(finalUrl);
-                    const payload = await res.json();
-                    const duration = Math.round(performance.now() - startTime);
-                    
-                    speedTag.style.display = "block";
-                    speedTag.querySelector('.ms').innerText = duration;
-
-                    consoleBox.textContent = JSON.stringify(payload, null, 2);
-                    consoleBox.style.color = "#00FF87";
-
-                    pushHistoryLog(route, res.status);
-                    fetchGlobalStats();
-                } catch (err) {
-                    consoleBox.textContent = JSON.stringify({ error: "Network stream broken", msg: err.message }, null, 2);
-                    consoleBox.style.color = "#ff453a";
-                }
-            }
-
-            function pushHistoryLog(endpoint, status) {
-                const timeStr = new Date().toLocaleTimeString();
-                historyLog.unshift({ endpoint, status, time: timeStr });
-                if(historyLog.length > 10) historyLog.pop();
-
-                const container = document.getElementById('historyLogList');
-                container.innerHTML = historyLog.map(item => \`
-                    <div class="history-item">
-                        <span>\${item.endpoint}</span>
-                        <span style="color:\${item.status === 200 ? 'var(--apple-green)':'var(--apple-red)'}">\${item.status} [\${item.time}]</span>
-                    </div>
-                \`).join('');
-            }
-
-            async function fetchGlobalStats() {
-                try {
-                    const keyParam = activeApiKey ? '?apikey=' + encodeURIComponent(activeApiKey) : '';
-                    const res = await fetch('/api/stats' + keyParam);
+                    const targetUrl = `${slug}?${param}=${encodeURIComponent(val)}&apikey=${activeKey}`;
+                    const res = await fetch(targetUrl);
                     const data = await res.json();
                     
+                    windowRes.innerText = JSON.stringify(data, null, 2);
+                    windowRes.style.color = data.success !== false ? "var(--success)" : "var(--error)";
+                    refreshMetrics();
+                } catch(e) {
+                    windowRes.innerText = JSON.stringify({ error: "EXECUTION FAILURE", message: e.message }, null, 2);
+                    windowRes.style.color = "var(--error)";
+                }
+            }
+
+            async function refreshMetrics() {
+                try {
+                    const res = await fetch(`/api/stats?apikey=${activeKey}`);
+                    const data = await res.json();
                     if(data.success) {
-                        document.getElementById('val-uptime').innerText = data.server.uptime;
+                        document.getElementById('runtime-uptime').innerText = data.server.uptime;
                         if(data.key_info) {
-                            const currentUsage = data.key_info.today_usage;
-                            const limit = data.key_info.daily_limit;
-                            const pct = data.key_info.usage_percent;
-
-                            document.getElementById('val-hits').innerText = currentUsage + " / " + limit;
-                            document.getElementById('val-bar').style.width = pct + "%";
-
-                            if(pct >= 85) document.getElementById('rateLimitAlert').style.display = 'flex';
-                            else document.getElementById('rateLimitAlert').style.display = 'none';
+                            document.getElementById('runtime-hits').innerText = `${data.key_info.today_usage} / ${data.key_info.daily_limit}`;
+                            document.getElementById('runtime-bar').style.width = `${data.key_info.usage_percent}%`;
                         }
                     }
                 } catch(e){}
@@ -914,16 +394,16 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ BACKEND API ROUTERS LOGIC (ALL 15 ORIGINAL ROUTERS)
+// 🛠️ BACKEND API SYSTEM ROUTERS (ALL 15 CHANNELS)
 // ─────────────────────────────────────────────────────────
 
 // 1. TIKTOK DOWNLOADER
 app.get('/api/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tiktok?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video_hd || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.video_hd || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -931,9 +411,9 @@ app.get('/api/tiktok', strictAuthGate, async (req, res) => {
 app.get('/api/tiktok_search', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Text parameter missing!" });
+        if (!text) return res.json({ success: false, message: "TEXT PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tiktoksearch?query=${encodeURIComponent(text)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.results || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.results || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -941,9 +421,9 @@ app.get('/api/tiktok_search', strictAuthGate, async (req, res) => {
 app.get('/api/yt_download', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/youtube/download?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.result || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -951,9 +431,9 @@ app.get('/api/yt_download', strictAuthGate, async (req, res) => {
 app.get('/api/fbdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video_hd || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.video_hd || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -961,9 +441,9 @@ app.get('/api/fbdl', strictAuthGate, async (req, res) => {
 app.get('/api/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -971,9 +451,9 @@ app.get('/api/mediafire', strictAuthGate, async (req, res) => {
 app.get('/api/remini', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/remini?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.image_url || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.image_url || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -981,13 +461,13 @@ app.get('/api/remini', strictAuthGate, async (req, res) => {
 app.get('/api/chat', strictAuthGate, async (req, res) => {
     try {
         const { prompt } = req.query;
-        if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
-        const cleanPrompt = prompt.toLowerCase().trim();
-        if (cleanPrompt === 'hi') return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
-        
+        if (!prompt) return res.json({ success: false, message: "PROMPT PARAMETER MISSING." });
+        if (prompt.toLowerCase().trim() === 'hi') {
+            return res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: "HELLOW IM HASHUU AI SERVICE." });
+        }
         const systemPrompt = "You are Hashan-md AI, developed by MR HASHUU.";
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(systemPrompt)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data?.data?.choices?.[0]?.message?.content || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data?.data?.choices?.[0]?.message?.content || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -995,9 +475,9 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
 app.get('/api/movie', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Text parameter missing!" });
+        if (!text) return res.json({ success: false, message: "TEXT PARAMETER MISSING." });
         const { data } = await axios.get(`http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1005,9 +485,9 @@ app.get('/api/movie', strictAuthGate, async (req, res) => {
 app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
     try {
         const { link } = req.query;
-        if (!link) return res.json({ success: false, message: "Link parameter missing!" });
+        if (!link) return res.json({ success: false, message: "LINK PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1017,7 +497,7 @@ app.get('/api/anime', strictAuthGate, async (req, res) => {
         const { category } = req.query;
         const target = category ? category : 'waifu';
         const { data } = await axios.get(`https://api.waifu.pics/sfw/${target}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.url });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.url });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1025,8 +505,8 @@ app.get('/api/anime', strictAuthGate, async (req, res) => {
 app.get('/api/repo_stalk', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Url parameter missing!" });
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { repo: url, status: "Stalked" } });
+        if (!url) return res.json({ success: false, message: "URL PARAMETER MISSING." });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: { repo: url, status: "STALKED" } });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1034,9 +514,9 @@ app.get('/api/repo_stalk', strictAuthGate, async (req, res) => {
 app.get('/api/wallpaper', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Text parameter missing!" });
+        if (!text) return res.json({ success: false, message: "TEXT PARAMETER MISSING." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/wallpaper?query=${encodeURIComponent(text)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.result || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1044,20 +524,20 @@ app.get('/api/wallpaper', strictAuthGate, async (req, res) => {
 app.get('/api/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
-        if (!code) return res.json({ success: false, message: "Code parameter missing!" });
+        if (!code) return res.json({ success: false, message: "CODE PARAMETER MISSING." });
         const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true }).getObfuscatedCode();
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: obfuscatedCode });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 14. IMGBB IMAGE CLOUD POST
+// 14. IMGBB IMAGE CLOUD POST (Simulated via Core Framework Request Check)
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
+        if (!req.file) return res.json({ success: false, message: "NO FILE UPLOADED." });
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders() } });
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data || data });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data.data || data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1065,12 +545,12 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
 app.get('/api/weather', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Text parameter missing!" });
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { city: text, condition: "Sunny", temp: "31°C" } });
+        if (!text) return res.json({ success: false, message: "TEXT PARAMETER MISSING." });
+        res.json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: { city: text, condition: "SUNNY", temp: "31°C" } });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Engine running on port ${PORT}`));
+app.listen(PORT, () => console.log(`CORE ENGINE ACTIVE ON PORT ${PORT}`));
 
 module.exports = app;
