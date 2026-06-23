@@ -1,10 +1,10 @@
 /**
  * ───────────────────────────────────────────────────────────────────────────────
- * 🚀 MR HASHUU PREMIUM API MATRIX GATEWAY SERVER
+ * 🚀 MR HASHUU API INTERACTIVE CENTRAL CONTROL MAINNET
  * ───────────────────────────────────────────────────────────────────────────────
- * Developer/Owner : MR HASHUU
- * Release Version : 2.0.0 (Ultra Luxury Edition)
- * Platform        : Node.js / Express Architecture
+ * Architecture  : Vercel / Apple Luxury Black Fluid Grid
+ * Optimized For : Ultra High Performance & Dynamic Web Query Injection
+ * No Emojis     : Pure Production Grade Vector Graphics (Inline SVG Embedded)
  * ───────────────────────────────────────────────────────────────────────────────
  */
 
@@ -19,30 +19,26 @@ const FormData = require('form-data');
 const app = express();
 const upload = multer();
 
-// Global Middlewares Configurations
+// Global HTTP Core Middleware Protocols
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─────────────────────────────────────────────────────────
-// 🔑 AUTHORIZED PREMIUM API KEYS CORE DATABASE
+// 🔑 SECURE AUTHORIZED API PRODUCTION CREDENTIALS
 // ─────────────────────────────────────────────────────────
 const PREMIUM_DATABASE = {
-    "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM", level: "GOD_MODE" },
-    "MR_HASHUU_SECRET_123": { owner: "MR HASHUU", plan: "PRO", level: "CREATOR" },
-    "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM", level: "VIP" }
+    "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM", classification: "GOD_MODE" },
+    "MR_HASHUU_SECRET_123": { owner: "MR HASHUU", plan: "PRO", classification: "DEVELOPER" },
+    "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM", classification: "VIP_ACCESS" }
 };
 
 // ─────────────────────────────────────────────────────────
-// 📊 ADAVNCED USAGE TRACKING SYSTEM
+// 📊 METRICS & TRAFFIC TELEMETRY SYSTEM ARCHITECTURE
 // ─────────────────────────────────────────────────────────
 const usageStats = {};
 const SERVER_START_TIME = Date.now();
 
-/**
- * Tracks the API Key Usage per day dynamically
- * @param {string} apikey 
- */
 function trackUsage(apikey) {
     const today = new Date().toISOString().split('T')[0];
     if (!usageStats[apikey]) usageStats[apikey] = {};
@@ -50,41 +46,29 @@ function trackUsage(apikey) {
     usageStats[apikey][today]++;
 }
 
-/**
- * Gets the total usage count for today
- * @param {string} apikey 
- * @returns {number}
- */
 function getTodayUsage(apikey) {
     const today = new Date().toISOString().split('T')[0];
     return (usageStats[apikey] && usageStats[apikey][today]) || 0;
 }
 
-/**
- * Gets the total all-time request count for a specific key
- * @param {string} apikey 
- * @returns {number}
- */
 function getTotalUsage(apikey) {
     if (!usageStats[apikey]) return 0;
     return Object.values(usageStats[apikey]).reduce((a, b) => a + b, 0);
 }
 
-// Global Rate Limiter Policy Setup
+// Global Firewall Limit Configuration 
 const premiumLimiter = rateLimit({
-    windowMs: 24 * 60 * 60 * 1000, // 24 Hours window
+    windowMs: 24 * 60 * 60 * 1000,
     max: 5000, 
     message: { 
         success: false, 
         creator: "MR HASHUU",
         status: 429,
-        message: "Premium daily threshold limit reached! Please contact MR HASHUU for verification." 
+        error_packet: "DAILY_LIMIT_EXCEEDED"
     }
 });
 
-/**
- * Strict Security Authentication Gate Middleware
- */
+// Dynamic Middleware Authentication Gate
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
     
@@ -93,7 +77,7 @@ const strictAuthGate = (req, res, next) => {
             success: false,
             creator: "MR HASHUU",
             status: "ACCESS_DENIED",
-            message: "Authentication Failed! API Key is missing. Append '?apikey=YOUR_KEY' to your absolute URL."
+            message: "Authentication Token Missing. Append '?apikey=YOUR_KEY' to the routing path."
         });
     }
     
@@ -101,12 +85,11 @@ const strictAuthGate = (req, res, next) => {
         return res.status(403).json({
             success: false,
             creator: "MR HASHUU",
-            status: "INVALID_KEY",
-            message: "Access Denied! Invalid credentials. Contact MR HASHUU for an authorized secure premium key."
+            status: "INVALID_CREDENTIALS",
+            message: "Unauthorized Signature. Request an active authorization token from MR HASHUU."
         });
     }
     
-    // Injecting key authorization properties into request context
     req.planOwner = PREMIUM_DATABASE[apikey].owner;
     req.planType = PREMIUM_DATABASE[apikey].plan;
     req.apikey = apikey;
@@ -115,9 +98,7 @@ const strictAuthGate = (req, res, next) => {
     return premiumLimiter(req, res, next);
 };
 
-// ─────────────────────────────────────────────────────────
-// 📊 REALTIME SERVER STATS ENGINE
-// ─────────────────────────────────────────────────────────
+// Internal Node Monitoring Statistics API Endpoint
 app.get('/api/stats', (req, res) => {
     try {
         const { apikey } = req.query;
@@ -126,31 +107,28 @@ app.get('/api/stats', (req, res) => {
         const hours = Math.floor(uptimeMs / 3600000);
         const minutes = Math.floor((uptimeMs % 3600000) / 60000);
         const seconds = Math.floor((uptimeMs % 60000) / 1000);
-
-        const allTotalRequests = Object.keys(usageStats).reduce((sum, key) => sum + getTotalUsage(key), 0);
+        const totalSystemTraffic = Object.keys(usageStats).reduce((sum, k) => sum + getTotalUsage(k), 0);
 
         if (apikey && PREMIUM_DATABASE[apikey]) {
-            const plan = PREMIUM_DATABASE[apikey];
-            const dailyLimit = plan.plan === 'PREMIUM' ? 5000 : 3000;
-            const todayUsage = getTodayUsage(apikey);
-            const totalUsage = getTotalUsage(apikey);
+            const nodeMeta = PREMIUM_DATABASE[apikey];
+            const maxThreshold = nodeMeta.plan === 'PREMIUM' ? 5000 : 3000;
+            const currentHits = getTodayUsage(apikey);
 
             return res.status(200).json({
                 success: true,
                 key_info: {
-                    owner: plan.owner,
-                    plan: plan.plan,
-                    daily_limit: dailyLimit,
-                    today_usage: todayUsage,
-                    today_remaining: Math.max(0, dailyLimit - todayUsage),
-                    usage_percent: Math.min(100, Math.round((todayUsage / dailyLimit) * 100)),
-                    total_all_time: totalUsage
+                    owner: nodeMeta.owner,
+                    plan: nodeMeta.plan,
+                    daily_limit: maxThreshold,
+                    today_usage: currentHits,
+                    remaining: Math.max(0, maxThreshold - currentHits),
+                    usage_ratio: Math.min(100, Math.round((currentHits / maxThreshold) * 100)),
+                    all_time_hits: getTotalUsage(apikey)
                 },
                 server: {
                     uptime: `${hours}h ${minutes}m ${seconds}s`,
-                    uptime_ms: uptimeMs,
-                    total_requests_all_keys: allTotalRequests,
-                    status: "ONLINE"
+                    global_traffic_load: totalSystemTraffic,
+                    status: "OPERATIONAL"
                 }
             });
         }
@@ -159,466 +137,577 @@ app.get('/api/stats', (req, res) => {
             success: true,
             server: {
                 uptime: `${hours}h ${minutes}m ${seconds}s`,
-                uptime_ms: uptimeMs,
-                total_requests_all_keys: allTotalRequests,
-                status: "ONLINE"
+                global_traffic_load: totalSystemTraffic,
+                status: "OPERATIONAL"
             }
         });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Stats generation runtime exception error.", log: error.message });
+    } catch (err) {
+        res.status(500).json({ success: false, error: "METRICS_CRASH", details: err.message });
     }
 });
 
 // ─────────────────────────────────────────────────────────
-// 🌌 ULTRA LUXURY APPLE MATRIX INTERACTION UI HTML PORTAL
+// 🌌 LUXURY BLACK APP INTUITIVE FRONTEND (ANTI-CRASH RAW STREAM)
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
-    // UI section directly serves the interactive web dashboard framework
-    res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU PREMIUM GATEWAY</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
-        <style>
-            :root {
-                --apple-black: #000000;
-                --apple-dark-gray: #09090a;
-                --apple-card: rgba(18, 18, 19, 0.75);
-                --apple-border: rgba(255, 255, 255, 0.07);
-                --apple-cyan: #00F5FF;
-                --apple-blue: #7B2CBF;
-                --apple-green: #00FF87;
-                --apple-red: #ff453a;
-                --text-main: #ffffff;
-                --text-muted: #a1a1a6;
-            }
-            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-            body { background-color: var(--apple-black); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 40px 0; position: relative; }
-            .ambient-glow { position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 90vw; height: 60vh; background: radial-gradient(circle, rgba(123, 44, 191, 0.25) 0%, rgba(0, 245, 255, 0.06) 45%, transparent 100%); z-index: 1; pointer-events: none; filter: blur(70px); }
-            #cyber-loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--apple-black); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s ease-out; }
-            .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-            .smooth-aura-glow { width: 65px; height: 65px; border: 4px solid rgba(255, 255, 255, 0.02); border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue); border-radius: 50%; animation: appleSpin 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-            .loader-brand { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #ffffff; letter-spacing: 5px; text-transform: uppercase; background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-            @keyframes appleSpin { to { transform: rotate(360deg); } }
-            .vercel-box { width: 92%; max-width: 650px; background: var(--apple-card); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); border: 1px solid var(--apple-border); border-radius: 28px; padding: 35px; z-index: 2; position: relative; box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9); opacity: 0; transform: scale(0.96); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-            .vercel-box.system-ready { opacity: 1; transform: scale(1); }
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
-            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
-            .status-container { display: inline-flex; align-items: center; gap: 7px; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px; color: var(--apple-cyan); background: rgba(0, 245, 255, 0.08); padding: 7px 15px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2); }
-            .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
-            @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
-            .stat-card { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--apple-border); border-radius: 18px; padding: 16px 12px; text-align: center; transition: all 0.3s; }
-            .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
-            .stat-label { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
-            .stat-value { font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; }
-            .search-container { position: relative; margin-top: 24px; }
-            .search-input { width: 100%; padding: 18px 22px; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--apple-border); border-radius: 16px; color: #ffffff; font-size: 0.95rem; font-weight: 800; outline: none; transition: all 0.3s; }
-            .search-input:focus { border-color: rgba(0, 245, 255, 0.5); background: rgba(0, 0, 0, 0.7); box-shadow: 0 0 25px rgba(0, 245, 255, 0.08); }
-            ::placeholder { color: #4e4e54; font-weight: 800; }
-            .endpoint-list { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
-            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 18px; overflow: hidden; transition: all 0.25s; }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.02); }
-            .api-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 5px; max-width: 85%; }
-            .endpoint-slug { font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: monospace; letter-spacing: -0.3px; }
-            .endpoint-info { font-size: 0.82rem; font-weight: 800; color: var(--text-muted); }
-            .arrow-icon { font-size: 0.8rem; color: #444; font-weight: 900; transition: transform 0.25s; }
-            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.6); background: rgba(0, 0, 0, 0.4); box-shadow: inset 0 0 20px rgba(123, 44, 191, 0.05); }
-            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
-            .api-docs { display: none; padding: 0 20px 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
-            .docs-section-title { font-size: 0.7rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.6px; }
-            .url-box-container { display: flex; gap: 10px; margin-top: 6px; }
-            .url-display { flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 15px; border-radius: 12px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--apple-cyan); overflow-x: auto; white-space: nowrap; }
-            .url-display::-webkit-scrollbar { height: 4px; }
-            .url-display::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-            .btn-action { border: none; font-size: 0.78rem; font-weight: 900; padding: 0 18px; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 46px; }
-            .btn-copy { background: #ffffff; color: #000000; }
-            .btn-copy:hover { opacity: 0.88; }
-            .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
-            .btn-run:hover { box-shadow: 0 0 18px rgba(123, 44, 191, 0.5); }
-            .json-preview { background: #000000; border: 1px solid var(--apple-border); border-radius: 12px; padding: 16px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #666; white-space: pre-wrap; overflow-x: auto; max-height: 220px; line-height: 1.5; }
-            #toast-alert { position: fixed; bottom: 35px; background: #ffffff; color: #000000; font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.85rem; padding: 14px 28px; border-radius: 14px; z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-            #toast-alert.show { opacity: 1; transform: translateY(0); }
-            .dashboard-panel { margin-top: 24px; padding: 22px; background: rgba(0,0,0,0.4); border: 1px solid rgba(123,44,191,0.3); border-radius: 20px; }
-            .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-            .dashboard-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 900; color: var(--apple-blue); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-            .dashboard-title::before { content: "📊"; }
-            .btn-refresh { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.3); color: var(--apple-blue); font-size: 0.7rem; font-weight: 900; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
-            .btn-refresh.spinning { animation: spin 0.6s linear infinite; }
-            @keyframes spin { to { transform: rotate(360deg); } }
-            .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-            .dash-card { background: rgba(255,255,255,0.02); border: 1px solid var(--apple-border); border-radius: 14px; padding: 14px 16px; }
-            .dash-card-label { font-size: 0.65rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
-            .dash-card-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 4px; }
-            .plan-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 900; padding: 5px 12px; border-radius: 20px; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-            .plan-badge.PREMIUM { background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3); color: var(--apple-cyan); }
-            .plan-badge.PRO { background: rgba(123,44,191,0.15); border: 1px solid rgba(123,44,191,0.4); color: #bf7eff; }
-            .dash-no-key { text-align: center; padding: 20px; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
-            .server-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--apple-border); }
-            .server-stat { text-align: center; }
-            .server-stat-label { font-size: 0.6rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-            .server-stat-value { font-size: 0.85rem; font-weight: 900; color: #fff; font-family: 'Space Grotesk', sans-serif; margin-top: 3px; }
-            .apikey-section { margin-top: 24px; padding: 20px; background: rgba(0, 245, 255, 0.04); border: 1px solid rgba(0, 245, 255, 0.15); border-radius: 18px; }
-            .apikey-label { font-size: 0.7rem; font-weight: 900; color: var(--apple-cyan); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-            .apikey-label::before { content: "🔑"; }
-            .apikey-row { display: flex; gap: 10px; }
-            .apikey-input { flex-grow: 1; padding: 14px 18px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(0, 245, 255, 0.25); border-radius: 12px; color: var(--apple-cyan); font-size: 0.9rem; font-weight: 800; font-family: monospace; outline: none; transition: all 0.3s; letter-spacing: 1px; }
-            .btn-setkey { background: linear-gradient(135deg, var(--apple-cyan), #00bcd4); color: #000000; font-size: 0.75rem; font-weight: 900; padding: 0 20px; border-radius: 12px; border: none; cursor: pointer; text-transform: uppercase; min-height: 46px; transition: all 0.2s; white-space: nowrap; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 22px; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
-            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; }
-        </style>
-    </head>
-    <body>
-        <div class="ambient-glow"></div>
-        <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
-        <div id="cyber-loader">
-            <div class="apple-loading-wrapper">
-                <div class="smooth-aura-glow"></div>
-                <div class="loader-brand">MR HASHUU</div>
+    const rawHtmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MR HASHUU - PRODUCTION MAINNET CONTROL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-canvas: #030105;
+            --surface-card: rgba(14, 9, 22, 0.75);
+            --surface-border: rgba(255, 255, 255, 0.06);
+            --accent-cyan: #00F5FF;
+            --accent-purple: #8A2BE2;
+            --neon-green: #00FF87;
+            --neon-red: #FF3366;
+            --text-high: #F5F2FA;
+            --text-low: #8F8599;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; }
+        body, html { background-color: var(--dark-canvas); color: var(--text-high); width: 100%; min-height: 100vh; overflow-x: hidden; }
+
+        /* SECURITY GATE ACCESS CONTROL WALL */
+        #gate-curtain {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, #110724 0%, var(--dark-canvas) 100%);
+            display: flex; justify-content: center; align-items: center; z-index: 99999; padding: 20px;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s linear;
+        }
+        .gate-viewport {
+            background: var(--surface-card); border: 1px solid rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            padding: 40px 30px; border-radius: 24px; width: 100%; max-width: 420px; text-align: center;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 50px rgba(138, 43, 226, 0.15);
+            animation: floatGate 6s ease-in-out infinite;
+        }
+        @keyframes floatGate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .gate-viewport.shake-alert { animation: bounceError 0.4s double ease-in-out; border-color: var(--neon-red); }
+        @keyframes bounceError { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-12px); } 75% { transform: translateX(12px); } }
+        
+        .vector-logo-box { width: 70px; height: 70px; background: rgba(0, 245, 255, 0.04); border: 1px dashed var(--accent-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; position: relative; }
+        .vector-logo-box::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1px solid transparent; border-top-color: var(--accent-cyan); animation: rotateRing 3s linear infinite; }
+        @keyframes rotateRing { to { transform: rotate(360deg); } }
+        .vector-svg { width: 28px; height: 28px; fill: var(--accent-cyan); filter: drop-shadow(0 0 8px var(--accent-cyan)); }
+        
+        .gate-header-text { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; background: linear-gradient(135deg, #FFF 30%, var(--text-low) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gate-tagline { font-size: 11px; color: var(--text-low); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 30px; }
+        
+        .input-lock-field {
+            width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--surface-border);
+            padding: 16px; border-radius: 14px; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace;
+            font-size: 15px; text-align: center; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .input-lock-field:focus { border-color: var(--accent-cyan); background: #000; box-shadow: 0 0 20px rgba(0,245,255,0.12); }
+        
+        .gate-submit-trigger {
+            width: 100%; background: linear-gradient(135deg, var(--accent-purple) 0%, #A040FF 100%);
+            border: none; padding: 16px; border-radius: 14px; color: #FFF; font-size: 14px; font-weight: 700;
+            text-transform: uppercase; cursor: pointer; letter-spacing: 0.05em; margin-top: 20px;
+            transition: all 0.3s; box-shadow: 0 8px 24px rgba(138, 43, 226, 0.3);
+        }
+        .gate-submit-trigger:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(138, 43, 226, 0.5); }
+
+        /* CONSOLE APPLICATION WORKSPACE AREA */
+        #panel-engine-workspace { display: none; flex-direction: column; min-height: 100vh; padding-bottom: 100px; opacity: 0; transition: opacity 0.5s ease-in; }
+        
+        .app-navbar-hull {
+            background: rgba(14, 9, 22, 0.8); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--surface-border); padding: 20px 24px;
+            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+        }
+        .brand-vector-node { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; text-transform: uppercase; color: #FFF; }
+        .brand-vector-node svg { width: 22px; height: 22px; fill: var(--accent-purple); filter: drop-shadow(0 0 6px var(--accent-purple)); }
+        .brand-vector-node span span { color: var(--accent-cyan); }
+
+        .system-liquid-grid { max-width: 800px; width: 100%; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* REALTIME COMPONENT PERFORMANCE CARD */
+        .live-performance-board { background: linear-gradient(145deg, #0E071A 0%, #150C26 100%); border: 1px solid var(--surface-border); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .telemetry-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .telemetry-unit { background: rgba(0,0,0,0.3); padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.02); }
+        .telemetry-label { font-size: 10px; color: var(--text-low); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .telemetry-value { font-size: 18px; color: #FFF; font-weight: 700; }
+        
+        .quota-bar-shell { width: 100%; height: 6px; background: rgba(255,255,255,0.04); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .quota-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); border-radius: 3px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* INTERACTIVE ROUTE GRID CLUSTER ARCHITECTURE */
+        .cluster-section-indicator { font-size: 12px; color: var(--text-low); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+        .cluster-section-indicator svg { width: 14px; height: 14px; fill: currentColor; }
+        
+        .pipeline-stack { display: flex; flex-direction: column; gap: 12px; }
+        .pipeline-element-box { background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: 16px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .pipeline-element-box:hover { border-color: rgba(0, 245, 255, 0.3); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        
+        .pipeline-interaction-row { padding: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+        .pipeline-meta-wrapper { display: flex; flex-direction: column; gap: 4px; padding-right: 12px; }
+        .tag-routing-path { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-cyan); word-break: break-all; }
+        .tag-routing-desc { font-size: 11px; color: var(--text-low); text-transform: uppercase; letter-spacing: 0.02em; }
+        
+        .arrow-dispatch-vector { width: 16px; height: 16px; fill: var(--text-low); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); flex-shrink: 0; }
+        
+        /* EXPANDED PIPELINE INTERACTIVE CONTROLS */
+        .pipeline-element-box.expanded-state { border-color: var(--accent-purple); background: rgba(18, 11, 28, 0.9); }
+        .pipeline-element-box.expanded-state .arrow-dispatch-vector { transform: rotate(90deg); fill: var(--accent-cyan); filter: drop-shadow(0 0 4px var(--accent-cyan)); }
+        
+        .pipeline-dropdown-payload { display: none; padding: 20px; background: rgba(0, 0, 0, 0.3); border-top: 1px solid rgba(138, 43, 226, 0.2); animation: revealSlide 0.35s cubic-bezier(0.25, 1, 0.5, 1); }
+        @keyframes revealSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .param-group-box { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .param-interactive-input {
+            width: 100%; padding: 12px 14px; background: rgba(5, 2, 10, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px; color: #FFF; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; transition: border-color 0.2s;
+        }
+        .param-interactive-input:focus { border-color: var(--accent-cyan); background: #000; }
+
+        .live-url-map-preview {
+            background: #020104; padding: 12px 14px; border-radius: 10px; font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; color: var(--accent-cyan); overflow-x: auto; white-space: nowrap; margin-bottom: 16px;
+            border: 1px solid rgba(138, 43, 226, 0.1);
+        }
+        
+        .execution-row-triggers { display: flex; gap: 8px; }
+        .action-btn-node { padding: 12px 16px; border: none; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-btn-node svg { width: 12px; height: 12px; fill: currentColor; }
+        .btn-secondary-dim { background: rgba(255, 255, 255, 0.03); color: var(--text-high); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .btn-secondary-dim:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--text-low); }
+        .btn-primary-glow { background: linear-gradient(135deg, var(--accent-purple) 0%, #943CE6 100%); color: #FFF; flex-grow: 1; box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2); }
+        .btn-primary-glow:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4); }
+
+        /* SYSTEM TERMINAL LIVE GRAPH MONITOR */
+        .live-terminal-stream {
+            background: #020005; border: 1px solid rgba(138, 43, 226, 0.2); border-radius: 10px;
+            padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-low);
+            white-space: pre-wrap; overflow-x: auto; max-height: 250px; margin-top: 14px; display: none;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); line-height: 1.5;
+        }
+
+        /* RESPONSE SECURE NAVIGATION BAR COUPLING MOBILE VIEW DOCK */
+        .mobile-hardware-dock {
+            position: fixed; bottom: 0; left: 0; width: 100vw; height: 68px;
+            background: rgba(11, 6, 18, 0.92); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid var(--surface-border); z-index: 9999;
+            display: flex; justify-content: space-around; align-items: center; padding: 0 20px;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.6);
+        }
+        .dock-navigation-element { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-low); cursor: pointer; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; width: 75px; transition: color 0.2s; user-select: none; }
+        .dock-navigation-element svg { width: 18px; height: 18px; fill: currentColor; transition: transform 0.2s; }
+        .dock-navigation-element:hover { color: #FFF; }
+        .dock-navigation-element.active-dock-node { color: var(--accent-cyan); }
+        .dock-navigation-element.active-dock-node svg { transform: translateY(-2px); filter: drop-shadow(0 0 6px var(--accent-cyan)); }
+
+        @media(max-width: 768px) {
+            .telemetry-layout { grid-template-columns: 1fr; gap: 12px; }
+            .system-liquid-grid { padding: 14px; gap: 14px; }
+            .live-performance-board { padding: 16px; border-radius: 16px; }
+            .pipeline-interaction-row { padding: 15px; }
+            .pipeline-dropdown-payload { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="gate-curtain">
+        <div class="gate-viewport" id="curtain-card-frame">
+            <div class="vector-logo-box">
+                <svg class="vector-svg" viewBox="0 0 24 24"><path d="M12,1A5,5,0,0,0,7,6v4H6a3,3,0,0,0,-3,3v7a3,3,0,0,0,3,3h12a3,3,0,0,0,3,-3V13a3,3,0,0,0,-3,-3H17V6A5,5,0,0,0,12,1Zm3,9H9V6a3,3,0,0,1,6,0Z"/></svg>
+            </div>
+            <div class="gate-header-text">AUTHENTICATION MATRIX</div>
+            <div class="gate-tagline">SECURE SYSTEM DEPLOYMENT PROTOCOL</div>
+            <input type="password" id="gate-pass-token" class="input-lock-field" placeholder="ENTER MASTER SECURITY KEY">
+            <button class="gate-submit-trigger" onclick="triggerGatewayHandshake()">INITIALIZE SYSTEM CORE</button>
+        </div>
+    </div>
+
+    <div id="panel-engine-workspace">
+        <nav class="app-navbar-hull">
+            <div class="brand-vector-node">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>MR HASHUU <span>PRO_MAINNET</span></span>
+            </div>
+        </nav>
+
+        <div class="system-liquid-grid">
+            <div class="live-performance-board">
+                <div class="telemetry-layout">
+                    <div class="telemetry-unit">
+                        <div class="telemetry-label">CORE INFRASTRUCTURE UPTIME</div>
+                        <div class="telemetry-value" id="runtime-uptime-display">CALCULATING NETWORK TICK...</div>
+                    </div>
+                    <div class="telemetry-unit">
+                        <div class="telemetry-label">BANDWIDTH THROTTLING METRIC</div>
+                        <div class="telemetry-value" id="runtime-quota-display">0 / 0 TRANSMITS</div>
+                        <div class="quota-bar-shell"><div class="quota-bar-fill" id="runtime-progress-node"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cluster-section-indicator">
+                <svg viewBox="0 0 24 24"><path d="M4 15h16v-2H4v2zm0 4h16v-2H4v2zm0-8h16V9H4v2zm0-6v2h16V5H4z"/></svg>
+                PREMIUM RESTRUCTURING GATEWAY ROUTINGS
+            </div>
+
+            <div class="pipeline-stack" id="pipeline-dom-injection-target"></div>
+        </div>
+
+        <div class="mobile-hardware-dock">
+            <div class="dock-navigation-element active-dock-node" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>DASHBOARD</span>
+            </div>
+            <div class="dock-navigation-element" onclick="triggerSystemHardReset()">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                <span>TERMINATE</span>
             </div>
         </div>
-        <div class="vercel-box" id="main-interface">
-            <header>
-                <h1>HASHU APIS</h1>
-                <div class="status-container"><div class="pulse-dot"></div><span>SYSTEM RUNNING</span></div>
-            </header>
-            <div class="analytics-grid">
-                <div class="stat-card"><div class="stat-label">Total Requests</div><div class="stat-value">245.8K</div></div>
-                <div class="stat-card"><div class="stat-label">System Uptime</div><div class="stat-value">99.99%</div></div>
-                <div class="stat-card"><div class="stat-label">Core Owner</div><div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div></div>
-            </div>
-            <div class="dashboard-panel">
-                <div class="dashboard-header">
-                    <div class="dashboard-title">Usage Dashboard</div>
-                    <button class="btn-refresh" id="refreshBtn" onclick="loadDashboard()">↻ REFRESH</button>
-                </div>
-                <div id="dashContent"><div class="dash-no-key">// Set your API key above to view your usage stats //</div></div>
-            </div>
-            <div class="apikey-section">
-                <div class="apikey-label">Your API Key</div>
-                <div class="apikey-row">
-                    <input type="text" id="userApiKey" class="apikey-input" placeholder="Enter your API key here..." oninput="onKeyInput()" />
-                    <button class="btn-setkey" onclick="setApiKey()">SET KEY</button>
-                </div>
-                <div class="apikey-status" id="keyStatus">// No API key set — endpoints will use default example key //</div>
-            </div>
-            <div class="search-container"><input type="text" id="apiSearch" class="search-input" placeholder="Search developer secure endpoints..." onkeyup="filterEndpoints()"></div>
-            <div class="endpoint-list" id="listWrapper">
-                <div class="api-wrapper" data-name="movie database omdb cinema film">
-                    <div class="api-row" onclick="toggleAccordion(this)">
-                        <div class="meta-details"><span class="endpoint-slug">/api/movie</span><span class="endpoint-info">OMDb Cinema & Film Tracker Engine</span></div>
-                        <span class="arrow-icon">▶</span>
-                    </div>
-                    <div class="api-docs">
-                        <div class="docs-section-title">Execution Gateway Endpoint</div>
-                        <div class="url-box-container">
-                            <div class="url-display" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
-                            <button class="btn-action btn-copy" onclick="copyLink('url-movie')">Copy</button>
-                            <button class="btn-action btn-run" onclick="runEndpoint('url-movie', 'res-movie', this)">Run API</button>
+    </div>
+
+    <script>
+        let SystemSecurityHash = "";
+
+        // CENTRAL ROUTING ARCHITECTURE MAP ARRAY HOUSING 15 PRODUCTION ENDPOINTS
+        const PIPELINE_SPECIFICATIONS = [
+            { id: "movie", slug: "/api/movie", label: "OMDB GLOBAL CINEMA MATRIX SEARCH", parameterKey: "text", standardValue: "Inception" },
+            { id: "chatgpt", slug: "/api/chat", label: "GPT-4O AI DEEP INTELLIGENCE DISPATCH", parameterKey: "prompt", standardValue: "Explain blockchain in simple terms" },
+            { id: "url_shorten", slug: "/api/url_shorten", label: "CUTTLY MICRO INSTANT LINK REDUCER", parameterKey: "link", standardValue: "https://github.com/expressjs/express" },
+            { id: "xvideos", slug: "/xvideo", label: "XVIDEOS LOSSLESS STREAM COMPILER", parameterKey: "url", standardValue: "https://www.xvideos.com/video12345/test_scene" },
+            { id: "ytmp4", slug: "/ytmp4", label: "YOUTUBE VIDEO DATA STREAM DOWNLOAD", parameterKey: "url", standardValue: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
+            { id: "mediafire", slug: "/mediafire", label: "MEDIAFIRE REMOTE BINARY LINK EXTRACTION", parameterKey: "url", standardValue: "https://www.mediafire.com/file/sample_data" },
+            { id: "spotify", slug: "/spotify", label: "SPOTIFY PREMIUM AUDIOPHILE HQ DOWNLINK", parameterKey: "url", standardValue: "https://open.spotify.com/track/4PTG3Z6ehGkBFm6T7YSpR4" },
+            { id: "twitter", slug: "/twitter", label: "X PLATFORM MEDIA STREAM RECONSTRUCT", parameterKey: "url", standardValue: "https://x.twitter.com/status/123456789" },
+            { id: "song", slug: "/song", label: "YT MUSIC VECTOR AUDIO BUFFER SCRAPER", parameterKey: "text", standardValue: "Shape of You" },
+            { id: "tiktok", slug: "/tiktok", label: "TIKTOK STUDIO RAW NO-WATERMARK PACKAGER", parameterKey: "url", standardValue: "https://vt.tiktok.com/ZS2xLd8mB/" },
+            { id: "pinterest", slug: "/pinterest", label: "PINTEREST UHD VISUAL SOURCE DISCOVERY", parameterKey: "text", standardValue: "Cyberpunk Aesthetic 4K" },
+            { id: "apk", slug: "/apk", label: "APK MIRROR INTERCEPT DISTRIBUTION SYSTEM", parameterKey: "text", standardValue: "WhatsApp Messenger" },
+            { id: "facebook", slug: "/facebook", label: "FACEBOOK SOCIAL WATCH EXTRACT ENGINE", parameterKey: "url", standardValue: "https://www.facebook.com/watch/?v=987654321" },
+            { id: "webdl", slug: "/webdl", label: "STATIC INTERNET CLONER WEB ASSET SCRAPE", parameterKey: "url", standardValue: "https://example.com" },
+            { id: "obfuscate", slug: "/api/obfuscate", label: "JAVASCRIPT CONTROL FLOW PROTECTION CORE", parameterKey: "code", standardValue: "function testCore() { console.log('MR HASHUU MAINNET ACTIVE'); }" }
+        ];
+
+        function pipelineGenerationEngine() {
+            const domClusterTarget = document.getElementById('pipeline-dom-injection-target');
+            domClusterTarget.innerHTML = PIPELINE_SPECIFICATIONS.map(spec => `
+                <div class="pipeline-element-box" id="wrapper-node-${spec.id}">
+                    <div class="pipeline-interaction-row" onclick="toggleDropdownPipelineViewState('${spec.id}')">
+                        <div class="pipeline-meta-wrapper">
+                            <span class="tag-routing-path">${spec.slug}</span>
+                            <span class="tag-routing-desc">\\-- ${spec.label}</span>
                         </div>
-                        <pre class="json-preview" id="res-movie">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                        <svg class="arrow-dispatch-vector" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                    </div>
+                    <div class="pipeline-dropdown-payload" id="dropdown-view-${spec.id}">
+                        <div class="param-group-box">
+                            <label class="telemetry-label">INJECT VALUE ARGUMENT (?${spec.parameterKey}=)</label>
+                            <input type="text" class="param-interactive-input" id="field-input-${spec.id}" value="${spec.standardValue}" oninput="synchronizeUrlQueryStringMap('${spec.id}', '${spec.slug}', '${spec.parameterKey}')">
+                        </div>
+                        <div class="live-url-map-preview" id="url-preview-string-box-${spec.id}">building core dynamic routing path text...</div>
+                        <div class="execution-row-triggers">
+                            <button class="action-btn-node btn-secondary-dim" onclick="copyConfiguredRouteLinkToBuffer('${spec.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                COPY ROUTE
+                            </button>
+                            <button class="action-btn-node btn-primary-glow" onclick="executeLiveDynamicRouteQueryTransmission('${spec.id}', '${spec.slug}', '${spec.parameterKey}')">
+                                <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>
+                                DISPATCH REQUEST
+                            </button>
+                        </div>
+                        <pre class="live-terminal-stream" id="terminal-stream-console-box-${spec.id}"></pre>
                     </div>
                 </div>
-                </div>
-            <footer><span>© 2026 MR HASHUU</span><a href="#" class="buy-btn">REQUEST CORE ACCESS</a></footer>
-        </div>
-        <script>
-            // Advanced client side matrix logic here...
-            window.addEventListener('DOMContentLoaded', () => { setTimeout(() => { const loader = document.getElementById('cyber-loader'); const mainUI = document.getElementById('main-interface'); loader.style.opacity = '0'; setTimeout(() => { loader.remove(); mainUI.classList.add('system-ready'); }, 400); }, 1200); });
-            function toggleAccordion(e) { const p = e.parentElement; const d = p.querySelector('.api-docs'); const isOpen = p.classList.contains('active'); Array.from(document.getElementsByClassName('api-wrapper')).forEach(w => { w.classList.remove('active'); w.querySelector('.api-docs').style.display = 'none'; }); if(!isOpen) { p.classList.add('active'); d.style.display = 'block'; } }
-            let activeApiKey = null;
-            function onKeyInput() { if(!document.getElementById('userApiKey').value.trim()) { activeApiKey = null; document.getElementById('keyStatus').textContent = '// No API key set //'; } }
-            function setApiKey() { const input = document.getElementById('userApiKey').value.trim(); if(!input) return; activeApiKey = input; document.getElementById('keyStatus').textContent = '✔ API Key set: ' + input; loadDashboard(); }
-            async function loadDashboard() { /* Web Client AJAX Fetch logic mapping /api/stats */ }
-        </script>
-    </body>
-    </html>
-    `);
+            `).join('');
+        }
+
+        function triggerGatewayHandshake() {
+            const currentSecretKeyInput = document.getElementById('gate-pass-token').value.trim();
+            if (currentSecretKeyInput === "MR_HASHUU_SECRET_123" || PREMIUM_DATABASE[currentSecretKeyInput]) {
+                SystemSecurityHash = currentSecretKeyInput;
+                const curtainOverlayDom = document.getElementById('gate-curtain');
+                const workSpaceMainNode = document.getElementById('panel-engine-workspace');
+                
+                curtainOverlayDom.style.opacity = '0';
+                curtainOverlayDom.style.transform = 'translateY(-100vh)';
+                
+                setTimeout(() => {
+                    curtainOverlayDom.style.display = 'none';
+                    workSpaceMainNode.style.display = 'flex';
+                    pipelineGenerationEngine();
+                    PIPELINE_SPECIFICATIONS.forEach(s => synchronizeUrlQueryStringMap(s.id, s.slug, s.parameterKey));
+                    executeHardwareStatisticsTrackUpdate();
+                    setInterval(executeHardwareStatisticsTrackUpdate, 5000);
+                    setTimeout(() => { workSpaceMainNode.style.opacity = '1'; }, 40);
+                }, 600);
+            } else {
+                const shakeTargetDomFrame = document.getElementById('curtain-card-frame');
+                shakeTargetDomFrame.classList.add('shake-alert');
+                setTimeout(() => shakeTargetDomFrame.classList.remove('shake-alert'), 450);
+            }
+        }
+
+        document.getElementById('gate-pass-token').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') triggerGatewayHandshake();
+        });
+
+        function toggleDropdownPipelineViewState(nodeId) {
+            const targetDropdownDomElement = document.getElementById('dropdown-view-' + nodeId);
+            const masterNodeBoxHullElement = document.getElementById('wrapper-node-' + nodeId);
+            const currentViewStateIsActive = masterNodeBoxHullElement.classList.contains('expanded-state');
+            
+            document.querySelectorAll('.pipeline-element-box').forEach(el => el.classList.remove('expanded-state'));
+            document.querySelectorAll('.pipeline-dropdown-payload').forEach(view => view.style.display = 'none');
+
+            if (!currentViewStateIsActive) {
+                masterNodeBoxHullElement.classList.add('expanded-state');
+                targetDropdownDomElement.style.display = 'block';
+            }
+        }
+
+        function synchronizeUrlQueryStringMap(id, slug, paramKey) {
+            const rawCurrentFieldDataString = encodeURIComponent(document.getElementById('field-input-' + id).value);
+            document.getElementById('url-preview-string-box-' + id).innerText = `${slug}?${paramKey}=${rawCurrentFieldDataString}&apikey=${SystemSecurityHash}`;
+        }
+
+        function copyConfiguredRouteLinkToBuffer(id) {
+            const targetInnerStringLink = document.getElementById('url-preview-string-box-' + id).innerText;
+            navigator.clipboard.writeText(window.location.origin + targetInnerStringLink);
+        }
+
+        async function executeLiveDynamicRouteQueryTransmission(id, slug, paramKey) {
+            const rawConfiguredFieldQueryInputData = document.getElementById('field-input-' + id).value;
+            const targetOutputConsoleTerminalBoxLog = document.getElementById('terminal-stream-console-box-' + id);
+            
+            targetOutputConsoleTerminalBoxLog.style.display = "block";
+            targetOutputConsoleTerminalBoxLog.innerText = ">>> ARGS CONTEXT INITIALIZED VIA EVENT HANDLER...\n>>> COUPLING TRANSACTION SECURITY MATRIX SIGNATURES...\n>>> EVALUATING SERVER NET HANDSHAKE PACKET TRANSIT...";
+            targetOutputConsoleTerminalBoxLog.style.color = "var(--text-low)";
+
+            try {
+                // EXPLICIT SYSTEM CORRECTION REQUEST INTEGRATION LOOP -> Dynamic endpoint execution reading real values
+                const compilationAbsoluteFetchUriLink = `${slug}?${paramKey}=${encodeURIComponent(rawConfiguredFieldQueryInputData)}&apikey=${SystemSecurityHash}`;
+                const liveServerHttpResponseStream = await fetch(compilationAbsoluteFetchUriLink);
+                const standardParsedPayloadDataJson = await liveServerHttpResponseStream.json();
+                
+                targetOutputConsoleTerminalBoxLog.innerText = ">>> TRANSMISSION PROTOCOL FLUID SUCCESS.\n\n" + JSON.stringify(standardParsedPayloadDataJson, null, 2);
+                targetOutputConsoleTerminalBoxLog.style.color = standardParsedPayloadDataJson.success !== false ? "var(--neon-green)" : "var(--neon-red)";
+                executeHardwareStatisticsTrackUpdate();
+            } catch (networkFatalExceptionLogs) {
+                targetOutputConsoleTerminalBoxLog.innerText = ">>> NETWORK CORE ERROR TRACE: PIPELINE INTERRUPT CRASH ENCOUNTERED.\n\n" + JSON.stringify({ error: "BUS_DISPATCH_FAILURE", message: networkFatalExceptionLogs.message }, null, 2);
+                targetOutputConsoleTerminalBoxLog.style.color = "var(--neon-red)";
+            }
+        }
+
+        async function executeHardwareStatisticsTrackUpdate() {
+            try {
+                const responseTelemetryMetricsStream = await fetch(`/api/stats?apikey=${SystemSecurityHash}`);
+                const dataMetricsObjectJson = await responseTelemetryMetricsStream.json();
+                if (dataMetricsObjectJson.success) {
+                    document.getElementById('runtime-uptime-display').innerText = dataMetricsObjectJson.server.uptime.toUpperCase();
+                    if (dataMetricsObjectJson.key_info) {
+                        document.getElementById('runtime-quota-display').innerText = `${dataMetricsObjectJson.key_info.today_usage} / ${dataMetricsObjectJson.key_info.daily_limit} HITS`;
+                        document.getElementById('runtime-progress-node').style.width = `${dataMetricsObjectJson.key_info.usage_ratio}%`;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function triggerSystemHardReset() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>`;
+
+    const secureBinaryResponseBuffer = Buffer.from(rawHtmlContent, 'utf-8');
+    res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': secureBinaryResponseBuffer.length
+    });
+    res.end(secureBinaryResponseBuffer);
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ BACKEND CONTROLLERS CORE BUSINESS LOGIC
+// 🛠️ BACKEND WRAPPERS ARCHITECTURE LOGICS (ALL 15 CHANNELS)
 // ─────────────────────────────────────────────────────────
 
-// [🎬 MOVIE DATABASE] OMDb Router Gateway
+// 1. [🎬 MOVIE DATABASE] OMDB SCANNER
 app.get('/api/movie', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.status(400).json({ success: false, message: "Required parameter query parameter (?text=) is completely missing!" });
-
-        const movieUrl = `http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`;
-        const { data } = await axios.get(movieUrl);
-
-        if (data.Response === "True") {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-        }
-        res.status(404).json({ success: false, message: data.Error || "Requested movie entity data not found!" });
-    } catch (e) {
-        res.status(500).json({ success: false, message: "Internal wrapper runtime connection break.", exception: e.message });
-    }
+        if (!text) return res.status(400).json({ success: false, message: "Required input query parameter (?text=) is missing." });
+        const { data } = await axios.get(`http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`);
+        if (data.Response === "True") return res.status(200).json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data });
+        res.status(404).json({ success: false, message: data.Error || "Entity not found." });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🤖 AI INTELLIGENCE CHAT] ChatGPT-4o Router Gateway
+// 2. [🤖 AI INTELLIGENCE] CHATGPT CORE
 app.get('/api/chat', strictAuthGate, async (req, res) => {
     try {
         const { prompt } = req.query;
-        if (!prompt) return res.status(400).json({ success: false, message: "Prompt query parameter missing!" });
-
-        const cleanPrompt = prompt.toLowerCase().trim();
-        if (cleanPrompt === 'hi') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
-        }
-        if (cleanPrompt === 'kawad bn') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
-        }
-
-        const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
-        const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
+        if (!prompt) return res.status(400).json({ success: false, message: "Query parameter (?prompt=) is missing." });
         
-        const { data } = await axios.get(targetUrl);
-        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
+        const matchingPhrase = prompt.toLowerCase().trim();
+        if (matchingPhrase === 'hi') return res.json({ creator: "MR HASHUU", success: true, result: "HELLOW IM HASHUU AI SERVICE" });
+        if (matchingPhrase === 'kawad bn') return res.json({ creator: "MR HASHUU", success: true, result: "huththak kwa" });
 
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: aiReply });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        const customSystemRules = "You are Hashan-md AI, a brilliant AI developed and owned by MR HASHUU.";
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemRules)}`);
+        res.status(200).json({ creator: "MR HASHUU", status: "AUTHENTICATED", success: true, result: data?.data?.choices?.[0]?.message?.content || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🔗 LINK SHORTENER] Cuttly Router Engine
+// 3. [🔗 LINK SHORTENER] CUTTLY DISPATCHER
 app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
     try {
         const { link } = req.query;
-        if (!link) return res.status(400).json({ success: false, message: "Target URL Link parameter is missing!" });
-        
+        if (!link) return res.status(400).json({ success: false, message: "Target URL parameter (?link=) is missing." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
-        if (data.success) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
-        } 
-        res.status(422).json({ success: false, message: "Provider URL shortening operation pipeline failed." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        if (data.success) return res.status(200).json({ creator: "MR HASHUU", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
+        res.status(422).json({ success: false, message: "Link reduction operations failed." });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🔞 ADULT STREAM CDN] XVideos Resolver Gateway
+// 4. [🔞 ADULT RESOLVER] XVIDEOS ENGINE
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Target XVideo URL query resource reference required!" });
-        
+        if (!url) return res.status(400).json({ success: false, message: "XVideo URL parameter (?url=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
-        if (data.success) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
-        } 
-        res.status(422).json({ success: false, message: "Media extraction conversion processing pipeline failed." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        if (data.success) return res.status(200).json({ creator: "MR HASHUU", success: true, title: data.title, download_url: data.download_url });
+        res.status(422).json({ success: false, message: "Media payload resolution breakdown failed." });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🎥 YOUTUBE VIDEO DOWNLOADER] HD MP4 Speed Grabber Router 
+// 5. [🎥 YT VIDEO] STREAM GRABBER
 app.get('/ytmp4', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Valid YouTube video URL source target required!" });
-        
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } 
-        res.status(422).json({ success: false, message: "Media payload conversion and extraction execution failed." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        if (!url) return res.status(400).json({ success: false, message: "YouTube link address (?url=) required." });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/youtube/download?url=${encodeURIComponent(url)}`);
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.result || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [📁 MEDIAFIRE STORAGE ENGINE] Direct Binary Link Extractor
+// 6. [📁 MEDIAFIRE CLOUD] DOWNLOAD LINK EXTRACTOR
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Mediafire cloud folder/file URL path reference required!" });
-        
+        if (!url) return res.status(400).json({ success: false, message: "Mediafire cloud path parameter (?url=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🎵 SPOTIFY DEEP EXTRACTOR] Lossless HQ Audio Grabber
+// 7. [🎵 SPOTIFY DOWNLINK] HQ EXTRACTION PIPELINE
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Target Spotify Track/Playlist URL resource address required!" });
-        
+        if (!url) return res.status(400).json({ success: false, message: "Spotify address target link (?url=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🐦 TWITTER MULTI-STREAM] X Platform Media CDN Grabber
+// 8. [🐦 TWITTER PIPELINE] X PLATFORM STREAM EXTRACTION
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "X / Twitter status link target parameter required!" });
-        
+        if (!url) return res.status(400).json({ success: false, message: "X Platform status link parameter (?url=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🎶 YOUTUBE AUDIO SEARCH] High Fidelity Stream Grabber
+// 9. [🎶 AUDIO EXPLORER] SONG MUSIC SCRAPER
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.status(400).json({ success: false, message: "Song title tracking text keyword parameter required!" });
-        
+        if (!text) return res.status(400).json({ success: false, message: "Song tracking keyword text (?text=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
-        if (data.status && data.result) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } 
-        res.status(422).json({ success: false, message: "Failed to fetch and process tracking audio stream metadata." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.result || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [📱 TIKTOK NO-WATERMARK Engine] Studio Source Video Fetcher
+// 10. [📱 TIKTOK NO-WM] VIDEO RECONSTRUCTOR ENGINE
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Absolute TikTok clip share link required!" });
-        
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } 
-        res.status(400).json({ success: false, message: "Invalid TikTok platform resource location address metadata mapping." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        if (!url) return res.status(400).json({ success: false, message: "TikTok share link string (?url=) required." });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tiktok?url=${encodeURIComponent(url)}`);
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.video_hd || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [📌 PINTEREST SEARCH ENGINE] UHD Visual Media Source Tracker
+// 11. [📌 PINTEREST GRID] IMAGE SOURCE AUDITOR
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.status(400).json({ success: false, message: "Discovery query pattern match string parameter required!" });
-        
+        if (!text) return res.status(400).json({ success: false, message: "Search string context parameter (?text=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || [] });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.result || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🤖 APK PACKAGING SYSTEM] Android Binary Mirror Downloader
+// 12. [🤖 APK STORAGE] BINARY PACKAGE EXTRACTOR
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.status(400).json({ success: false, message: "Application bundle identifier/name matching keyword string required!" });
-        
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { 
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }, 
-            timeout: 8000 
-        });
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.apk || {} });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: "APK resolution mirror engine failed due to network timeout limit.", log: e.message }); 
-    }
+        if (!text) return res.status(400).json({ success: false, message: "Application target identification keyword (?text=) required." });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`);
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.apk || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [👥 FACEBOOK STREAM WATCH] Multi-CDN Link Extractor
+// 13. [👥 FACEBOOK MONITOR] MULTI-CDN VIDEO TRACKER
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Facebook video watch endpoint parameter reference link missing!" });
-        
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
-        if (data.status) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
-        } 
-        res.status(422).json({ success: false, message: "Target social architecture core failed to streamline extraction parameters." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        if (!url) return res.status(400).json({ success: false, message: "Facebook resource video link (?url=) required." });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook?url=${encodeURIComponent(url)}`);
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.video_hd || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🌐 STATIC SITE WEB CLONER] Structural HTML Stack Packager
+// 14. [🌐 WEB SITE CLONER] ASSET CODE SCRAPER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
-        if (!url) return res.status(400).json({ success: false, message: "Destination target asset platform root URL parameter required!" });
-        
+        if (!url) return res.status(400).json({ success: false, message: "Target site asset URL parameter (?url=) required." });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
-        if (data.response && (data.response.success === true || data.response.success === "true")) {
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
-        } 
-        res.status(422).json({ success: false, message: "Structural target cloner engine encountered errors parsing data elements." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.response || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🔒 JAVASCRIPT ANTI-SCRAPE PROTECTOR] Advanced Code Obfuscator
-app.get('/obfuscate', strictAuthGate, (req, res) => {
+// 15. [🔒 JAVASCRIPT OBFUSCATOR] SCRIPT ENCRYPTION PROTOCOL
+app.get('/api/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
-        if (!code) return res.status(400).json({ success: false, message: "Source structural raw code payload parameter string is completely missing!" });
-        
-        const obfuscatedCode = obfuscator.obfuscate(code, { 
-            compact: true, 
-            controlFlowFlattening: true, 
-            controlFlowFlatteningThreshold: 0.75,
-            deadCodeInjection: true,
-            stringArray: true
-        }).getObfuscatedCode();
-        
-        res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: obfuscatedCode });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: "Syntax check evaluation crash during payload encryption sequence.", log: e.message }); 
-    }
+        if (!code) return res.status(400).json({ success: false, message: "Source script string data block parameter (?code=) missing." });
+        const obfuscatedResult = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, deadCodeInjection: true }).getObfuscatedCode();
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: obfuscatedResult });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// [🖼️ IMGBB IMAGE CLOUD INTERFACE] Binary Multi-Part Form Processor
+// IMGBB POST DATA PIPELINE BINARY MULTIPART OVERLAY
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) return res.status(400).json({ success: false, message: "Target raw binary image asset file attachment buffer is missing!" });
-        
+        if (!req.file) return res.status(400).json({ success: false, message: "Attachment multi-part data payload buffer missing." });
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
-        
-        const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { 
-            headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0 (Server Engine Platform Node)' } 
-        });
-        
-        if (data.success) { 
-            return res.status(200).json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data }); 
-        }
-        res.status(424).json({ success: false, message: "Cloud CDN partner upload process declined transaction data structure." });
-    } catch (e) { 
-        res.status(500).json({ success: false, message: e.message }); 
-    }
+        const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders() } });
+        res.status(200).json({ creator: "MR HASHUU", success: true, result: data.data || data });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// Global Application Core Boot Execution
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.clear();
-    console.log("─────────────────────────────────────────────────────────");
-    console.log(` 🍏 Apple Matrix HASHU-API Engine Connected successfully!`);
-    console.log(` 🚀 Live Production Service Listening on Local Port: ${PORT}`);
-    console.log("─────────────────────────────────────────────────────────");
+    console.log(`>>> PLATFORM RUNNING HIGH-FIDELITY ROUTERS LIVE ON LOCALHOST PORT: ${PORT}`);
 });
 
 module.exports = app;
