@@ -214,6 +214,25 @@ app.get('/', (req, res) => {
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
+            /* API Key Input Section */
+            .apikey-section { margin-top: 24px; padding: 20px; background: rgba(0, 245, 255, 0.04); border: 1px solid rgba(0, 245, 255, 0.15); border-radius: 18px; }
+            .apikey-label { font-size: 0.7rem; font-weight: 900; color: var(--apple-cyan); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+            .apikey-label::before { content: "🔑"; font-size: 0.9rem; }
+            .apikey-row { display: flex; gap: 10px; }
+            .apikey-input {
+                flex-grow: 1; padding: 14px 18px; background: rgba(0, 0, 0, 0.6);
+                border: 1px solid rgba(0, 245, 255, 0.25); border-radius: 12px;
+                color: var(--apple-cyan); font-size: 0.9rem; font-weight: 800; font-family: monospace;
+                outline: none; transition: all 0.3s; letter-spacing: 1px;
+            }
+            .apikey-input:focus { border-color: var(--apple-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.1); }
+            .apikey-input::placeholder { color: #333; font-weight: 700; letter-spacing: 0; }
+            .btn-setkey { background: linear-gradient(135deg, var(--apple-cyan), #00bcd4); color: #000000; font-size: 0.75rem; font-weight: 900; padding: 0 20px; border-radius: 12px; border: none; cursor: pointer; text-transform: uppercase; min-height: 46px; transition: all 0.2s; white-space: nowrap; }
+            .btn-setkey:hover { box-shadow: 0 0 20px rgba(0, 245, 255, 0.4); }
+            .apikey-status { font-size: 0.72rem; font-weight: 800; color: var(--text-muted); margin-top: 8px; font-family: monospace; }
+            .apikey-status.active { color: var(--apple-green); }
+            @media (max-width: 600px) { .apikey-row { flex-direction: column; } .btn-setkey { width: 100%; } }
+
             #no-results { display: none; text-align: center; padding: 45px; font-size: 0.85rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
             footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 22px; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
             .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
@@ -271,6 +290,16 @@ app.get('/', (req, res) => {
                     <div class="stat-label">Core Owner</div>
                     <div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div>
                 </div>
+            </div>
+
+            <!-- 🔑 API KEY INPUT SECTION -->
+            <div class="apikey-section">
+                <div class="apikey-label">Your API Key</div>
+                <div class="apikey-row">
+                    <input type="text" id="userApiKey" class="apikey-input" placeholder="Enter your API key here... (e.g. HASHUU_PRO_KING_99)" oninput="onKeyInput()" />
+                    <button class="btn-setkey" onclick="setApiKey()">SET KEY</button>
+                </div>
+                <div class="apikey-status" id="keyStatus">// No API key set — endpoints will use default example key //</div>
             </div>
 
             <div class="search-container">
@@ -635,6 +664,42 @@ app.get('/', (req, res) => {
                 }
             }
 
+            // ─── API KEY MANAGER ───
+            let activeApiKey = null;
+
+            function onKeyInput() {
+                const val = document.getElementById('userApiKey').value.trim();
+                if (!val) {
+                    activeApiKey = null;
+                    const status = document.getElementById('keyStatus');
+                    status.textContent = '// No API key set — endpoints will use default example key //';
+                    status.classList.remove('active');
+                }
+            }
+
+            function setApiKey() {
+                const input = document.getElementById('userApiKey').value.trim();
+                const status = document.getElementById('keyStatus');
+                if (!input) {
+                    status.textContent = '// No API key entered! Please type your key above. //';
+                    status.classList.remove('active');
+                    return;
+                }
+                activeApiKey = input;
+                status.textContent = '✔ API Key set: ' + input + ' — all endpoints will now use your key';
+                status.classList.add('active');
+            }
+
+            function getActiveKey() {
+                return activeApiKey || null;
+            }
+
+            function injectKeyIntoUrl(urlText) {
+                if (!activeApiKey) return urlText;
+                // Replace any existing apikey= value with the user's key
+                return urlText.replace(/apikey=[^&\s]*/g, 'apikey=' + activeApiKey);
+            }
+
             function filterEndpoints() {
                 const query = document.getElementById('apiSearch').value.toLowerCase().trim();
                 const wrappers = document.getElementsByClassName('api-wrapper');
@@ -655,7 +720,8 @@ app.get('/', (req, res) => {
 
             function copyLink(elementId) {
                 const pathText = document.getElementById(elementId).textContent.trim();
-                const fullUrl = window.location.origin + pathText;
+                const injected = injectKeyIntoUrl(pathText);
+                const fullUrl = window.location.origin + injected;
                 
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(fullUrl).then(() => {
@@ -691,7 +757,8 @@ app.get('/', (req, res) => {
 
             async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
                 const pathText = document.getElementById(urlElementId).textContent.trim();
-                const absoluteTargetUrl = window.location.origin + pathText;
+                const injected = injectKeyIntoUrl(pathText);
+                const absoluteTargetUrl = window.location.origin + injected;
                 const outputConsole = document.getElementById(responseContainerId);
 
                 buttonElement.innerText = "RUNNING...";
