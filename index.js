@@ -10,37 +10,36 @@ const app = express();
 const upload = multer();
 
 app.use(cors());
+app.use(express.json());
 
 // ─────────────────────────────────────────────────────────
 // 🔑 AUTHORIZED PREMIUM API KEYS DATABASE
 // ─────────────────────────────────────────────────────────
 const PREMIUM_DATABASE = {
     "HASHUU_PRO_KING_99": { owner: "Kasun", plan: "PREMIUM" },
-    "MR_HASHUU_SECRET_123": { owner: "Admin/Owner", plan: "PRO" },
+    "MR_HASHUU_SECRET_123": { owner: "MR HASHUU", plan: "PRO" },
     "VIP_DEV_KEY_777": { owner: "Nimal", plan: "PREMIUM" }
 };
 
-// Premium Rate Limiter
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
     message: { success: false, message: "Premium daily limit reached! Contact MR HASHUU." }
 });
 
-// Gatekeeper Middleware
 const strictAuthGate = (req, res, next) => {
     const { apikey } = req.query;
     if (!apikey) {
         return res.status(401).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "MR HASHUU",
             message: "Access Denied! API Key is missing. Append '?apikey=YOUR_KEY' to your URL."
         });
     }
     if (!PREMIUM_DATABASE[apikey]) {
         return res.status(403).json({
             success: false,
-            creator: "Mr Hashuu Ofc",
+            creator: "MR HASHUU",
             message: "Access Denied! Invalid API Key. Contact MR HASHUU for a valid key."
         });
     }
@@ -50,7 +49,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 APPLE PRO DIGITAL MATRIX INTERACTION UI
+// 🌌 ULTRA LUXURY APPLE MATRIX INTERACTION UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -58,189 +57,188 @@ app.get('/', (req, res) => {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MR HASHUU FREE API</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>MR HASHUU PREMIUM GATEWAY</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
         
         <style>
             :root {
                 --apple-black: #000000;
-                --apple-dark-gray: #161617;
-                --apple-card: #1c1c1e;
-                --apple-border: rgba(255, 255, 255, 0.08);
-                --apple-cyan: #29b6f6;
-                --apple-blue: #0071e3;
-                --apple-green: #34c759;
+                --apple-dark-gray: #09090a;
+                --apple-card: rgba(18, 18, 19, 0.75);
+                --apple-border: rgba(255, 255, 255, 0.07);
+                --apple-cyan: #00F5FF;
+                --apple-blue: #7B2CBF;
+                --apple-green: #00FF87;
                 --apple-red: #ff453a;
-                --text-main: #f5f5f7;
-                --text-muted: #86868b;
+                --text-main: #ffffff;
+                --text-muted: #a1a1a6;
             }
             
-            * { box-sizing: border-box; margin: 0; padding: 0; }
+            * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
             
             body {
                 background-color: var(--apple-black);
                 color: var(--text-main);
-                font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", sans-serif;
+                font-family: 'Inter', -apple-system, sans-serif;
                 min-height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                overflow-x: hidden;
                 padding: 40px 0;
+                position: relative;
+            }
+
+            /* 🪐 ANIMATED BACKGROUND GLOWS */
+            .ambient-glow {
+                position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 90vw; height: 60vh;
+                background: radial-gradient(circle, rgba(123, 44, 191, 0.25) 0%, rgba(0, 245, 255, 0.06) 45%, transparent 100%);
+                z-index: 1; pointer-events: none; filter: blur(70px);
             }
 
             /* 🔥 APPLE STUDIO SHUTTER LOADER */
             #cyber-loader {
-                position: fixed;
-                top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--apple-black);
-                z-index: 9999;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: var(--apple-black); z-index: 9999;
+                display: flex; flex-direction: column; justify-content: center; align-items: center;
                 transition: opacity 0.4s ease-out;
             }
-
-            .apple-loading-wrapper {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-
+            .apple-loading-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
             .smooth-aura-glow {
-                width: 60px; height: 60px;
-                border: 3px solid rgba(255, 255, 255, 0.05);
-                border-top-color: #ffffff;
-                border-radius: 50%;
-                animation: appleSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                width: 65px; height: 65px; border: 4px solid rgba(255, 255, 255, 0.02);
+                border-top-color: var(--apple-cyan); border-bottom-color: var(--apple-blue);
+                border-radius: 50%; animation: appleSpin 0.7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             }
-
             .loader-brand {
-                font-size: 0.85rem; font-weight: 600; color: #ffffff;
-                letter-spacing: 3px; text-transform: uppercase; opacity: 0.7;
+                font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; color: #ffffff;
+                letter-spacing: 5px; text-transform: uppercase;
+                background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue));
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             }
-
             @keyframes appleSpin { to { transform: rotate(360deg); } }
 
             /* Premium Minimal Master Box */
             .vercel-box {
-                width: 92%; max-width: 520px;
-                background: rgba(22, 22, 23, 0.8);
-                backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-                border: 1px solid var(--apple-border); border-radius: 20px;
-                padding: 26px; z-index: 2;
-                box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
-                opacity: 0; transform: scale(0.98);
-                transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                width: 92%; max-width: 650px;
+                background: var(--apple-card); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+                border: 1px solid var(--apple-border); border-radius: 28px;
+                padding: 35px; z-index: 2; position: relative;
+                box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+                opacity: 0; transform: scale(0.96);
+                transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             }
-
             .vercel-box.system-ready { opacity: 1; transform: scale(1); }
 
-            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--apple-border); }
-            header h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.5px; color: #ffffff; }
+            header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 22px; border-bottom: 1px solid var(--apple-border); flex-wrap: wrap; gap: 15px; }
+            header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; }
 
-            /* Status Pill */
             .status-container {
-                display: inline-flex; align-items: center; gap: 6px;
-                font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
-                color: var(--apple-green); background: rgba(52, 199, 89, 0.1);
-                padding: 5px 12px; border-radius: 30px;
+                display: inline-flex; align-items: center; gap: 7px;
+                font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px;
+                color: var(--apple-cyan); background: rgba(0, 245, 255, 0.08);
+                padding: 7px 15px; border-radius: 30px; border: 1px solid rgba(0, 245, 255, 0.2);
             }
-            .pulse-dot { width: 6px; height: 6px; background: var(--apple-green); border-radius: 50%; }
+            .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
+            @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
             /* Analytics Counters Grid */
-            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
-            .stat-card {
-                background: rgba(255, 255, 255, 0.02); border: 1px solid var(--apple-border); border-radius: 12px;
-                padding: 12px 6px; text-align: center;
-            }
-            .stat-label { font-size: 0.58rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
-            .stat-value { font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-top: 3px; }
+            .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+            .stat-card { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--apple-border); border-radius: 18px; padding: 16px 12px; text-align: center; transition: all 0.3s; }
+            .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
+            .stat-label { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+            .stat-value { font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; }
 
             /* Filter Input Search Box */
-            .search-container { position: relative; margin-top: 18px; }
+            .search-container { position: relative; margin-top: 24px; }
             .search-input {
-                width: 100%; padding: 12px 16px; background: rgba(0, 0, 0, 0.3);
-                border: 1px solid var(--apple-border); border-radius: 12px;
-                color: #ffffff; font-size: 0.85rem; outline: none; transition: all 0.2s;
+                width: 100%; padding: 18px 22px; background: rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--apple-border); border-radius: 16px;
+                color: #ffffff; font-size: 0.95rem; font-weight: 800; outline: none; transition: all 0.3s;
             }
-            .search-input:focus { border-color: rgba(255,255,255,0.25); background: rgba(0, 0, 0, 0.5); }
-            ::placeholder { color: #55555a; }
+            .search-input:focus { border-color: rgba(0, 245, 255, 0.5); background: rgba(0, 0, 0, 0.7); box-shadow: 0 0 25px rgba(0, 245, 255, 0.08); }
+            ::placeholder { color: #4e4e54; font-weight: 800; }
 
             /* Workspace Lists Layout */
-            .endpoint-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+            .endpoint-list { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+            .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 18px; overflow: hidden; transition: all 0.25s; }
+            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.02); }
             
-            .api-wrapper {
-                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border);
-                border-radius: 14px; overflow: hidden; transition: all 0.2s;
-            }
-            .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); }
+            .api-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+            .meta-details { display: flex; flex-direction: column; gap: 5px; max-width: 85%; }
+            .endpoint-slug { font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: monospace; letter-spacing: -0.3px; }
+            .endpoint-info { font-size: 0.82rem; font-weight: 800; color: var(--text-muted); }
+            .arrow-icon { font-size: 0.8rem; color: #444; font-weight: 900; transition: transform 0.25s; }
             
-            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .meta-details { display: flex; flex-direction: column; gap: 2px; max-width: 85%; }
-            .endpoint-slug { font-size: 0.95rem; font-weight: 600; color: #ffffff; font-family: monospace; }
-            .endpoint-info { font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .arrow-icon { font-size: 0.7rem; color: #444; transition: transform 0.2s; }
-            
-            /* Active Expand Configuration */
-            .api-wrapper.active { border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.02); }
-            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: #fff; }
+            .api-wrapper.active { border-color: rgba(123, 44, 191, 0.6); background: rgba(0, 0, 0, 0.4); box-shadow: inset 0 0 20px rgba(123, 44, 191, 0.05); }
+            .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
 
             /* Core Premium Documentation Panel */
-            .api-docs {
-                display: none; padding: 0 16px 16px 16px; border-top: 1px solid rgba(255, 255, 255, 0.04);
-                background: rgba(0,0,0,0.15); animation: appleReveal 0.2s ease-out;
-            }
-            @keyframes appleReveal { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
-
-            .docs-section-title { font-size: 0.62rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 6px 0; letter-spacing: 0.5px; }
+            .api-docs { display: none; padding: 0 20px 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
+            .docs-section-title { font-size: 0.7rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.6px; }
             
-            /* Action Buttons Layout styling */
-            .url-box-container { display: flex; gap: 6px; margin-top: 6px; }
+            .url-box-container { display: flex; gap: 10px; margin-top: 6px; }
             .url-display {
-                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 10px;
-                border-radius: 8px; font-family: monospace; font-size: 0.7rem; color: #a1a1a6;
-                overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+                flex-grow: 1; background: #000000; border: 1px solid var(--apple-border); padding: 15px;
+                border-radius: 12px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--apple-cyan);
+                overflow-x: auto; white-space: nowrap;
             }
+            /* Custom Scrollbar for URL display to ensure perfect mobile fit */
+            .url-display::-webkit-scrollbar { height: 4px; }
+            .url-display::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
             .btn-action {
-                border: none; font-size: 0.65rem; font-weight: 600; padding: 0 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
+                border: none; font-size: 0.78rem; font-weight: 900; padding: 0 18px; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; min-height: 46px;
             }
             .btn-copy { background: #ffffff; color: #000000; }
-            .btn-copy:hover { opacity: 0.85; }
-            
-            .btn-run { background: var(--apple-blue); color: #ffffff; }
-            .btn-run:hover { opacity: 0.9; }
+            .btn-copy:hover { opacity: 0.88; }
+            .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
+            .btn-run:hover { box-shadow: 0 0 18px rgba(123, 44, 191, 0.5); }
 
-            /* Real Live Web Request Console Screen */
+            /* Console Screen */
             .json-preview {
-                background: #000000; border: 1px solid var(--apple-border); border-radius: 8px;
-                padding: 12px; font-family: monospace; font-size: 0.66rem; color: #888;
-                white-space: pre-wrap; overflow-x: auto; max-height: 140px; transition: color 0.2s;
+                background: #000000; border: 1px solid var(--apple-border); border-radius: 12px;
+                padding: 16px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #666;
+                white-space: pre-wrap; overflow-x: auto; max-height: 220px; line-height: 1.5;
             }
+            .json-preview::-webkit-scrollbar { width: 4px; height: 4px; }
+            .json-preview::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
-            /* Notification Banner Dynamic pop */
             #toast-alert {
-                position: fixed; bottom: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-                color: #000000; font-weight: 600; font-size: 0.72rem; padding: 10px 20px; border-radius: 20px;
+                position: fixed; bottom: 35px; background: #ffffff; color: #000000;
+                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.85rem; padding: 14px 28px; border-radius: 14px;
                 z-index: 10000; opacity: 0; transform: translateY(10px); pointer-events: none;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
                 transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
             #toast-alert.show { opacity: 1; transform: translateY(0); }
 
-            #no-results { display: none; text-align: center; padding: 40px; font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
-            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 16px; margin-top: 12px; }
-            .buy-btn { color: #ffffff; text-decoration: none; font-weight: 600; }
+            #no-results { display: none; text-align: center; padding: 45px; font-size: 0.85rem; font-weight: 800; color: var(--text-muted); font-family: monospace; }
+            footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 900; color: var(--text-muted); border-top: 1px solid var(--apple-border); padding-top: 22px; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
+            .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
+            .buy-btn:hover { color: #ffffff; }
+
+            /* 📱 STAGE-PERFECT MOBILE RESPONSIVE ENGINE */
+            @media (max-width: 600px) {
+                body { padding: 15px 0; }
+                .vercel-box { padding: 25px 18px; border-radius: 24px; width: 94%; }
+                header h1 { font-size: 1.6rem; }
+                .status-container { padding: 6px 12px; font-size: 0.68rem; }
+                .analytics-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
+                .stat-card { padding: 14px 18px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+                .stat-value { margin-top: 0; font-size: 1.05rem; }
+                .url-box-container { flex-direction: column; gap: 10px; }
+                .btn-action { width: 100%; justify-content: center; display: flex; align-items: center; }
+                .endpoint-slug { font-size: 1rem; }
+                .endpoint-info { font-size: 0.78rem; }
+                .json-preview { max-height: 180px; }
+            }
         </style>
     </head>
     <body>
 
+        <div class="ambient-glow"></div>
         <div id="toast-alert">COPIED TO CLIPBOARD ✔</div>
 
         <div id="cyber-loader">
@@ -256,7 +254,7 @@ app.get('/', (req, res) => {
                 <h1>HASHU APIS</h1>
                 <div class="status-container">
                     <div class="pulse-dot"></div>
-                    <span>SYSTEM</span>
+                    <span>SYSTEM RUNNING</span>
                 </div>
             </header>
 
@@ -270,8 +268,8 @@ app.get('/', (req, res) => {
                     <div class="stat-value">99.99%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Creator</div>
-                    <div class="stat-value">/hashuh</div>
+                    <div class="stat-label">Core Owner</div>
+                    <div class="stat-value" style="background: linear-gradient(90deg, var(--apple-cyan), var(--apple-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MR HASHUU</div>
                 </div>
             </div>
 
@@ -281,6 +279,67 @@ app.get('/', (req, res) => {
 
             <div class="endpoint-list" id="listWrapper">
                 
+                <!-- 🎬 NEW MOVIE DATABASE API -->
+                <div class="api-wrapper" data-name="movie database omdb cinema film guardians plot rating info tracker">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/movie</span>
+                            <span class="endpoint-info">OMDb Cinema & Film Data Information Tracking Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-movie')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-movie', 'res-movie', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-movie">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <div class="api-wrapper" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/chat</span>
+                            <span class="endpoint-info">Hashan-md AI / ChatGPT-4o Smart Interface</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-chat')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-chat', 'res-chat', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-chat">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <div class="api-wrapper" data-name="cuttly shorten url link tinyurl link-shortener short">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/url_shorten</span>
+                            <span class="endpoint-info">Cuttly Professional Link Shortener Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-shorten')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-shorten', 'res-shorten', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-shorten">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <div class="api-wrapper" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -292,7 +351,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-xvideo')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)">Run API</button>
                         </div>
@@ -352,7 +411,7 @@ app.get('/', (req, res) => {
                     <div class="api-docs">
                         <div class="docs-section-title">Execution Gateway Endpoint</div>
                         <div class="url-box-container">
-                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR?si=HWuMcdM3RJ6Yy0b7Uc7uGQ&apikey=MR_HASHUU_SECRET_123</div>
+                            <div class="url-display" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
                             <button class="btn-action btn-copy" onclick="copyLink('url-sf')">Copy</button>
                             <button class="btn-action btn-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Run API</button>
                         </div>
@@ -542,7 +601,7 @@ app.get('/', (req, res) => {
 
             <footer>
                 <span>© 2026 MR HASHUU</span>
-                <a href="https://wa.me/your-number-here" target="_blank" class="buy-btn">REQUEST CORE ACCESS</a>
+                <a href="#" class="buy-btn">REQUEST CORE ACCESS</a>
             </footer>
         </div>
 
@@ -619,7 +678,7 @@ app.get('/', (req, res) => {
                     document.execCommand('copy');
                     triggerToast();
                 } catch (err) {
-                    console.error('Fallback engine failed compilation', err);
+                    console.error('Fallback copy engine error', err);
                 }
                 document.body.removeChild(textArea);
             }
@@ -637,7 +696,7 @@ app.get('/', (req, res) => {
 
                 buttonElement.innerText = "RUNNING...";
                 buttonElement.disabled = true;
-                outputConsole.textContent = "// TRANSMITTING SECURE MATRIX HANDSHAKE SIGNAL... //";
+                outputConsole.textContent = "// TRANSMITTING SECURE SIGNAL... //";
                 outputConsole.style.color = "var(--apple-cyan)";
 
                 try {
@@ -665,171 +724,215 @@ app.get('/', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🛠️ ALL 13 BACKEND API CONTROLLERS (PROTECTED WITH AUTH)
+// 🛠️ BACKEND CONTROLLERS LOGIC
 // ─────────────────────────────────────────────────────────
 
-// 🆕 1. XVIDEOS CONTROLLER
+// 🎬 NEW OMDb MOVIE CONTROLLER
+app.get('/api/movie', strictAuthGate, async (req, res) => {
+    try {
+        const { text } = req.query;
+        if (!text) return res.json({ success: false, message: "Movie title parameter (?text=) missing!" });
+
+        const movieUrl = `http://www.omdbapi.com/?t=${encodeURIComponent(text)}&apikey=2634bb02`;
+        const { data } = await axios.get(movieUrl);
+
+        if (data.Response === "True") {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                result: data
+            });
+        } else {
+            res.json({ success: false, message: data.Error || "Movie not found!" });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 0. CHATGPT-4o SMART INTERFACE
+app.get('/api/chat', strictAuthGate, async (req, res) => {
+    try {
+        const { prompt } = req.query;
+        if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
+
+        const cleanPrompt = prompt.toLowerCase().trim();
+
+        if (cleanPrompt === 'hi') {
+            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
+        }
+        if (cleanPrompt === 'kawad bn') {
+            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
+        }
+
+        const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
+        const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
+        
+        const { data } = await axios.get(targetUrl);
+        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
+
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: aiReply });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 1. CUTTLY URL SHORTENER
+app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
+    try {
+        const { link } = req.query;
+        if (!link) return res.json({ success: false, message: "Link parameter missing!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
+        if (data.success) {
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
+        } else { res.json({ success: false, message: "URL shortening failed." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 2. XVIDEOS DOWNLOADER
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "XVideo URL required!" });
-        
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
-        
         if (data.success) {
-            res.json({ 
-                creator: "Mr Hashuu Ofc", 
-                status: "Authenticated", 
-                user: req.planOwner,
-                plan: req.planType,
-                success: true, 
-                title: data.title,
-                thumbnail: data.thumbnail,
-                download_url: data.download_url
-            });
-        } else { 
-            res.json({ success: false, message: "Conversion failed or invalid source link." }); 
-        }
-    } catch (e) { 
-        res.json({ success: false, message: e.message }); 
-    }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
+        } else { res.json({ success: false, message: "Conversion failed." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. YOUTUBE MP4 CONTROLLER
+// 3. YOUTUBE MP4 DOWNLOADER
 app.get('/ytmp4', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "YouTube URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid YouTube URL or media conversion failed." }); }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Media conversion failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. MEDIAFIRE CONTROLLER
+// 4. MEDIAFIRE PARSER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Mediafire URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/mediafire?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. SPOTIFY CONTROLLER
+// 5. SPOTIFY EXTRACTOR
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. TWITTER CONTROLLER
+// 6. TWITTER STREAM CDN
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Twitter URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", user: req.planOwner, plan: req.planType, success: true, result: data });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 6. SONG CONTROLLER
+// 7. YOUTUBE AUDIO SONG
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Song name or YouTube URL required" });
+        if (!text) return res.json({ success: false, message: "Song name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
         if (data.status && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Failed to fetch song from server." }); }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Failed to fetch song." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. TIKTOK CONTROLLER
+// 8. TIKTOK NO-WATERMARK
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
         if (data.success && data.result) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid TikTok URL or media not found." }); }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        } else { res.json({ success: false, message: "Invalid TikTok URL." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. PINTEREST CONTROLLER
+// 9. PINTEREST MEDIA IMAGE
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Query text required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.result || [] });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || [] });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 9. APK CONTROLLER
+// 10. APK PACKAGE MIRROR
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "App name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.apk || {} });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.apk || {} });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 10. FACEBOOK CONTROLLER
+// 11. FACEBOOK WATCH EXTRACTOR
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
         if (data.status) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.video });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
         } else { res.json({ success: false, message: "Could not fetch video." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 11. WEBSITE CLONER CONTROLLER
+// 12. STATIC WEBPAGE CLONER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "Website URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
         } else { res.json({ success: false, message: "Failed to clone website." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 12. JS OBFUSCATOR CONTROLLER
+// 13. JS ANTI-SCRAPE OBFUSCATOR
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
         if (!code) return res.json({ success: false, message: "Code parameter missing!" });
         const obfuscatedCode = obfuscator.obfuscate(code, { compact: true, controlFlowFlattening: true, controlFlowFlatteningThreshold: 0.5 }).getObfuscatedCode();
-        res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: obfuscatedCode });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: obfuscatedCode });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 13. IMGBB UPLOADER CONTROLLER
+// 14. IMGBB IMAGE CLOUD POST
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "Mr Hashuu Ofc", status: "Authenticated", success: true, result: data.data }); }
+        if (data.success) { res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data }); }
         else { res.json({ success: false, message: "Upload failed." }); }
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// PORT LISTENER
-if (require.main === module) {
-    app.listen(3000, () => console.log("Apple Pro HASHU-API Engine Running on port 3000"));
-}
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Apple Matrix HASHU-API Engine Running on port ${PORT}`));
 
 module.exports = app;
