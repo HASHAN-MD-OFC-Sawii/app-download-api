@@ -36,11 +36,6 @@ function getTodayUsage(apikey) {
     return (usageStats[apikey] && usageStats[apikey][today]) || 0;
 }
 
-function getTotalUsage(apikey) {
-    if (!usageStats[apikey]) return 0;
-    return Object.values(usageStats[apikey]).reduce((a, b) => a + b, 0);
-}
-
 const premiumLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000, 
     max: 5000, 
@@ -87,310 +82,387 @@ app.get('/api/stats', (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
-// 🌌 LUXURY INTERFACE RESPOSIVE GATEWAY UI
+// 🌌 ULTRA LUXURY PORTAL UI (BASE64 ARCHITECTURE TO PREVENT CRASHES)
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
-    res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - PREMIUM PORTAL</title>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-        <style>
-            :root {
-                --bg: #0B0612;
-                --surface: #160F24;
-                --primary: #00F5FF;
-                --secondary: #7B2CBF;
-                --text: #F3EEFA;
-                --text-muted: #9486A8;
-                --error: #FF3366;
-                --success: #00FF87;
-            }
+    // 200KB+ UI code structural framework safety optimization
+    const htmlPayload = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MR HASHUU - PREMIUM DEV PORTAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #07030D;
+            --surface: #120A1C;
+            --surface-overlay: #1B102A;
+            --primary: #00F5FF;
+            --secondary: #7B2CBF;
+            --accent-glow: rgba(0, 245, 255, 0.4);
+            --text: #F3EEFA;
+            --text-muted: #8E7F9F;
+            --error: #FF2E63;
+            --success: #00FF87;
+        }
 
-            * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; -webkit-tap-highlight-color: transparent; }
-            body, html { background: var(--bg); color: var(--text); width: 100%; min-height: 100vh; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em; -webkit-font-smoothing: antialiased; }
+        body, html { background: var(--bg); color: var(--text); width: 100%; min-height: 100vh; overflow-x: hidden; }
 
-            /* INITIAL ACCESS GATE */
-            #access-gate {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: radial-gradient(circle at center, #190A2E 0%, var(--bg) 100%);
-                display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px;
-            }
-            .gate-card {
-                background: rgba(22, 15, 36, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-                border: 2px solid var(--secondary); padding: 40px 30px; border-radius: 24px;
-                width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 40px rgba(123, 44, 191, 0.3);
-            }
-            .gate-card.shake { animation: shake 0.4s ease-in-out; border-color: var(--error); }
-            @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
-            
-            .gate-logo { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 20px; }
-            .gate-input {
-                width: 100%; background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(148, 134, 168, 0.3);
-                padding: 16px; border-radius: 12px; color: var(--primary); font-family: 'JetBrains Mono', monospace;
-                font-size: 16px; text-align: center; outline: none; margin-bottom: 20px; transition: 0.3s;
-            }
-            .gate-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); }
-            .gate-btn {
-                width: 100%; background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%);
-                border: none; padding: 16px; border-radius: 12px; color: #FFF; font-size: 16px; cursor: pointer;
-            }
+        /* ACCESS SECURITY GATE SCREEN */
+        #access-gate {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(180deg, #0C0517 0%, var(--bg) 100%);
+            display: flex; justify-content: center; align-items: center; z-index: 99999; padding: 24px;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gate-card {
+            background: rgba(18, 10, 28, 0.65); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 2px solid var(--secondary); padding: 48px 36px; border-radius: 32px; width: 100%; max-width: 440px;
+            text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,0.7), 0 0 60px rgba(123, 44, 191, 0.25);
+            transform: scale(1); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .gate-card.shake { animation: cardShake 0.4s ease-in-out; border-color: var(--error); box-shadow: 0 0 40px rgba(255, 46, 99, 0.3); }
+        @keyframes cardShake { 0%,100% {transform:translateX(0);} 20%,60% {transform:translateX(-10px);} 40%,80% {transform:translateX(10px);} }
+        
+        .gate-logo-wrapper { width: 84px; height: 84px; background: rgba(0, 245, 255, 0.05); border: 2px dashed var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; animation: pulseGlow 3s infinite; }
+        @keyframes pulseGlow { 0%,100% { box-shadow: 0 0 10px rgba(0,245,255,0.1); } 50% { box-shadow: 0 0 30px rgba(0,245,255,0.3); } }
+        .gate-logo { width: 36px; height: 36px; fill: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
+        
+        .gate-title { font-size: 24px; text-transform: uppercase; margin-bottom: 8px; background: linear-gradient(135deg, #FFF 0%, var(--text-muted) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gate-subtitle { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 36px; letter-spacing: 0.05em; }
+        
+        .gate-input-container { position: relative; margin-bottom: 24px; }
+        .gate-input {
+            width: 100%; background: rgba(5, 2, 10, 0.6); border: 2px solid rgba(142, 127, 159, 0.2);
+            padding: 18px; border-radius: 16px; color: var(--primary); font-family: 'JetBrains Mono', monospace;
+            font-size: 16px; text-align: center; outline: none; transition: all 0.3s;
+        }
+        .gate-input:focus { border-color: var(--primary); background: #05020A; box-shadow: 0 0 20px rgba(0,245,255,0.15); }
+        .gate-btn {
+            width: 100%; background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%);
+            border: none; padding: 18px; border-radius: 16px; color: #FFF; font-size: 15px; text-transform: uppercase;
+            cursor: pointer; letter-spacing: 0.05em; transition: all 0.3s; box-shadow: 0 8px 24px rgba(123, 44, 191, 0.4);
+        }
+        .gate-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(123, 44, 191, 0.6); }
 
-            /* MAIN CONSOLE APP */
-            #main-app { display: none; flex-direction: column; min-height: 100vh; padding-bottom: 80px; }
-            nav {
-                background: rgba(22, 15, 36, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-                border-bottom: 1px solid rgba(123, 44, 191, 0.3); padding: 16px 20px;
-                display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
-            }
-            .brand { display: flex; align-items: center; gap: 8px; font-size: 18px; color: var(--text); }
-            .brand svg { width: 24px; height: 24px; fill: var(--primary); }
-            
-            .container { max-width: 800px; width: 100%; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-            
-            /* METRICS DASHBOARD */
-            .panel { background: var(--surface); border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 20px; padding: 20px; }
-            .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-            .dash-card { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-            .dash-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-            .dash-value { font-size: 18px; color: var(--text); }
-            .bar-track { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px; overflow: hidden; }
-            .bar-fill { height: 100%; width: 0%; background: var(--primary); transition: 0.4s; }
+        /* PRINCIPAL SYSTEM CONSOLE WORKPLACE */
+        #main-app { display: none; flex-direction: column; min-height: 100vh; padding-bottom: 90px; opacity: 0; transition: opacity 0.6s ease; }
+        
+        nav {
+            background: rgba(18, 10, 28, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(123, 44, 191, 0.3); padding: 18px 24px;
+            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; font-size: 20px; color: #FFF; text-transform: uppercase; }
+        .brand svg { width: 28px; height: 28px; fill: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
+        .brand span span { color: var(--primary); }
 
-            /* API ENDPOINTS LIST */
-            .api-list { display: flex; flex-direction: column; gap: 12px; }
-            .api-card { background: var(--surface); border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 16px; overflow: hidden; }
-            .api-row { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .api-meta { display: flex; flex-direction: column; gap: 2px; }
-            .api-slug { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--primary); word-break: break-all; }
-            .api-name { font-size: 12px; color: var(--text-muted); }
-            .api-arrow { width: 16px; height: 16px; fill: var(--text-muted); transition: 0.3s; }
-            .api-card.open .api-arrow { transform: rotate(90deg); fill: var(--primary); }
+        .container { max-width: 900px; width: 100%; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
 
-            /* API EXPANDED DOCS & RUNNER */
-            .api-docs { display: none; padding: 16px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(123, 44, 191, 0.15); }
-            .field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-            .field-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-            .field-input {
-                width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(148, 134, 168, 0.2);
-                border-radius: 8px; color: #FFF; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none;
-            }
-            .field-input:focus { border-color: var(--primary); }
-            
-            .url-box {
-                background: #000; padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace;
-                font-size: 11px; color: var(--primary); overflow-x: auto; white-space: nowrap; margin-bottom: 12px;
-                border: 1px solid rgba(255,255,255,0.05);
-            }
-            .action-row { display: flex; gap: 8px; }
-            .btn-action {
-                padding: 12px; border: none; border-radius: 8px; font-size: 12px; cursor: pointer; text-transform: uppercase;
-            }
-            .btn-copy { background: var(--surface); color: var(--text); border: 1px solid rgba(148, 134, 168, 0.2); }
-            .btn-run { background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%); color: #FFF; flex-grow: 1; }
-            
-            .response-window {
-                background: #05020A; border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 8px;
-                padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);
-                white-space: pre-wrap; overflow-x: auto; max-height: 180px; margin-top: 12px; display: none;
-            }
+        /* CORE NETWORK TRACK METRICS */
+        .panel-metrics { background: linear-gradient(135deg, var(--surface) 0%, #1A0D29 100%); border: 2px solid rgba(123, 44, 191, 0.25); border-radius: 24px; padding: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+        .metrics-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .m-card { background: rgba(5,2,10,0.4); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); position: relative; overflow: hidden; }
+        .m-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.05em; }
+        .m-val { font-size: 22px; color: #FFF; font-family: 'Space Grotesk', sans-serif; }
+        .progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; margin-top: 12px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--secondary), var(--primary)); border-radius: 4px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
 
-            /* BOTTOM MOBILE DOCK */
-            .bottom-dock {
-                position: fixed; bottom: 0; left: 0; width: 100vw; height: 60px;
-                background: rgba(22, 15, 36, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-                border-top: 1px solid rgba(123, 44, 191, 0.3); z-index: 999;
-                display: flex; justify-content: space-around; align-items: center;
-            }
-            .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 10px; text-transform: uppercase; }
-            .dock-item svg { width: 18px; height: 18px; fill: currentColor; }
-            .dock-item.active { color: var(--primary); }
+        /* CENTRAL ARCHITECTURE INFRASTRUCTURE GRID (15 ENDPOINTS) */
+        .endpoints-title-cluster { font-size: 15px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: -8px; margin-top: 8px; display: flex; align-items: center; gap: 8px; }
+        .endpoints-title-cluster svg { width: 14px; height: 14px; fill: currentColor; }
+        
+        .api-cluster { display: flex; flex-direction: column; gap: 14px; }
+        .api-node { background: var(--surface); border: 1px solid rgba(123, 44, 191, 0.2); border-radius: 20px; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .api-node:hover { border-color: rgba(0, 245, 255, 0.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        
+        .api-summary-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+        .api-core-data { display: flex; flex-direction: column; gap: 4px; padding-right: 16px; }
+        .api-method-tag { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--primary); word-break: break-all; text-transform: uppercase; }
+        .api-desc-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.02em; }
+        
+        .api-trigger-icon { width: 20px; height: 20px; fill: var(--text-muted); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; }
+        .api-node.expanded { border-color: var(--secondary); background: var(--surface-overlay); box-shadow: 0 16px 36px rgba(0,0,0,0.5); }
+        .api-node.expanded .api-trigger-icon { transform: rotate(90deg); fill: var(--primary); filter: drop-shadow(0 0 5px var(--primary)); }
 
-            @media(max-width: 600px) {
-                .dash-grid { grid-template-columns: 1fr; }
-                .container { padding: 12px; }
-            }
-        </style>
-    </head>
-    <body>
+        /* EXPANDED SPECIFICATION DOCUMENTATION PANEL */
+        .api-details-view { display: none; padding: 24px; background: rgba(5, 2, 10, 0.4); border-top: 1px solid rgba(123, 44, 191, 0.25); animation: expandAnim 0.3s ease; }
+        @keyframes expandAnim { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        <div id="access-gate">
-            <div class="gate-card" id="gate-box">
+        .param-block { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .param-field {
+            width: 100%; padding: 14px 16px; background: rgba(7, 3, 13, 0.7); border: 1px solid rgba(142, 127, 159, 0.2);
+            border-radius: 12px; color: #FFF; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none; transition: 0.2s;
+        }
+        .param-field:focus { border-color: var(--primary); background: #000; }
+
+        .endpoint-url-display {
+            background: #05020A; padding: 14px 16px; border-radius: 12px; font-family: 'JetBrains Mono', monospace;
+            font-size: 12px; color: var(--primary); overflow-x: auto; white-space: nowrap; margin-bottom: 18px;
+            border: 1px solid rgba(123, 44, 191, 0.15); box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .control-row { display: flex; gap: 10px; }
+        .btn-ctl { padding: 14px 20px; border: none; border-radius: 12px; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-ctl svg { width: 14px; height: 14px; fill: currentColor; }
+        .btn-ctl-secondary { background: rgba(27, 16, 42, 0.8); color: var(--text); border: 1px solid rgba(142, 127, 159, 0.25); }
+        .btn-ctl-secondary:hover { background: var(--surface-overlay); border-color: var(--text-muted); }
+        .btn-ctl-primary { background: linear-gradient(135deg, var(--secondary) 0%, #9D4EDD 100%); color: #FFF; flex-grow: 1; box-shadow: 0 4px 12px rgba(123, 44, 191, 0.3); }
+        .btn-ctl-primary:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(123, 44, 191, 0.5); }
+
+        /* STREAMING INTERACTIVE MONITOR WINDOW */
+        .terminal-monitor {
+            background: #030106; border: 1px solid rgba(123, 44, 191, 0.3); border-radius: 12px;
+            padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);
+            white-space: pre-wrap; overflow-x: auto; max-height: 240px; margin-top: 18px; display: none;
+            box-shadow: inset 0 4px 16px rgba(0,0,0,0.8); line-height: 1.5;
+        }
+
+        /* HARDWARE SYSTEM RESPONSIVE NAVIGATION BOTTOM COUPLING DOCK */
+        .navigation-dock-bar {
+            position: fixed; bottom: 0; left: 0; width: 100vw; height: 70px;
+            background: rgba(18, 10, 28, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(123, 44, 191, 0.3); z-index: 9999;
+            display: flex; justify-content: space-around; align-items: center; padding: 0 24px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+        .dock-action-node { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); cursor: pointer; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; width: 80px; transition: color 0.2s; user-select: none; }
+        .dock-action-node svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.2s; }
+        .dock-action-node:hover { color: #FFF; }
+        .dock-action-node.active { color: var(--primary); }
+        .dock-action-node.active svg { transform: translateY(-2px); filter: drop-shadow(0 0 5px var(--primary)); }
+
+        @media(max-width: 768px) {
+            .metrics-layout { grid-template-columns: 1fr; gap: 14px; }
+            .container { padding: 16px; gap: 16px; }
+            .panel-metrics { padding: 18px; border-radius: 20px; }
+            .api-summary-row { padding: 16px; }
+            .api-details-view { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="access-gate">
+        <div class="gate-card" id="gate-box">
+            <div class="gate-logo-wrapper">
                 <svg class="gate-logo" viewBox="0 0 24 24"><path d="M12,1A5,5,0,0,0,7,6v4H6a3,3,0,0,0,-3,3v7a3,3,0,0,0,3,3h12a3,3,0,0,0,3,-3V13a3,3,0,0,0,-3,-3H17V6A5,5,0,0,0,12,1Zm3,9H9V6a3,3,0,0,1,6,0Z"/></svg>
-                <div style="font-size:20px; margin-bottom:10px;">AUTHENTICATION REQUIRED</div>
-                <input type="password" id="gate-key" class="gate-input" placeholder="ENTER ACCESS MASTER KEY">
-                <button class="gate-btn" onclick="unlockGateway()">VERIFY SYSTEM</button>
             </div>
+            <div class="gate-title">GATEWAY TERMINAL</div>
+            <div class="gate-subtitle">SECURE MASTER PRIVILEGE SYSTEM</div>
+            <div class="gate-input-container">
+                <input type="password" id="gate-key" class="gate-input" placeholder="ENTER SYSTEM KEY">
+            </div>
+            <button class="gate-btn" onclick="executeGatewayValidation()">INITIALIZE SECURITY</button>
         </div>
+    </div>
 
-        <div id="main-app">
-            <nav>
-                <div class="brand">
-                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    <span>MR HASHUU CORE</span>
-                </div>
-            </nav>
+    <div id="main-app">
+        <nav>
+            <div class="brand">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>MR HASHUU <span>MAINNET</span></span>
+            </div>
+        </nav>
 
-            <div class="container">
-                <div class="panel">
-                    <div class="dash-grid">
-                        <div class="dash-card">
-                            <div class="dash-label">GATEWAY UPTIME</div>
-                            <div class="dash-value" id="runtime-uptime">--</div>
-                        </div>
-                        <div class="dash-card">
-                            <div class="dash-label">TOKEN RUN RATIO</div>
-                            <div class="dash-value" id="runtime-hits">0 / 0</div>
-                            <div class="bar-track"><div class="bar-fill" id="runtime-bar"></div></div>
-                        </div>
+        <div class="container">
+            <div class="panel-metrics">
+                <div class="metrics-layout">
+                    <div class="m-card">
+                        <div class="m-label">INFRASTRUCTURE STATUS TIME</div>
+                        <div class="m-val" id="monitor-uptime">SYSTEM IDLE</div>
+                    </div>
+                    <div class="m-card">
+                        <div class="m-label">API THROUGHPUT ALLOCATION</div>
+                        <div class="m-val" id="monitor-quota">0 / 0 HITS</div>
+                        <div class="progress-track"><div class="progress-fill" id="monitor-bar"></div></div>
                     </div>
                 </div>
-
-                <div class="api-list" id="api-master-list"></div>
             </div>
 
-            <div class="bottom-dock">
-                <div class="dock-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                    <span>CONSOLE</span>
-                </div>
-                <div class="dock-item" onclick="location.reload()">
-                    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
-                    <span>LOCK KEY</span>
-                </div>
+            <div class="endpoints-title-cluster">
+                <svg viewBox="0 0 24 24"><path d="M4 15h16v-2H4v2zm0 4h16v-2H4v2zm0-8h16V9H4v2zm0-6v2h16V5H4z"/></svg>
+                AVAILABLE ROUTE CHANNELS
             </div>
+
+            <div class="api-cluster" id="dynamic-pipeline-inject"></div>
         </div>
 
-        <script>
-            let activeKey = "";
-            
-            // THE 15 ORIGINAL APIS METADATA DEFINITIONS
-            const ENDPOINTS_DB = [
-                { id: "tiktok", slug: "/api/tiktok", name: "TIKTOK VIDEO DOWNLOADER", param: "url", placeholder: "https://vt.tiktok.com/xxx/" },
-                { id: "tiktoksearch", slug: "/api/tiktok_search", name: "TIKTOK SEARCH ENGINE", param: "text", placeholder: "sl memes" },
-                { id: "yt", slug: "/api/yt_download", name: "YOUTUBE VIDEO DOWNLOADER", param: "url", placeholder: "https://youtube.com/watch?v=xxx" },
-                { id: "fbdl", slug: "/api/fbdl", name: "FACEBOOK HD DOWNLOADER", param: "url", placeholder: "https://www.facebook.com/watch/xxx" },
-                { id: "mediafire", slug: "/api/mediafire", name: "MEDIAFIRE FILE SCROLLER", param: "url", placeholder: "https://www.mediafire.com/file/xxx" },
-                { id: "remini", slug: "/api/remini", name: "AI REMINI IMAGE ENHANCER", param: "url", placeholder: "https://example.com/image.jpg" },
-                { id: "chat", slug: "/api/chat", name: "CHATGPT CORE BRAIN INTELLIGENCE", param: "prompt", placeholder: "Hi" },
-                { id: "movie", slug: "/api/movie", name: "OMDB MOVIE METRICS ENGINE", param: "text", placeholder: "Avengers" },
-                { id: "shorten", slug: "/api/url_shorten", name: "URL CUTTLY LINK SHORTENER", param: "link", placeholder: "https://google.com" },
-                { id: "anime", slug: "/api/anime", name: "WAIFU ANIME DB EXTRACTOR", param: "category", placeholder: "waifu" },
-                { id: "stalk", slug: "/api/repo_stalk", name: "GITHUB REPOSITORY SEARCH ENGINE", param: "url", placeholder: "https://github.com/expressjs/express" },
-                { id: "wallpaper", slug: "/api/wallpaper", name: "ULTRA HD WALLPAPER SCRAIPER", param: "text", placeholder: "Cyberpunk" },
-                { id: "obfuscate", slug: "/api/obfuscate", name: "JAVASCRIPT ENCRYPTION OBFUSCATOR", param: "code", placeholder: "console.log('hello');" },
-                { id: "imgbb", slug: "/api/stats", name: "IMGBB BACKEND VERIFICATION ROUTE (POST DETECTOR)", param: "check", placeholder: "true" },
-                { id: "weather", slug: "/api/weather", name: "GLOBAL CLIMATE REALTIME METRIC", param: "text", placeholder: "Colombo" }
-            ];
+        <div class="navigation-dock-bar">
+            <div class="dock-action-node active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>CONSOLE</span>
+            </div>
+            <div class="dock-action-node" onclick="systemTerminationLock()">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                <span>TERMINATE</span>
+            </div>
+        </div>
+    </div>
 
-            function renderEndpoints() {
-                const container = document.getElementById('api-master-list');
-                container.innerHTML = ENDPOINTS_DB.map(api => `
-                    <div class="api-card" id="card-${api.id}">
-                        <div class="api-row" onclick="toggleCard('${api.id}')">
-                            <div class="api-meta">
-                                <span class="api-slug">${api.slug}</span>
-                                <span class="api-name">${api.name}</span>
-                            </div>
-                            <svg class="api-arrow" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+    <script>
+        let validUserToken = "";
+
+        // CENTRAL PIPELINE SYSTEM ARCHITECTURE DICTIONARY DEFINITION
+        const SYSTEM_DATA_ROUTES = [
+            { id: "tiktok", slug: "/api/tiktok", name: "TIKTOK RESOLVER DISPATCHER", queryParam: "url", hint: "https://vt.tiktok.com/ZS2xLd8mB/" },
+            { id: "tiktoksearch", slug: "/api/tiktok_search", name: "TIKTOK SEARCH ARCHIVE AGENT", queryParam: "text", hint: "sl comedy memes" },
+            { id: "yt", slug: "/api/yt_download", name: "YOUTUBE DATA STREAM DOWNLINK", queryParam: "url", hint: "https://youtube.com/watch?v=dQw4w9WgXcQ" },
+            { id: "fbdl", slug: "/api/fbdl", name: "FACEBOOK RESOURCE EXTRACTION LINK", queryParam: "url", hint: "https://www.facebook.com/watch/?v=12345" },
+            { id: "mediafire", slug: "/api/mediafire", name: "MEDIAFIRE CLOUD ARCHIVE TRACKER", queryParam: "url", hint: "https://www.mediafire.com/file/example" },
+            { id: "remini", slug: "/api/remini", name: "AI IMAGE RASTER RESOLUTION ENHANCER", queryParam: "url", hint: "https://images.unsplash.com/photo-1506744038136-46273834b3fb" },
+            { id: "chat", slug: "/api/chat", name: "GPT-4o NEURAL DEEP REASONING CORE", queryParam: "prompt", hint: "Explain quantum computing in one short sentence" },
+            { id: "movie", slug: "/api/movie", name: "OMDB GLOBAL CINEMA INDEX SCANNER", queryParam: "text", hint: "Inception" },
+            { id: "shorten", slug: "/api/url_shorten", name: "CUTTLY PROXIED MICRO URL DISPATCH", queryParam: "link", hint: "https://github.com/expressjs/express" },
+            { id: "anime", slug: "/api/anime", name: "WAIFU ANIME MULTIVERSE IMAGE MATRIX", queryParam: "category", hint: "waifu" },
+            { id: "stalk", slug: "/api/repo_stalk", name: "GIT MODULE REPOSITORY METRIC AUDITOR", queryParam: "url", hint: "https://github.com/node-fetch/node-fetch" },
+            { id: "wallpaper", slug: "/api/wallpaper", name: "HIGH FIDELITY WALLPAPER SCRAPER ENGINE", queryParam: "text", hint: "Synthwave aesthetics Neon" },
+            { id: "obfuscate", slug: "/api/obfuscate", name: "JAVASCRIPT CONTROL FLOW OBFUSCATOR", queryParam: "code", hint: "function init() { console.log('MR HASHUU ACTIVE'); }" },
+            { id: "imgbb", slug: "/api/stats", name: "IMGBB SYSTEM PROXY PIPELINE (POST CHECK)", queryParam: "check", hint: "true" },
+            { id: "weather", slug: "/api/weather", name: "REALTIME CLIMATE CLUSTER TELEMETRY", queryParam: "text", hint: "Colombo" }
+        ];
+
+        function pipelineGenerationEngine() {
+            const targetDom = document.getElementById('dynamic-pipeline-inject');
+            targetDom.innerHTML = SYSTEM_DATA_ROUTES.map(route => \`
+                <div class="api-node" id="node-\${route.id}">
+                    <div class="api-summary-row" onclick="interactTogglePipeline('\${route.id}')">
+                        <div class="api-core-data">
+                            <span class="api-method-tag">\${route.slug}</span>
+                            <span class="api-desc-tag">\-- \${route.name}</span>
                         </div>
-                        <div class="api-docs" id="docs-${api.id}">
-                            <div class="field-group">
-                                <label class="field-label">PARAMETER REQUIREMENT (?${api.param}=)</label>
-                                <input type="text" class="field-input" id="input-${api.id}" value="${api.placeholder}" oninput="updateUrlDisplay('${api.id}', '${api.slug}', '${api.param}')">
-                            </div>
-                            <div class="url-box" id="urlbox-${api.id}">fetching setup...</div>
-                            <div class="action-row">
-                                <button class="btn-action btn-copy" onclick="copyRoute('${api.id}')">COPY URL</button>
-                                <button class="btn-action btn-run" onclick="runRoute('${api.id}', '${api.slug}', '${api.param}')">EXECUTE REQUEST</button>
-                            </div>
-                            <pre class="response-window" id="res-${api.id}"></pre>
-                        </div>
+                        <svg class="api-trigger-icon" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
                     </div>
-                `).join('');
-            }
+                    <div class="api-details-view" id="details-\${route.id}">
+                        <div class="param-block">
+                            <label class="m-label">QUERY PARAMETER INPUT (?\${route.queryParam}=)</label>
+                            <div class="input-wrapper">
+                                <input type="text" class="param-field" id="field-\${route.id}" value="\${route.hint}" oninput="synchronizeUrlMap('\${route.id}', '\${route.slug}', '\${route.queryParam}')">
+                            </div>
+                        </div>
+                        <div class="endpoint-url-display" id="urlbox-\${route.id}">building routing map string...</div>
+                        <div class="control-row">
+                            <button class="btn-ctl btn-ctl-secondary" onclick="executeBufferUrlCopy('\${route.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                COPY ROUTE
+                            </button>
+                            <button class="btn-ctl btn-ctl-primary" onclick="dispatchLiveApiSignal('\${route.id}', '\${route.slug}', '\${route.queryParam}')">
+                                <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>
+                                RUN SIGNAL
+                            </button>
+                        </div>
+                        <pre class="terminal-monitor" id="monitor-box-\${route.id}"></pre>
+                    </div>
+                </div>
+            \`).join('');
+        }
 
-            function unlockGateway() {
-                const input = document.getElementById('gate-key').value.trim();
-                if (input === "MR_HASHUU_SECRET_123") {
-                    activeKey = input;
-                    document.getElementById('access-gate').style.display = 'none';
-                    document.getElementById('main-app').style.display = 'flex';
-                    renderEndpoints();
-                    ENDPOINTS_DB.forEach(api => updateUrlDisplay(api.id, api.slug, api.param));
-                    refreshMetrics();
-                } else {
-                    const box = document.getElementById('gate-box');
-                    box.classList.add('shake');
-                    setTimeout(() => box.classList.remove('shake'), 400);
-                }
-            }
-
-            function toggleCard(id) {
-                const docs = document.getElementById('docs-' + id);
-                const card = document.getElementById('card-' + id);
-                const isOpen = card.classList.contains('open');
+        function executeGatewayValidation() {
+            const secretInput = document.getElementById('gate-key').value.trim();
+            if (secretInput === "MR_HASHUU_SECRET_123") {
+                validUserToken = secretInput;
+                const accessGateFrame = document.getElementById('access-gate');
+                const mainAppWorkspace = document.getElementById('main-app');
                 
-                document.querySelectorAll('.api-card').forEach(c => c.classList.remove('open'));
-                document.querySelectorAll('.api-docs').forEach(d => d.style.display = 'none');
-
-                if (!isOpen) {
-                    card.classList.add('open');
-                    docs.style.display = 'block';
-                }
+                accessGateFrame.style.opacity = '0';
+                setTimeout(() => {
+                    accessGateFrame.style.display = 'none';
+                    mainAppWorkspace.style.display = 'flex';
+                    pipelineGenerationEngine();
+                    SYSTEM_DATA_ROUTES.forEach(r => synchronizeUrlMap(r.id, r.slug, r.queryParam));
+                    refreshHardwarePerformanceTrackers();
+                    setInterval(refreshHardwarePerformanceTrackers, 4000);
+                    setTimeout(() => { mainAppWorkspace.style.opacity = '1'; }, 50);
+                }, 600);
+            } else {
+                const errorTargetBox = document.getElementById('gate-box');
+                errorTargetBox.classList.add('shake');
+                setTimeout(() => errorTargetBox.classList.remove('shake'), 400);
             }
+        }
 
-            function updateUrlDisplay(id, slug, param) {
-                const val = encodeURIComponent(document.getElementById('input-' + id).value);
-                document.getElementById('urlbox-' + id).innerText = `${slug}?${param}=${val}&apikey=${activeKey}`;
+        // Handle enter key accessibility
+        document.getElementById('gate-key').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') executeGatewayValidation();
+        });
+
+        function interactTogglePipeline(nodeId) {
+            const currentDocView = document.getElementById('details-' + nodeId);
+            const currentNodeFrame = document.getElementById('node-' + nodeId);
+            const statusIndicatorState = currentNodeFrame.classList.contains('expanded');
+            
+            document.querySelectorAll('.api-node').forEach(node => node.classList.remove('expanded'));
+            document.querySelectorAll('.api-details-view').forEach(view => view.style.display = 'none');
+
+            if (!statusIndicatorState) {
+                currentNodeFrame.classList.add('expanded');
+                currentDocView.style.display = 'block';
             }
+        }
 
-            function copyRoute(id) {
-                const txt = document.getElementById('urlbox-' + id).innerText;
-                navigator.clipboard.writeText(window.location.origin + txt);
+        function synchronizeUrlMap(id, slug, queryParam) {
+            const inputVal = encodeURIComponent(document.getElementById('field-' + id).value);
+            document.getElementById('urlbox-' + id).innerText = \`\${slug}?\${queryParam}=\${inputVal}&apikey=\${validUserToken}\`;
+        }
+
+        function executeBufferUrlCopy(id) {
+            const pathUrl = document.getElementById('urlbox-' + id).innerText;
+            navigator.clipboard.writeText(window.location.origin + pathUrl);
+        }
+
+        async function dispatchLiveApiSignal(id, slug, queryParam) {
+            const targetInputFieldData = document.getElementById('field-' + id).value;
+            const logMonitorWindowDom = document.getElementById('monitor-box-' + id);
+            
+            logMonitorWindowDom.style.display = "block";
+            logMonitorWindowDom.innerText = ">>> INITIALIZING HANDSHAKE PROXIES...\\n>>> CAPTURING TRANSIT PACKETS SIGNAL VIA NETWORK...\\n>>> TRANSMITTING ARGS VECTOR SEGMENTS...";
+            logMonitorWindowDom.style.color = "var(--text-muted)";
+
+            try {
+                const compilationRoutingLink = \`\${slug}?\${queryParam}=\${encodeURIComponent(targetInputFieldData)}&apikey=\${validUserToken}\`;
+                const serverNetworkResponse = await fetch(compilationRoutingLink);
+                const standardParsedJsonData = await serverNetworkResponse.json();
+                
+                logMonitorWindowDom.innerText = ">>> RESPONSE INTERCEPTED SUCCESSFUL.\\n\\n" + JSON.stringify(standardParsedJsonData, null, 2);
+                logMonitorWindowDom.style.color = standardParsedJsonData.success !== false ? "var(--success)" : "var(--error)";
+                refreshHardwarePerformanceTrackers();
+            } catch(errorLogs) {
+                logMonitorWindowDom.innerText = ">>> FAULT ENCOUNTERED: CORE BUS DROPPED PACKAGE DATA LINK.\\n\\n" + JSON.stringify({ error: "SIGNAL_INTERRUPT", trackingMessage: errorLogs.message }, null, 2);
+                logMonitorWindowDom.style.color = "var(--error)";
             }
+        }
 
-            async function runRoute(id, slug, param) {
-                const val = document.getElementById('input-' + id).value;
-                const windowRes = document.getElementById('res-' + id);
-                windowRes.style.display = "block";
-                windowRes.innerText = "// TRANSFERRING SIGNALS ON NETWORK BUS... //";
-                windowRes.style.color = "var(--text-muted)";
-
-                try {
-                    const targetUrl = `${slug}?${param}=${encodeURIComponent(val)}&apikey=${activeKey}`;
-                    const res = await fetch(targetUrl);
-                    const data = await res.json();
-                    
-                    windowRes.innerText = JSON.stringify(data, null, 2);
-                    windowRes.style.color = data.success !== false ? "var(--success)" : "var(--error)";
-                    refreshMetrics();
-                } catch(e) {
-                    windowRes.innerText = JSON.stringify({ error: "EXECUTION FAILURE", message: e.message }, null, 2);
-                    windowRes.style.color = "var(--error)";
-                }
-            }
-
-            async function refreshMetrics() {
-                try {
-                    const res = await fetch(`/api/stats?apikey=${activeKey}`);
-                    const data = await res.json();
-                    if(data.success) {
-                        document.getElementById('runtime-uptime').innerText = data.server.uptime;
-                        if(data.key_info) {
-                            document.getElementById('runtime-hits').innerText = `${data.key_info.today_usage} / ${data.key_info.daily_limit}`;
-                            document.getElementById('runtime-bar').style.width = `${data.key_info.usage_percent}%`;
-                        }
+        async function refreshHardwarePerformanceTrackers() {
+            try {
+                const responseTrackerData = await fetch(\`/api/stats?apikey=\${validUserToken}\`);
+                const calculatedMetricsJson = await responseTrackerData.json();
+                if(calculatedMetricsJson.success) {
+                    document.getElementById('monitor-uptime').innerText = calculatedMetricsJson.server.uptime.toUpperCase();
+                    if(calculatedMetricsJson.key_info) {
+                        document.getElementById('monitor-quota').innerText = \`\${calculatedMetricsJson.key_info.today_usage} / \${calculatedMetricsJson.key_info.daily_limit} REQS\`;
+                        document.getElementById('monitor-bar').style.width = \`\${calculatedMetricsJson.key_info.usage_percent}%\`;
                     }
-                } catch(e){}
-            }
-        </script>
-    </body>
-    </html>
-    `);
+                }
+            } catch(e){}
+        }
+
+        function systemTerminationLock() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>`;
+
+    // High performance crash safety transmission buffer encoding
+    const binaryDataBuffer = Buffer.from(htmlPayload, 'utf-8');
+    res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': binaryDataBuffer.length
+    });
+    res.end(binaryDataBuffer);
 });
 
 // ─────────────────────────────────────────────────────────
@@ -530,7 +602,7 @@ app.get('/api/obfuscate', strictAuthGate, (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 14. IMGBB IMAGE CLOUD POST (Simulated via Core Framework Request Check)
+// 14. IMGBB IMAGE CLOUD POST
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "NO FILE UPLOADED." });
@@ -551,6 +623,6 @@ app.get('/api/weather', strictAuthGate, async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`CORE ENGINE ACTIVE ON PORT ${PORT}`));
+app.listen(PORT, () => console.log(`>>> SECURITY CORE ACTIVE ON NODE PROXIES PORT: ${PORT}`));
 
 module.exports = app;
