@@ -97,7 +97,6 @@ app.get('/', (req, res) => {
                 position: relative;
             }
 
-            /* Complex Ambient Glow Engine behind the Vercel layout */
             body::before {
                 content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background: radial-gradient(circle at 20% 10%, rgba(0, 245, 255, 0.04) 0%, transparent 45%),
@@ -105,7 +104,6 @@ app.get('/', (req, res) => {
                 z-index: -1; pointer-events: none;
             }
 
-            /* Full Screen Alignment Shell */
             .main-wrapper {
                 width: 100%;
                 max-width: 1400px;
@@ -116,7 +114,6 @@ app.get('/', (req, res) => {
                 flex-direction: column;
             }
 
-            /* Vercel Style Premium Nav & Hero Headers */
             .header-container {
                 display: flex;
                 flex-direction: column;
@@ -152,7 +149,6 @@ app.get('/', (req, res) => {
                 font-weight: 500; letter-spacing: 0.2px;
             }
 
-            /* Full Width Search Module */
             .search-wrapper {
                 width: 100%; max-width: 650px; margin: 0 auto 40px auto; position: relative;
             }
@@ -168,7 +164,6 @@ app.get('/', (req, res) => {
                 box-shadow: 0 0 0 1px var(--text-pure), 0 10px 30px rgba(255,255,255,0.03);
             }
 
-            /* High Performance Responsive Responsive Grid - Fits Perfectly Anywhere */
             .api-matrix-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -176,7 +171,6 @@ app.get('/', (req, res) => {
                 width: 100%;
             }
 
-            /* Vercel Premium Dark Structure Component Cards */
             .api-core-card {
                 background: var(--vercel-dark);
                 border: 1px solid var(--vercel-border);
@@ -187,7 +181,6 @@ app.get('/', (req, res) => {
                 box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             }
             
-            /* High luxury glowing status strip */
             .api-core-card::before {
                 content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%;
                 background: linear-gradient(180deg, var(--neon-purple), var(--neon-cyan));
@@ -222,7 +215,6 @@ app.get('/', (req, res) => {
                 font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; font-weight: 400;
             }
 
-            /* Ultimate Functional Grid Actions Row */
             .control-action-row {
                 display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: auto;
             }
@@ -244,7 +236,6 @@ app.get('/', (req, res) => {
                 background: #e5e5e5; transform: scale(1.01);
             }
 
-            /* Notice Layout Framework block for Multi-part posting elements */
             .post-block-announcement {
                 text-align: center; font-size: 0.72rem; color: var(--text-muted); font-weight: 700;
                 background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px;
@@ -252,7 +243,6 @@ app.get('/', (req, res) => {
                 font-family: 'Geist Mono', monospace; letter-spacing: 0.5px;
             }
 
-            /* Immersive Full Sliding Sheet Console Model */
             .modal-console-overlay {
                 position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
                 background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -292,7 +282,6 @@ app.get('/', (req, res) => {
                 white-space: pre-wrap; overflow-x: auto; max-height: 350px; min-height: 150px; line-height: 1.6;
             }
 
-            /* Luxury Toast Alert Notification Module */
             #toast-system-alert {
                 position: fixed; bottom: 35px; left: 50%; transform: translate(-50%, 20px);
                 background: var(--text-pure); color: var(--vercel-black); font-size: 0.75rem; font-weight: 800;
@@ -316,7 +305,6 @@ app.get('/', (req, res) => {
             }
             .footer-branding span { color: var(--text-pure); font-weight: 900; }
 
-            /* Grid Scaling Breakpoints to optimize screen configurations */
             @media (max-width: 850px) {
                 .api-matrix-grid { grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr)); }
                 .main-title { font-size: 2.3rem; }
@@ -375,7 +363,7 @@ app.get('/', (req, res) => {
                 </div>
 
                 <!-- CARD 3. FZMOVIES -->
-                <div class="api-core-card" data-tags="fzmovies cinema downloads database movie files direct link">
+                <div class="api-core-card" data-tags="movies cinema downloads database movie files direct link">
                     <div class="card-header-segment">
                         <span class="endpoint-path">/api/movies/fzmovies</span>
                         <span class="badge-method">GET</span>
@@ -514,7 +502,35 @@ app.get('/', (req, res) => {
                     <div style="display:none;" id="path-spotify">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
 
-                <!-- CARD 13. OBFUSCATOR -->
+                <!-- CARD 13. ANIMAGINE AI IMAGE GENERATION -->
+                <div class="api-core-card" data-tags="ai image animagine anime girl generation prompt graphics photo draw art 4k">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/ai/animagine</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">High-end anime style engine generating stunning 4K illustrative graphic renders from text prompts.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-animagine')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/ai/animagine?prompt=beautiful anime girl, cherry blossoms, sunset, detailed, 4k&apikey=MR_HASHUU_SECRET_123', 'Animagine AI Engine')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-animagine">/api/ai/animagine?prompt=beautiful anime girl, cherry blossoms, sunset, detailed, 4k&apikey=MR_HASHUU_SECRET_123</div>
+                </div>
+
+                <!-- CARD 14. WRITECREAM AI IMAGE GENERATION -->
+                <div class="api-core-card" data-tags="ai image writecream realistic scenic painting oil texture prompt art generation">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/ai/writecream</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Writecream AI pipeline turning prompts into high-texture oil paintings and atmospheric scenery graphics.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-writecream')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/ai/writecream?prompt=A serene mountain lake at sunrise, oil painting&apikey=MR_HASHUU_SECRET_123', 'Writecream AI Engine')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-writecream">/api/ai/writecream?prompt=A serene mountain lake at sunrise, oil painting&apikey=MR_HASHUU_SECRET_123</div>
+                </div>
+
+                <!-- CARD 15. OBFUSCATOR -->
                 <div class="api-core-card" data-tags="obfuscate javascript protection reverse engineering security hide protect encrypt lock">
                     <div class="card-header-segment">
                         <span class="endpoint-path">/obfuscate</span>
@@ -528,7 +544,7 @@ app.get('/', (req, res) => {
                     <div style="display:none;" id="path-obfuscate">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
 
-                <!-- CARD 14. IMGBB -->
+                <!-- CARD 16. IMGBB -->
                 <div class="api-core-card" data-tags="imgbb image picture upload hosting graph photo post binary">
                     <div class="card-header-segment">
                         <span class="endpoint-path">/imgbb</span>
@@ -544,7 +560,6 @@ app.get('/', (req, res) => {
             </div>
         </div>
 
-        <!-- Vercel Center Layout Simulation Console Sheet -->
         <div class="modal-console-overlay" id="globalConsolePanelOverlay" onclick="dismissConsoleViaBackground(event)">
             <div class="console-card-panel">
                 <div class="panel-header">
@@ -800,7 +815,27 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 13. JS ANTI-SCRAPE OBFUSCATOR
+// 13. ANIMAGINE AI IMAGE GENERATION
+app.get('/api/ai/animagine', strictAuthGate, async (req, res) => {
+    try {
+        const { prompt } = req.query;
+        if (!prompt) return res.json({ success: false, message: "Prompt parameter (?prompt=) missing!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/animagine?prompt=${encodeURIComponent(prompt)}`);
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 14. WRITECREAM AI IMAGE GENERATION
+app.get('/api/ai/writecream', strictAuthGate, async (req, res) => {
+    try {
+        const { prompt } = req.query;
+        if (!prompt) return res.json({ success: false, message: "Prompt parameter (?prompt=) missing!" });
+        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/ai/writecream/image?prompt=${encodeURIComponent(prompt)}`);
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 15. JS ANTI-SCRAPE OBFUSCATOR
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
@@ -810,7 +845,7 @@ app.get('/obfuscate', strictAuthGate, (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 14. IMGBB IMAGE CLOUD POST
+// 16. IMGBB IMAGE CLOUD POST
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
