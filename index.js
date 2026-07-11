@@ -49,7 +49,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 ULTRA-PREMIUM CYBERPUNK DARK-MODE INTERACTION UI
+// 🌌 NEW ULTIMATE MOBILE-FIRST PREMIUM API SITE DASHBOARD
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -58,881 +58,493 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - COGNITIVE API METAVERSE</title>
+        <title>MR HASHUU - ULTIMATE API CODESPACE</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
         
         <style>
             :root {
-                --bg-black: #030303;
-                --panel-dark: #0a0a0f;
+                --bg-main: #050508;
+                --panel-blur: rgba(13, 13, 23, 0.5);
                 --neon-cyan: #00F5FF;
                 --neon-purple: #7B2CBF;
-                --neon-glow: rgba(0, 245, 255, 0.4);
-                --purple-glow: rgba(123, 44, 191, 0.4);
-                --text-bright: #ffffff;
-                --text-dim: #7e7e8a;
-                --border-glass: rgba(255, 255, 255, 0.05);
-                --card-gradient: linear-gradient(145deg, rgba(13, 13, 20, 0.8) 0%, rgba(5, 5, 8, 0.9) 100%);
+                --cyan-glow: rgba(0, 245, 255, 0.35);
+                --text-main: #ffffff;
+                --text-muted: #6c6c7e;
+                --border-neon: rgba(0, 245, 255, 0.15);
             }
             
             * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
             
             body {
-                background-color: var(--bg-black);
-                color: var(--text-bright);
-                font-family: 'Plus Jakarta Sans', sans-serif;
-                font-weight: 800;
+                background-color: var(--bg-main);
+                color: var(--text-main);
+                font-family: 'Space Grotesk', sans-serif;
+                font-weight: 900;
                 min-height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-                padding: 20px 15px 100px 15px;
+                padding: 15px 15px 80px 15px;
                 overflow-x: hidden;
             }
 
-            /* Complex Ambient Light Rings */
-            .orb-1 {
-                position: fixed; top: -10%; left: -20%; width: 60vw; height: 60vw;
-                background: radial-gradient(circle, var(--purple-glow) 0%, transparent 70%);
-                z-index: 1; pointer-events: none; filter: blur(80px);
-            }
-            .orb-2 {
-                position: fixed; bottom: -10%; right: -20%; width: 60vw; height: 60vw;
-                background: radial-gradient(circle, var(--neon-glow) 0%, transparent 70%);
-                z-index: 1; pointer-events: none; filter: blur(80px);
+            /* Custom Ambient Neon Background Grid */
+            body::before {
+                content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.15) 0%, transparent 40%),
+                            radial-gradient(circle at 90% 80%, rgba(0, 245, 255, 0.12) 0%, transparent 40%);
+                z-index: -1; pointer-events: none;
             }
 
-            /* Loader Matrix */
-            #cyber-loader {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                background: var(--bg-black); z-index: 99999;
-                display: flex; flex-direction: column; justify-content: center; align-items: center;
-                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            /* 🌟 Premium Minimalist Header Matrix */
+            .premium-hero {
+                text-align: center; margin-top: 15px; margin-bottom: 25px; padding: 20px 10px;
             }
-            .loader-ring {
-                width: 80px; height: 80px; border: 6px solid rgba(255,255,255,0.02);
-                border-left-color: var(--neon-cyan); border-right-color: var(--neon-purple);
-                border-radius: 50%; animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-                box-shadow: 0 0 30px var(--purple-glow);
+            .hero-badge {
+                display: inline-flex; align-items: center; gap: 6px; font-size: 0.7rem; background: rgba(0, 245, 255, 0.08);
+                border: 1px solid var(--border-neon); color: var(--neon-cyan); padding: 5px 12px; border-radius: 50px;
+                text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0, 245, 255, 0.1);
             }
-            .loader-text {
-                font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 900; color: #ffffff;
-                letter-spacing: 6px; text-transform: uppercase; margin-top: 25px;
-                background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-                animation: pulseText 1.5s infinite;
-            }
-            @keyframes spin { to { transform: rotate(360deg); } }
-            @keyframes pulseText { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-            /* Main Premium Container */
-            .api-container {
-                width: 100%; max-width: 700px; z-index: 2; opacity: 0;
-                transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .api-container.loaded { opacity: 1; transform: translateY(0); }
-
-            /* Brand Banner Header */
-            .brand-header {
-                background: var(--card-gradient); border: 1px solid var(--border-glass);
-                padding: 25px; border-radius: 24px; display: flex; flex-direction: column;
-                gap: 15px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            }
-            .brand-header::before {
-                content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-                background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple));
-            }
-            .brand-meta { display: flex; justify-content: space-between; align-items: center; }
-            .brand-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+            .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); }
             
-            .live-badge {
-                display: flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 900;
-                color: #000; background: var(--neon-cyan); padding: 6px 14px; border-radius: 50px;
-                box-shadow: 0 0 15px var(--neon-glow); letter-spacing: 0.5px;
-            }
-            .badge-pulse { width: 6px; height: 6px; background: #000; border-radius: 50%; animation: pulseText 1s infinite; }
-
-            /* Search Architecture */
-            .search-bar-wrapper { margin-top: 20px; position: relative; }
-            .search-input {
-                width: 100%; padding: 20px 25px; background: rgba(0, 0, 0, 0.6);
-                border: 2px solid var(--border-glass); border-radius: 18px; color: #fff;
-                font-family: inherit; font-size: 1rem; font-weight: 800; transition: all 0.3s ease;
-            }
-            .search-input:focus {
-                border-color: var(--neon-purple); background: rgba(0,0,0,0.8);
-                box-shadow: 0 0 30px rgba(123, 44, 191, 0.25); outline: none;
+            .hero-main-title {
+                font-size: 2.3rem; font-weight: 900; text-transform: uppercase; margin-top: 10px; letter-spacing: -1px;
+                background: linear-gradient(135deg, #ffffff 30%, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                text-shadow: 0 0 30px rgba(0,245,255,0.1);
             }
 
-            /* Grid Statistics cards */
-            .stats-dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
-            .card-stat {
-                background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-glass);
-                border-radius: 16px; padding: 15px; display: flex; justify-content: space-between; align-items: center;
+            /* 🔍 Ultra-Sleek Fixed Floating Search Engine */
+            .search-container {
+                width: 100%; max-width: 550px; margin: 0 auto 25px auto; position: relative;
             }
-            .lbl-stat { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
-            .val-stat { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; color: #fff; font-weight: 900; }
+            .search-box {
+                width: 100%; padding: 18px 22px; background: rgba(255,255,255,0.02);
+                border: 2px solid rgba(255,255,255,0.05); border-radius: 16px; color: #fff;
+                font-family: inherit; font-weight: 700; font-size: 0.95rem; transition: all 0.3s ease;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+            }
+            .search-box:focus {
+                outline: none; border-color: var(--neon-cyan); background: rgba(0,0,0,0.8);
+                box-shadow: 0 0 25px rgba(0,245,255,0.15), inset 0 2px 4px rgba(0,0,0,1);
+            }
 
-            /* Premium Endpoint Accoridons list */
-            .endpoints-title { font-size: 1rem; color: var(--text-dim); text-transform: uppercase; margin: 30px 0 15px 5px; letter-spacing: 1px; }
-            .endpoints-stack { display: flex; flex-direction: column; gap: 12px; }
+            /* 📱 Modular Grid Engine (Perfect Fit for Any Mobile) */
+            .api-grid-system {
+                display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 550px; margin: 0 auto;
+            }
+
+            .api-node-card {
+                background: var(--panel-blur); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 20px; padding: 20px;
+                display: flex; flex-direction: column; justify-content: space-between; gap: 15px;
+                position: relative; overflow: hidden; transition: all 0.25s ease;
+            }
+            .api-node-card::after {
+                content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                background: linear-gradient(135deg, rgba(0,245,255,0.03) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s;
+            }
+            .api-node-card:active { transform: scale(0.98); border-color: var(--neon-cyan); }
+
+            .card-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
             
-            .premium-node {
-                background: var(--card-gradient); border: 1px solid var(--border-glass);
-                border-radius: 20px; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            .method-pill {
+                font-size: 0.65rem; font-weight: 900; padding: 4px 10px; border-radius: 8px;
+                background: rgba(0, 245, 255, 0.08); border: 1px solid var(--border-neon); color: var(--neon-cyan);
             }
-            .premium-node:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
-            
-            .node-trigger { padding: 22px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-            .node-identity { display: flex; flex-direction: column; gap: 6px; width: 85%; }
-            .node-badge-method {
-                align-self: flex-start; font-size: 0.65rem; padding: 4px 10px; border-radius: 6px;
-                background: rgba(0, 245, 255, 0.06); border: 1px solid rgba(0, 245, 255, 0.15); color: var(--neon-cyan);
-            }
-            .node-route { font-family: monospace; font-size: 1.15rem; color: #fff; font-weight: 900; letter-spacing: -0.5px; margin-top: 2px; }
-            .node-caption { font-size: 0.8rem; color: var(--text-dim); font-weight: 700; line-height: 1.4; }
-            
-            .node-chevron {
-                font-size: 0.8rem; color: var(--text-dim); transition: transform 0.3s;
-                background: rgba(255,255,255,0.03); width: 32px; height: 32px; border-radius: 50%;
-                display: flex; justify-content: center; align-items: center; border: 1px solid var(--border-glass);
+            .method-pill.post {
+                background: rgba(123, 44, 191, 0.1); border-color: rgba(123, 44, 191, 0.3); color: var(--neon-purple);
             }
 
-            /* Node Activation States */
-            .premium-node.expanded { border-color: var(--neon-cyan); box-shadow: 0 15px 35px rgba(0,245,255,0.06); }
-            .premium-node.expanded .node-chevron { transform: rotate(90deg); color: var(--neon-cyan); background: rgba(0,245,255,0.05); }
+            .route-path-text { font-family: monospace; font-size: 1.1rem; color: #ffffff; font-weight: 900; letter-spacing: -0.5px; }
+            .node-description { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; line-height: 1.4; }
 
-            /* Expansion Content */
-            .node-body { display: none; padding: 0 22px 22px 22px; border-top: 1px solid rgba(255,255,255,0.03); background: rgba(0,0,0,0.2); }
-            .body-title { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.5px; }
-            
-            .interactive-box-group { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
-            .field-link {
-                width: 100%; background: #000; border: 1px solid var(--border-glass); padding: 16px;
-                border-radius: 14px; font-family: monospace; font-size: 0.82rem; font-weight: 700; color: var(--neon-cyan);
-                overflow-x: auto; white-space: nowrap;
-            }
-            .field-link::-webkit-scrollbar { height: 2px; }
-            .field-link::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
-
-            .control-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
-            .btn-core {
-                border: none; font-family: inherit; font-size: 0.8rem; font-weight: 900; padding: 15px;
+            /* Modern Integrated Action Ribbon */
+            .action-ribbon { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+            .action-btn {
+                border: none; font-family: inherit; font-size: 0.75rem; font-weight: 900; padding: 12px;
                 border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s;
                 display: flex; justify-content: center; align-items: center; gap: 6px;
             }
-            .btn-core-copy { background: #fff; color: #000; }
-            .btn-core-copy:hover { background: #e5e5e5; }
-            .btn-core-run { background: linear-gradient(135deg, var(--neon-purple), #531cb3); color: #fff; box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3); }
-            .btn-core-run:hover { box-shadow: 0 0 25px rgba(123, 44, 191, 0.6); transform: translateY(-1px); }
+            .btn-copy { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid rgba(255,255,255,0.04); }
+            .btn-run { background: var(--neon-cyan); color: #000; box-shadow: 0 4px 15px rgba(0, 245, 255, 0.2); }
 
-            .terminal-view {
-                background: #000; border: 1px solid var(--border-glass); border-radius: 14px;
-                padding: 18px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: #555;
-                white-space: pre-wrap; overflow-x: auto; max-height: 250px; line-height: 1.6;
+            /* 🎛️ Dynamic Overlay Console Panel (Modal Sheet) */
+            .console-overlay {
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3,3,5,0.85);
+                backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 10000;
+                display: flex; justify-content: center; align-items: flex-end; opacity: 0; pointer-events: none;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
-            .terminal-view::-webkit-scrollbar { width: 4px; height: 4px; }
-            .terminal-view::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); }
-
-            /* Status & Empty Search Box */
-            #no-results { display: none; text-align: center; padding: 50px 20px; font-size: 0.9rem; color: var(--text-dim); font-family: monospace; }
-
-            /* Floating Toast Alert */
-            #toast-alert {
-                position: fixed; bottom: 30px; background: #fff; color: #000;
-                font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.82rem;
-                padding: 15px 30px; border-radius: 16px; z-index: 100000; opacity: 0;
-                transform: translateY(15px); pointer-events: none; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 0.5px;
+            .console-overlay.active { opacity: 1; pointer-events: auto; }
+            
+            .console-sheet {
+                width: 100%; max-width: 550px; background: #0b0b12; border-top: 2px solid var(--neon-cyan);
+                border-radius: 24px 24px 0 0; padding: 25px 20px; transform: translateY(100%);
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
-            #toast-alert.show { opacity: 1; transform: translateY(0); }
+            .console-overlay.active .console-sheet { transform: translateY(0); }
 
-            /* Permanent Bottom Bar for Premium feel */
-            .bottom-bar {
-                position: fixed; bottom: 0; left: 0; width: 100vw; background: rgba(5,5,8,0.7);
-                backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-                border-top: 1px solid var(--border-glass); padding: 18px; text-align: center;
-                font-size: 0.8rem; color: var(--text-dim); z-index: 10;
+            .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+            .sheet-title { font-size: 1rem; text-transform: uppercase; color: var(--neon-cyan); }
+            .close-sheet-btn {
+                background: rgba(255,255,255,0.05); border: none; width: 32px; height: 32px;
+                border-radius: 50%; color: #fff; font-family: inherit; font-weight: 900; cursor: pointer;
             }
-            .bottom-bar a { color: var(--neon-cyan); text-decoration: none; font-weight: 900; margin-left: 5px; }
 
-            /* 📱 STUNNING MOBILE OPTIMIZATION METRIC */
-            @media (max-width: 600px) {
-                body { padding-top: 10px; }
-                .brand-header { padding: 20px; border-radius: 20px; }
-                .brand-title { font-size: 1.7rem; }
-                .search-input { padding: 16px 20px; font-size: 0.9rem; border-radius: 14px; }
-                .node-trigger { padding: 18px; }
-                .node-route { font-size: 1rem; }
-                .node-caption { font-size: 0.76rem; }
-                .control-row { grid-template-columns: 1fr; gap: 8px; }
-                .btn-core { padding: 12px; font-size: 0.75rem; border-radius: 10px; }
-                .field-link, .terminal-view { padding: 14px; font-size: 0.78rem; border-radius: 12px; }
+            .sheet-endpoint-url {
+                width: 100%; background: rgba(0,0,0,0.4); padding: 14px; border-radius: 12px;
+                font-family: monospace; font-size: 0.78rem; color: #a0a0b0; overflow-x: auto;
+                margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.02);
+            }
+
+            .terminal-viewport {
+                width: 100%; background: #020204; border: 1px solid rgba(255,255,255,0.04);
+                border-radius: 14px; padding: 16px; font-family: monospace; font-size: 0.8rem;
+                font-weight: 900; color: #555; white-space: pre-wrap; overflow-x: auto;
+                max-height: 280px; line-height: 1.5; box-shadow: inset 0 4px 12px rgba(0,0,0,0.9);
+            }
+
+            /* Toast Layer System */
+            #toast-layer {
+                position: fixed; top: 25px; left: 50%; transform: translate(-50%, -20px);
+                background: #fff; color: #000; font-size: 0.8rem; font-weight: 900;
+                padding: 12px 24px; border-radius: 50px; z-index: 105000; opacity: 0; pointer-events: none;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            }
+            #toast-layer.show { opacity: 1; transform: translate(-50%, 0); }
+
+            #no-search-results { display: none; text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 40px 10px; text-transform: uppercase; }
+
+            /* Fixed Minimalist Branding Anchor */
+            .brand-anchor {
+                text-align: center; margin-top: 40px; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px;
+            }
+            .brand-anchor span { color: var(--neon-cyan); }
+
+            /* Base adjustments for smaller screens */
+            @media (max-width: 400px) {
+                .hero-main-title { font-size: 1.9rem; }
+                .route-path-text { font-size: 0.95rem; }
             }
         </style>
     </head>
     <body>
 
-        <div class="orb-1"></div>
-        <div class="orb-2"></div>
-        <div id="toast-alert">TOKEN COPIED TO CLIPBOARD LAYER ✔</div>
+        <div id="toast-layer">PIPELINE COPIED SUCCESSFULLY ✔</div>
 
-        <!-- System Loader Interface -->
-        <div id="cyber-loader">
-            <div class="loader-ring"></div>
-            <div class="loader-text">MR HASHUU</div>
+        <!-- Hero Branding Engine -->
+        <div class="premium-hero">
+            <div class="hero-badge">Next-Gen Interface Live</div>
+            <div class="hero-main-title">HASHU CORE APIS</div>
         </div>
 
-        <div class="api-container" id="main-interface">
-            
-            <div class="brand-header">
-                <div class="brand-meta">
-                    <div class="brand-title">HASHU APIS</div>
-                    <div class="live-badge">
-                        <div class="badge-pulse"></div>
-                        <span>CORE LIVE</span>
-                    </div>
-                </div>
-                
-                <div class="stats-dashboard">
-                    <div class="card-stat">
-                        <span class="lbl-stat">Uptime</span>
-                        <span class="val-stat" style="color:var(--neon-cyan)">99.99%</span>
-                    </div>
-                    <div class="card-stat">
-                        <span class="lbl-stat">Developer</span>
-                        <span class="val-stat" style="background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">HASHUU</span>
-                    </div>
-                </div>
+        <!-- Floating Search Architecture -->
+        <div class="search-container">
+            <input type="text" id="nodeSearch" class="search-box" placeholder="Search direct stream parameters..." onkeyup="filterNodeGrid()">
+        </div>
 
-                <div class="search-bar-wrapper">
-                    <input type="text" id="apiSearch" class="search-input" placeholder="Filter premium endpoints..." onkeyup="filterEndpoints()">
+        <!-- Grid Matrix Architecture -->
+        <div class="api-grid-system" id="gridContainer">
+
+            <!-- MOVIE SEARCH -->
+            <div class="api-node-card" data-search="movies search thenkiri batman download link cinema">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/movies/search</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Thenkiri Movie Indexing & Premium High-Speed Direct Stream Extporter Engine.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movsearch')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Movie Search')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-movsearch">/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- LATEST MOVIES -->
+            <div class="api-node-card" data-search="movies latest feed thenkiri category">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/movies/latest</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Thenkiri Structural Update Pipelines indexed dynamically by target tags.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movlatest')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Latest Catalog')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-movlatest">/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- FZMOVIES -->
+            <div class="api-node-card" data-search="fzmovies search avengers download mp4 cinema">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/movies/fzmovies</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Global FzMovies Server Array integration tracking MP4 resolution packages.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-fzsearch')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123', 'FzMovies Global Database')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-fzsearch">/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- CINESUBZ -->
+            <div class="api-node-card" data-search="cinesubz search sinhala subtitles movie cinesub sl">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/cinesubz</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Sinhala Subtitle Link Forge parsed over Cinesubz Cloud Infrastructure.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-cinesubz')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123', 'Cinesubz Subtitle Tracker')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-cinesubz">/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- SUBDL -->
+            <div class="api-node-card" data-search="subdl search global subtitle srt english multi translation">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/subdl</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Subdl Global Multilingual Decryption framework targeting direct Subtitle SRT logs.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-subdl')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123', 'Subdl Global Track Engine')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-subdl">/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- OMDb MOVIE INFO -->
+            <div class="api-node-card" data-search="movie database omdb cinema film plot rating info">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/movie</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">OMDb Core Integration Fetcher providing high density cinematic plot metrics.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movie')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123', 'OMDb Plot System')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- CHATGPT-4o -->
+            <div class="api-node-card" data-search="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/chat</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Hashan-md Cognitive ChatGPT-4o High-Intelligence Response Core logic.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-chat')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123', 'Cognitive ChatGPT-4o Node')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- URL SHORTENER -->
+            <div class="api-node-card" data-search="cuttly shorten url link tinyurl link-shortener">
+                <div class="card-top-row">
+                    <span class="route-path-text">/api/url_shorten</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Enterprise level Cuttly API Minimizer Layer designed for secure compact linking.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-shorten')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123', 'URL Shortener Engine')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- XVIDEOS -->
+            <div class="api-node-card" data-search="xvideo xvideos adult downloader download mp4 hot clip video">
+                <div class="card-top-row">
+                    <span class="route-path-text">/xvideo</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">XVideos CDN Stream Resolver extracting raw payload locations directly.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-xvideo')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123', 'XVideos Engine Node')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- YTMP4 -->
+            <div class="api-node-card" data-search="ytmp4 youtube video downloader download mp4 high quality clip">
+                <div class="card-top-row">
+                    <span class="route-path-text">/ytmp4</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">High-Speed HD MP4 Converter processing requests via direct cloud bypass channels.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-ytmp4')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123', 'YouTube High-Speed MP4')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- MEDIAFIRE -->
+            <div class="api-node-card" data-search="mediafire downloader direct storage parser">
+                <div class="card-top-row">
+                    <span class="route-path-text">/mediafire</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Mediafire Cloud Node Scraper extracting standard direct application layout files.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-mf')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123', 'Mediafire Direct Extractor')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- SPOTIFY -->
+            <div class="api-node-card" data-search="spotify music hq audio downloader song">
+                <div class="card-top-row">
+                    <span class="route-path-text">/spotify</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Spotify metadata matching array extracting absolute binary output sources.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-sf')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123', 'Spotify High-Fidelity Audio')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- OBFUSCATOR -->
+            <div class="api-node-card" data-search="obfuscate javascript security protection code hide encrypt">
+                <div class="card-top-row">
+                    <span class="route-path-text">/obfuscate</span>
+                    <span class="method-pill">GET</span>
+                </div>
+                <div class="node-description">Premium Obfuscation Algorithm safeguarding Javascript structure code blocks.</div>
+                <div class="action-ribbon">
+                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-obf')">Copy URL</button>
+                    <button class="action-btn btn-run" onclick="openTerminalSheet('/obfuscate?code=console.log(\\'hashu\\')&apikey=MR_HASHUU_SECRET_123', 'JS Anti-Scrape Structural Logic')">Test Node</button>
+                </div>
+                <div style="display:none;" id="url-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
+            </div>
+
+            <!-- IMGBB -->
+            <div class="api-node-card" data-search="imgbb photo cloud cdn image host upload post">
+                <div class="card-top-row">
+                    <span class="route-path-text">/imgbb</span>
+                    <span class="method-pill post">POST</span>
+                </div>
+                <div class="node-description">Multipart form binary data receiver delivering directly to safe ImgBB hosting vectors.</div>
+                <div class="action-ribbon" style="grid-template-columns: 1fr;">
+                    <div style="text-align:center; font-size:0.75rem; color:#ff453a; font-weight:900;">POST GATES NOT EVALUATED IN REAL-TIME CONSOLE</div>
                 </div>
             </div>
 
-            <div class="endpoints-title">Secure Server Nodes</div>
+            <div id="no-search-results">// MATCHING NODES NOT DEPLOYED //</div>
+        </div>
 
-            <div class="endpoints-stack" id="listWrapper">
-
-                <!-- 🎬 THENKIRI MOVIE SEARCH API -->
-                <div class="premium-node" data-name="movies search thenkiri batman download link cinema film">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/movies/search</span>
-                            <span class="node-caption">Thenkiri Movie Search Engine & Direct Download Links Extractor.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-movsearch">/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-movsearch')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-movsearch', 'res-movsearch', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-movsearch">// Awaiting initialization test command...</pre>
-                    </div>
+        <!-- 🎛️ Bottom SHEET Overlay Console Logic -->
+        <div class="console-overlay" id="overlayConsoleSystem" onclick="closeTerminalSheetViaOverlay(event)">
+            <div class="console-sheet">
+                <div class="sheet-header">
+                    <span class="sheet-title" id="overlayTitle">// SYSTEM CONSOLE TERMINAL</span>
+                    <button class="close-sheet-btn" onclick="hideTerminalSheet()">✕</button>
                 </div>
-
-                <!-- 🎬 THENKIRI LATEST MOVIES API -->
-                <div class="premium-node" data-name="movies latest feed thenkiri international hollywood category">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/movies/latest</span>
-                            <span class="node-caption">Thenkiri Latest Catalog Updates Feed sorted by Categories.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-movlatest">/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-movlatest')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-movlatest', 'res-movlatest', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-movlatest">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎬 FZMOVIES SEARCH API -->
-                <div class="premium-node" data-name="fzmovies search avengers download mp4 cinema film database">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/movies/fzmovies</span>
-                            <span class="node-caption">FzMovies Global High-Definition MP4 Search Engine Database.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-fzsearch">/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-fzsearch')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-fzsearch', 'res-fzsearch', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-fzsearch">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎬 CINESUBZ SEARCH API -->
-                <div class="premium-node" data-name="cinesubz search sinhala subtitles movie cinesub sl download film">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/cinesubz</span>
-                            <span class="node-caption">Cinesubz Movie Tracker integrated with Sinhala Subtitle Data blocks.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-cinesubz">/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-cinesubz')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-cinesubz', 'res-cinesubz', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-cinesubz">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎬 SUBDL SUBTITLE SEARCH API -->
-                <div class="premium-node" data-name="subdl search global subtitle srt english multi translation avatar">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/subdl</span>
-                            <span class="node-caption">Subdl Global Repository Multilingual Subtitle Tracks Decoder.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-subdl">/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-subdl')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-subdl', 'res-subdl', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-subdl">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-                
-                <!-- 🎬 MOVIE DATABASE API -->
-                <div class="premium-node" data-name="movie database omdb cinema film guardians plot rating info tracker">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/movie</span>
-                            <span class="node-caption">OMDb System Cinema Plots & Cinematic Rating Index Mapping.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-movie')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-movie', 'res-movie', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-movie">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🤖 CHATGPT -->
-                <div class="premium-node" data-name="chat ai chatgpt hashan gpt gpt4 smart intelligent chatbot response text">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/chat</span>
-                            <span class="node-caption">Hashan-md Cognitive ChatGPT-4o High-Intelligence Response Core.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-chat')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-chat', 'res-chat', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-chat">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🔗 LINK SHORTENER -->
-                <div class="premium-node" data-name="cuttly shorten url link tinyurl link-shortener short">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/api/url_shorten</span>
-                            <span class="node-caption">Cuttly High-Performance Enterprise URL Minimizer System.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-shorten')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-shorten', 'res-shorten', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-shorten">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- ❌ XVIDEOS -->
-                <div class="premium-node" data-name="xvideo xvideos adult downloader download mp4 hot clip video premium">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/xvideo</span>
-                            <span class="node-caption">XVideos Media Streams Resolution Engine & CDN Link Forge.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-xvideo')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-xvideo', 'res-xvideo', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-xvideo">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 📺 YTMP4 -->
-                <div class="premium-node" data-name="ytmp4 youtube video downloader download mp4 high quality clip video">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/ytmp4</span>
-                            <span class="node-caption">YouTube Ultra-HD MP4 Direct Media Source Pack Transformer.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-ytmp4')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-ytmp4', 'res-ytmp4', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-ytmp4">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 📂 MEDIAFIRE -->
-                <div class="premium-node" data-name="mediafire downloader direct storage parser">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/mediafire</span>
-                            <span class="node-caption">Mediafire Cloud Storage Object Structural Decoupler.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-mf')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-mf', 'res-mf', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-mf">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎵 SPOTIFY -->
-                <div class="premium-node" data-name="spotify music hq audio downloader song">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/spotify</span>
-                            <span class="node-caption">Spotify Premium High-Fidelity Audio Link Provisioner.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-sf')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-sf', 'res-sf', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-sf">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🐦 TWITTER -->
-                <div class="premium-node" data-name="twitter x stream extractor multi video">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/twitter</span>
-                            <span class="node-caption">Twitter / X Multi-Quality Stream Architecture CDN Mapper.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-tw">/twitter?url=https://x.com/elonmusk/status/1870901510319833540&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-tw')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-tw', 'res-tw', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-tw">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎵 YOUTUBE PLAY -->
-                <div class="premium-node" data-name="song youtube play mp3 audio music stream">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/song</span>
-                            <span class="node-caption">YouTube Music Database High-Speed Track Downloader.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-sg">/song?text=faded&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-sg')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-sg', 'res-sg', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-sg">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🎵 TIKTOK -->
-                <div class="premium-node" data-name="tiktok video downloader no watermark">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/tiktok</span>
-                            <span class="node-caption">TikTok Studio Resource Engine (Zero Watermark Blocks).</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-tk">/tiktok?url=https://vm.tiktok.com/ZM6789/&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-tk')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-tk', 'res-tk', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-tk">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 📌 PINTEREST -->
-                <div class="premium-node" data-name="pinterest image search visual hd download">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/pinterest</span>
-                            <span class="node-caption">Pinterest Ultra-HD Graphics Array & Media Asset Engine.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-pin">/pinterest?text=cyberpunk&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-pin')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-pin', 'res-pin', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-pin">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🤖 APK -->
-                <div class="premium-node" data-name="apk android package app mirror tool download">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/apk</span>
-                            <span class="node-caption">Android Application Package (.apk) Core Binary Fetcher.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-apk">/apk?text=whatsapp&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-apk')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-apk', 'res-apk', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-apk">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 👥 FACEBOOK -->
-                <div class="premium-node" data-name="facebook fb video resolver cdn download">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/facebook</span>
-                            <span class="node-caption">Facebook Watch Media Structural Link Resolver.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-fb">/facebook?url=https://www.facebook.com/watch/?v=123&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-fb')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-fb', 'res-fb', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-fb">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🌐 WEBSITE CLONER -->
-                <div class="premium-node" data-name="webdl website clone html static site page download">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/webdl</span>
-                            <span class="node-caption">Static Production Web Structures Mapping & Storage Packager.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-wdl">/webdl?url=https://example.com&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-wdl')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-wdl', 'res-wdl', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-wdl">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🔒 JAVASCRIPT OBFUSCATOR -->
-                <div class="premium-node" data-name="obfuscate javascript security protection code hide encrypt">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method">GET</span>
-                            <span class="node-route">/obfuscate</span>
-                            <span class="node-caption">Advanced Anti-Scrape Structural Logic Scrambler Protection.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Request Execution String</div>
-                        <div class="interactive-box-group">
-                            <div class="field-link" id="url-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
-                            <div class="control-row">
-                                <button class="btn-core btn-core-copy" onclick="copyLink('url-obf')">Copy Link</button>
-                                <button class="btn-core btn-core-run" onclick="runEndpoint('url-obf', 'res-obf', this)">Test Stream</button>
-                            </div>
-                        </div>
-                        <div class="body-title">Console Output Object</div>
-                        <pre class="terminal-view" id="res-obf">// Awaiting initialization test command...</pre>
-                    </div>
-                </div>
-
-                <!-- 🖼️ IMGBB POST -->
-                <div class="premium-node" data-name="imgbb photo cloud cdn image host upload post">
-                    <div class="node-trigger" onclick="toggleAccordion(this)">
-                        <div class="node-identity">
-                            <span class="node-badge-method" style="color:var(--neon-purple); border-color:rgba(123,44,191,0.3)">POST</span>
-                            <span class="node-route">/imgbb</span>
-                            <span class="node-caption">Multipart Binary Payload Array Uploader to ImgBB CDN Space.</span>
-                        </div>
-                        <span class="node-chevron">▶</span>
-                    </div>
-                    <div class="node-body">
-                        <div class="body-title">Deployment Configuration</div>
-                        <div class="field-link" style="color:var(--text-dim)">POST Target Gate (Requires Multipart Form-Data Stream)</div>
-                        <div class="body-title">Console Log Output</div>
-                        <pre class="terminal-view">// Form data multi-part payloads cannot be evaluated via GUI layout console.</pre>
-                    </div>
-                </div>
-
-                <div id="no-results">// SEARCH FILTER CRITERIA EMPTY //</div>
+                <div class="sheet-endpoint-url" id="overlayEndpointUrl">/api/target/stream</div>
+                <pre class="terminal-viewport" id="overlayTerminalLog">// INITIALIZATION STREAMS QUEUED...</pre>
             </div>
         </div>
 
-        <div class="bottom-bar">
-            <span>DEVELOPED & DEPLOYED BY <a href="#">MR HASHUU</a></span>
+        <div class="brand-anchor">
+            OWNED & MAINTAINED BY <span>MR HASHUU</span>
         </div>
 
         <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => {
-                    const loader = document.getElementById('cyber-loader');
-                    const mainUI = document.getElementById('main-interface');
-                    loader.style.opacity = '0';
-                    loader.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        loader.remove();
-                        mainUI.classList.add('loaded');
-                    }, 500);
-                }, 1000);
-            });
+            function filterNodeGrid() {
+                const searchStr = document.getElementById('nodeSearch').value.toLowerCase().trim();
+                const nodeCards = document.getElementsByClassName('api-node-card');
+                const fallbackMessage = document.getElementById('no-search-results');
+                let matchesFound = false;
 
-            function toggleAccordion(element) {
-                const parent = element.parentElement;
-                const bodySection = parent.querySelector('.node-body');
-                const isOpen = parent.classList.contains('expanded');
-
-                const allNodes = document.getElementsByClassName('premium-node');
-                for (let node of allNodes) {
-                    node.classList.remove('expanded');
-                    node.querySelector('.node-body').style.display = 'none';
-                }
-
-                if (!isOpen) {
-                    parent.classList.add('expanded');
-                    bodySection.style.display = 'block';
-                }
-            }
-
-            function filterEndpoints() {
-                const query = document.getElementById('apiSearch').value.toLowerCase().trim();
-                const nodes = document.getElementsByClassName('premium-node');
-                const noResults = document.getElementById('no-results');
-                let found = false;
-
-                for (let i = 0; i < nodes.length; i++) {
-                    const dataTags = nodes[i].getAttribute('data-name');
-                    if (dataTags.includes(query)) {
-                        nodes[i].style.display = 'block';
-                        found = true;
+                for (let i = 0; i < nodeCards.length; i++) {
+                    const tagCriteria = nodeCards[i].getAttribute('data-search');
+                    if (tagCriteria.includes(searchStr)) {
+                        nodeCards[i].style.display = 'flex';
+                        matchesFound = true;
                     } else {
-                        nodes[i].style.display = 'none';
+                        nodeCards[i].style.display = 'none';
                     }
                 }
-                noResults.style.display = found ? 'none' : 'block';
+                fallbackMessage.style.display = matchesFound ? 'none' : 'block';
             }
 
-            function copyLink(elementId) {
-                const pathText = document.getElementById(elementId).textContent.trim();
-                const fullUrl = window.location.origin + pathText;
+            function copyNodeUrl(elementId) {
+                const partialPath = document.getElementById(elementId).textContent.trim();
+                const cleanAbsoluteUrl = window.location.origin + partialPath;
                 
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(fullUrl).then(() => {
-                        triggerToast();
-                    }).catch(() => fallbackCopyEngine(fullUrl));
+                    navigator.clipboard.writeText(cleanAbsoluteUrl).then(() => {
+                        triggerToastNotification();
+                    }).catch(() => legacyCopyEngineFallback(cleanAbsoluteUrl));
                 } else {
-                    fallbackCopyEngine(fullUrl);
+                    legacyCopyEngineFallback(cleanAbsoluteUrl);
                 }
             }
 
-            function fallbackCopyEngine(textToCopy) {
-                const textArea = document.createElement("textarea");
-                textArea.value = textToCopy;
-                textArea.style.position = "fixed"; 
-                textArea.style.opacity = "0";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
+            function legacyCopyEngineFallback(targetText) {
+                const textAreaElement = document.createElement("textarea");
+                textAreaElement.value = targetText;
+                textAreaElement.style.position = "fixed"; textAreaElement.style.opacity = "0";
+                document.body.appendChild(textAreaElement);
+                textAreaElement.focus(); textAreaElement.select();
                 try {
                     document.execCommand('copy');
-                    triggerToast();
+                    triggerToastNotification();
                 } catch (err) {
-                    console.error('Core failure to pipeline copy matrix', err);
+                    console.error('Terminal Pipeline Copy Error', err);
                 }
-                document.body.removeChild(textArea);
+                document.body.removeChild(textAreaElement);
             }
 
-            function triggerToast() {
-                const toast = document.getElementById('toast-alert');
+            function triggerToastNotification() {
+                const toast = document.getElementById('toast-layer');
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2000);
             }
 
-            async function runEndpoint(urlElementId, responseContainerId, buttonElement) {
-                const pathText = document.getElementById(urlElementId).textContent.trim();
-                const absoluteTargetUrl = window.location.origin + pathText;
-                const outputConsole = document.getElementById(responseContainerId);
-
-                buttonElement.innerText = "TUNNELING...";
-                buttonElement.disabled = true;
-                outputConsole.textContent = "// TRANSMITTING OVER CLOUD PIPELINE... //";
-                outputConsole.style.color = "var(--neon-cyan)";
+            async function openTerminalSheet(endpointUrlPath, cleanNodeTitle) {
+                const overlay = document.getElementById('overlayConsoleSystem');
+                const logViewport = document.getElementById('overlayTerminalLog');
+                
+                document.getElementById('overlayTitle').innerText = "// " + cleanNodeTitle.toUpperCase();
+                document.getElementById('overlayEndpointUrl').innerText = window.location.origin + endpointUrlPath;
+                
+                overlay.classList.add('active');
+                logViewport.textContent = "// STREAM TRANSMISSION ESTABLISHED... CONNECTING VIA SSL PROXY //";
+                logViewport.style.color = "var(--neon-cyan)";
 
                 try {
-                    const webStreamResponse = await fetch(absoluteTargetUrl);
-                    const systemJsonPayload = await webStreamResponse.json();
+                    const pipelineResponse = await fetch(window.location.origin + endpointUrlPath);
+                    const formattedJsonPayload = await pipelineResponse.json();
                     
-                    outputConsole.textContent = JSON.stringify(systemJsonPayload, null, 2);
-                    outputConsole.style.color = "#00FF87"; // Soft green code success
-                } catch (serverException) {
-                    outputConsole.textContent = JSON.stringify({
+                    logViewport.textContent = JSON.stringify(formattedJsonPayload, null, 2);
+                    logViewport.style.color = "#00FF87"; // Vibrant success neon green
+                } catch (networkException) {
+                    logViewport.textContent = JSON.stringify({
                         success: false,
-                        error: "Data transmission stream broken",
-                        exception_log: serverException.message
+                        error: "Data layer decryption failed",
+                        exception_log: networkException.message
                     }, null, 2);
-                    outputConsole.style.color = "#ff453a"; // Soft red error
-                } finally {
-                    buttonElement.innerText = "TEST STREAM";
-                    buttonElement.disabled = false;
+                    logViewport.style.color = "#ff453a"; // Crimson error code red
+                }
+            }
+
+            function hideTerminalSheet() {
+                document.getElementById('overlayConsoleSystem').classList.remove('active');
+            }
+
+            function closeTerminalSheetViaOverlay(event) {
+                if(event.target.id === "overlayConsoleSystem") {
+                    hideTerminalSheet();
                 }
             }
         </script>
@@ -1141,81 +753,6 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
         if (!url) return res.json({ success: false, message: "Spotify URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/spotifydl?url=${encodeURIComponent(url)}`);
         res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// TWITTER STREAM CDN
-app.get('/twitter', strictAuthGate, async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Twitter URL required!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/twitterV2?url=${encodeURIComponent(url)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// YOUTUBE AUDIO SONG
-app.get('/song', strictAuthGate, async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Song name required" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
-        if (data.status && data.result) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        else res.json({ success: false, message: "Failed to fetch song." });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// TIKTOK NO-WATERMARK
-app.get('/tiktok', strictAuthGate, async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "TikTok URL required!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        else res.json({ success: false, message: "Invalid TikTok URL." });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// PINTEREST MEDIA IMAGE
-app.get('/pinterest', strictAuthGate, async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "Query text required" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/search/pinterest?text=${encodeURIComponent(text)}`);
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result || [] });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// APK PACKAGE MIRROR
-app.get('/apk', strictAuthGate, async (req, res) => {
-    try {
-        const { text } = req.query;
-        if (!text) return res.json({ success: false, message: "App name required" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/apk?text=${encodeURIComponent(text)}`, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.apk || {} });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// FACEBOOK WATCH EXTRACTOR
-app.get('/facebook', strictAuthGate, async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "URL parameter missing!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
-        if (data.status) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
-        else res.json({ success: false, message: "Could not fetch video." });
-    } catch (e) { res.json({ success: false, message: e.message }); }
-});
-
-// STATIC WEBPAGE CLONER
-app.get('/webdl', strictAuthGate, async (req, res) => {
-    try {
-        const { url } = req.query;
-        if (!url) return res.json({ success: false, message: "Website URL required!" });
-        const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
-        if (data.response && (data.response.success === true || data.response.success === "true")) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
-        } else res.json({ success: false, message: "Failed to clone website." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
