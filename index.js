@@ -269,6 +269,69 @@ app.get('/', (req, res) => {
 
             <div class="endpoint-list" id="listWrapper">
 
+                <!-- 🎬 NEW: THENKIRI MOVIE SEARCH API -->
+                <div class="api-wrapper" data-name="movies search thenkiri batman download link cinema film">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/movies/search</span>
+                            <span class="endpoint-info">Thenkiri Movie Search & Direct Download Link Fetcher</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-movsearch">/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-movsearch')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-movsearch', 'res-movsearch', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-movsearch">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <!-- 🎬 NEW: THENKIRI LATEST MOVIES API -->
+                <div class="api-wrapper" data-name="movies latest feed thenkiri international hollywood category">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/movies/latest</span>
+                            <span class="endpoint-info">Thenkiri Latest Movies Feed Filtered by Category</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-movlatest">/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-movlatest')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-movlatest', 'res-movlatest', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-movlatest">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <!-- 🎬 NEW: FZMOVIES SEARCH API -->
+                <div class="api-wrapper" data-name="fzmovies search avengers download mp4 cinema film database">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/movies/fzmovies</span>
+                            <span class="endpoint-info">FzMovies HD Database Search Engine Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-fzsearch">/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-fzsearch')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-fzsearch', 'res-fzsearch', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-fzsearch">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
                 <!-- 🎬 CINESUBZ SEARCH API -->
                 <div class="api-wrapper" data-name="cinesubz search sinhala subtitles movie cinesub sl download film">
                     <div class="api-row" onclick="toggleAccordion(this)">
@@ -759,13 +822,14 @@ app.get('/', (req, res) => {
 // 🛠️ BACKEND CONTROLLERS LOGIC
 // ─────────────────────────────────────────────────────────
 
-// 🎬 NEW 1: CINESUBZ SUBTITLE SEARCH CONTROLLER
-app.get('/api/cinesubz', strictAuthGate, async (req, res) => {
+// 🎬 ADDED 1: THENKIRI MOVIE SEARCH CONTROLLER
+app.get('/api/movies/search', strictAuthGate, async (req, res) => {
     try {
-        const { q } = req.query;
+        const { q, limit } = req.query;
         if (!q) return res.json({ success: false, message: "Search query (?q=) parameter missing!" });
-
-        const targetUrl = `https://apis.davidcyriltech.my.id/cinesubz/search?q=${encodeURIComponent(q)}&limit=10`;
+        
+        const finalLimit = limit || 5;
+        const targetUrl = `https://apis.davidcyriltech.my.id/movies/search?q=${encodeURIComponent(q)}&limit=${finalLimit}`;
         const { data } = await axios.get(targetUrl);
 
         if (data.success) {
@@ -778,14 +842,86 @@ app.get('/api/cinesubz', strictAuthGate, async (req, res) => {
                 results: data.results
             });
         } else {
-            res.json({ success: false, message: "No data found on Cinesubz architecture." });
+            res.json({ success: false, message: "No data found on Thenkiri database layer." });
         }
     } catch (e) {
         res.json({ success: false, message: e.message });
     }
 });
 
-// 🎬 NEW 2: SUBDL SUBTITLE DATABASE CONTROLLER
+// 🎬 ADDED 2: THENKIRI LATEST MOVIES CONTROLLER
+app.get('/api/movies/latest', strictAuthGate, async (req, res) => {
+    try {
+        const { category, page, limit } = req.query;
+        
+        const finalCategory = category || "international";
+        const finalPage = page || 1;
+        const finalLimit = limit || 10;
+
+        const targetUrl = `https://apis.davidcyriltech.my.id/movies/latest?category=${encodeURIComponent(finalCategory)}&page=${finalPage}&limit=${finalLimit}`;
+        const { data } = await axios.get(targetUrl);
+
+        if (data.success) {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                category: data.category,
+                page: data.page,
+                count: data.count,
+                results: data.results
+            });
+        } else {
+            res.json({ success: false, message: "Failed to fetch latest data feed from Thenkiri stream." });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 🎬 ADDED 3: FZMOVIES SEARCH CONTROLLER
+app.get('/api/movies/fzmovies', strictAuthGate, async (req, res) => {
+    try {
+        const { q, limit } = req.query;
+        if (!q) return res.json({ success: false, message: "Search query (?q=) parameter missing!" });
+
+        const finalLimit = limit || 5;
+        const targetUrl = `https://apis.davidcyriltech.my.id/movies/fzmovies/search?q=${encodeURIComponent(q)}&limit=${finalLimit}`;
+        const { data } = await axios.get(targetUrl);
+
+        if (data.success) {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                query: data.query,
+                count: data.count,
+                results: data.results
+            });
+        } else {
+            res.json({ success: false, message: "No results mapping your query on FzMovies architecture." });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 🎬 CINESUBZ SEARCH CONTROLLER
+app.get('/api/cinesubz', strictAuthGate, async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.json({ success: false, message: "Search query (?q=) parameter missing!" });
+
+        const targetUrl = `https://apis.davidcyriltech.my.id/cinesubz/search?q=${encodeURIComponent(q)}&limit=10`;
+        const { data } = await axios.get(targetUrl);
+
+        if (data.success) {
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, query: data.query, count: data.count, results: data.results });
+        } else { res.json({ success: false, message: "No data found on Cinesubz architecture." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
+});
+
+// 🎬 SUBDL SUBTITLE DATABASE CONTROLLER
 app.get('/api/subdl', strictAuthGate, async (req, res) => {
     try {
         const { q } = req.query;
@@ -795,23 +931,12 @@ app.get('/api/subdl', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(targetUrl);
 
         if (data.success) {
-            res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                query: data.query,
-                total: data.total,
-                results: data.results
-            });
-        } else {
-            res.json({ success: false, message: "No subtitle results found on Subdl matrix." });
-        }
-    } catch (e) {
-        res.json({ success: false, message: e.message });
-    }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, query: data.query, total: data.total, results: data.results });
+        } else { res.json({ success: false, message: "No subtitle results found on Subdl matrix." }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 🎬 OMDb MOVIE CONTROLLER
+// 🎬 MOVIE DATABASE CONTROLLER
 app.get('/api/movie', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -821,18 +946,9 @@ app.get('/api/movie', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(movieUrl);
 
         if (data.Response === "True") {
-            res.json({
-                creator: "MR HASHUU",
-                status: "Authenticated",
-                success: true,
-                result: data
-            });
-        } else {
-            res.json({ success: false, message: data.Error || "Movie not found!" });
-        }
-    } catch (e) {
-        res.json({ success: false, message: e.message });
-    }
+            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data });
+        } else { res.json({ success: false, message: data.Error || "Movie not found!" }); }
+    } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
 // CHATGPT-4o SMART INTERFACE
@@ -842,21 +958,13 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
         if (!prompt) return res.json({ success: false, message: "Prompt parameter missing!" });
 
         const cleanPrompt = prompt.toLowerCase().trim();
-
-        if (cleanPrompt === 'hi') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
-        }
-        if (cleanPrompt === 'kawad bn') {
-            return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
-        }
+        if (cleanPrompt === 'hi') return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "Hellow Im Hashuu Ai Service" });
+        if (cleanPrompt === 'kawad bn') return res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: "huththak kwa" });
 
         const customSystemPrompt = "You are Hashan-md AI, a brilliant, helpful AI assistant developed and owned by MR HASHUU. Always respond in an intelligent and smart manner.";
         const targetUrl = `https://apis.davidcyriltech.my.id/ai/chatgpt?prompt=${encodeURIComponent(prompt)}&model=gpt-4o&system=${encodeURIComponent(customSystemPrompt)}`;
-        
         const { data } = await axios.get(targetUrl);
-        const aiReply = data?.data?.choices?.[0]?.message?.content || "AI Server experienced a temporary structural break. Retry.";
-
-        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: aiReply });
+        res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data?.data?.choices?.[0]?.message?.content || "AI break. Retry." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -866,9 +974,8 @@ app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
         const { link } = req.query;
         if (!link) return res.json({ success: false, message: "Link parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/cuttly?link=${encodeURIComponent(link)}`);
-        if (data.success) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
-        } else { res.json({ success: false, message: "URL shortening failed." }); }
+        if (data.success) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, original_url: data.original_url, shortened_url: data.shortened_url });
+        else res.json({ success: false, message: "URL shortening failed." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -878,9 +985,8 @@ app.get('/xvideo', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "XVideo URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/xvideo?url=${encodeURIComponent(url)}`);
-        if (data.success) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
-        } else { res.json({ success: false, message: "Conversion failed." }); }
+        if (data.success) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, title: data.title, thumbnail: data.thumbnail, download_url: data.download_url });
+        else res.json({ success: false, message: "Conversion failed." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -890,9 +996,8 @@ app.get('/ytmp4', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "YouTube URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Media conversion failed." }); }
+        if (data.success && data.result) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        else res.json({ success: false, message: "Media conversion failed." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -932,9 +1037,8 @@ app.get('/song', strictAuthGate, async (req, res) => {
         const { text } = req.query;
         if (!text) return res.json({ success: false, message: "Song name required" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/play?query=${encodeURIComponent(text)}`);
-        if (data.status && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Failed to fetch song." }); }
+        if (data.status && data.result) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        else res.json({ success: false, message: "Failed to fetch song." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -944,9 +1048,8 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "TikTok URL required!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/download/tiktok?url=${encodeURIComponent(url)}`);
-        if (data.success && data.result) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
-        } else { res.json({ success: false, message: "Invalid TikTok URL." }); }
+        if (data.success && data.result) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.result });
+        else res.json({ success: false, message: "Invalid TikTok URL." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -976,9 +1079,8 @@ app.get('/facebook', strictAuthGate, async (req, res) => {
         const { url } = req.query;
         if (!url) return res.json({ success: false, message: "URL parameter missing!" });
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(url)}`);
-        if (data.status) {
-            res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
-        } else { res.json({ success: false, message: "Could not fetch video." }); }
+        if (data.status) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.video });
+        else res.json({ success: false, message: "Could not fetch video." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -990,7 +1092,7 @@ app.get('/webdl', strictAuthGate, async (req, res) => {
         const { data } = await axios.get(`https://apis.davidcyriltech.my.id/tools/downloadweb?url=${encodeURIComponent(url)}`);
         if (data.response && (data.response.success === true || data.response.success === "true")) {
             res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: { downloadUrl: data.response.downloadUrl, isFinished: data.response.isFinished } });
-        } else { res.json({ success: false, message: "Failed to clone website." }); }
+        } else res.json({ success: false, message: "Failed to clone website." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
@@ -1011,8 +1113,8 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
         const form = new FormData();
         form.append('file', req.file.buffer, { filename: req.file.originalname || 'image.jpg', contentType: req.file.mimetype });
         const { data } = await axios.post('https://apis.davidcyriltech.my.id/uploader/imgbb', form, { headers: { ...form.getHeaders(), 'User-Agent': 'Mozilla/5.0' } });
-        if (data.success) { res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data }); }
-        else { res.json({ success: false, message: "Upload failed." }); }
+        if (data.success) res.json({ creator: "MR HASHUU", status: "Authenticated", success: true, result: data.data });
+        else res.json({ success: false, message: "Upload failed." });
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
