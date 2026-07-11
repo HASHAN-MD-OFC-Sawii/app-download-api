@@ -49,7 +49,7 @@ const strictAuthGate = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────
-// 🌌 Heavyweight Ultra-Premium Multi-Platform UI Framework
+// 🌌 Vercel Dark Core - Ultra-Premium Full Screen UI
 // ─────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.send(`
@@ -58,22 +58,25 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>MR HASHUU - ULTIMATE SUPREME APIS</title>
+        <title>MR HASHUU - VERCEL DARK CORE APIS</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;700&family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
         
         <style>
             :root {
-                --bg-main: #020205;
-                --panel-blur: rgba(12, 12, 26, 0.75);
+                --vercel-black: #000000;
+                --vercel-dark: #0a0a0a;
+                --vercel-gray: #111111;
+                --vercel-border: #333333;
+                --text-pure: #ffffff;
+                --text-secondary: #888888;
+                --text-muted: #666666;
                 --neon-cyan: #00F5FF;
                 --neon-purple: #7B2CBF;
                 --neon-pink: #ff007f;
-                --text-main: #ffffff;
-                --text-muted: #8585a3;
-                --border-neon: rgba(0, 245, 255, 0.15);
-                --heavy-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+                --neon-green: #00FF87;
+                --heavy-shadow: 0 30px 60px rgba(0,0,0,0.8);
             }
             
             * { 
@@ -81,562 +84,569 @@ app.get('/', (req, res) => {
                 margin: 0; 
                 padding: 0; 
                 -webkit-tap-highlight-color: transparent;
-                scrollbar-width: none;
             }
-            *::-webkit-scrollbar { display: none; }
             
             body {
-                background-color: var(--bg-main);
-                color: var(--text-main);
+                background-color: var(--vercel-black);
+                color: var(--text-pure);
                 font-family: 'Plus Jakarta Sans', sans-serif;
                 min-height: 100vh;
-                padding: 25px 15px 80px 15px;
+                display: flex;
+                flex-direction: column;
                 overflow-x: hidden;
                 position: relative;
             }
 
-            /* Ultimate Cyber Ambient Light Fields */
+            /* Complex Ambient Glow Engine behind the Vercel layout */
             body::before {
-                content: ''; position: fixed; top: -10%; left: -10%; width: 120vw; height: 120vh;
-                background: radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.25) 0%, transparent 50%),
-                            radial-gradient(circle at 90% 80%, rgba(0, 245, 255, 0.2) 0%, transparent 50%),
-                            radial-gradient(circle at 50% 50%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
+                content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: radial-gradient(circle at 20% 10%, rgba(0, 245, 255, 0.04) 0%, transparent 45%),
+                            radial-gradient(circle at 80% 90%, rgba(123, 44, 191, 0.05) 0%, transparent 50%);
                 z-index: -1; pointer-events: none;
             }
 
-            /* Complex Decorative Scanlines & Grid Effects to increase file size & luxury aesthetics */
-            .cyber-grid-overlay {
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background-image: linear-gradient(rgba(255,255,255,0.003) 1px, transparent 1px),
-                                  linear-gradient(90deg, rgba(255,255,255,0.003) 1px, transparent 1px);
-                background-size: 20px 20px; z-index: -1; pointer-events: none;
+            /* Full Screen Alignment Shell */
+            .main-wrapper {
+                width: 100%;
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 40px 24px;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
             }
 
-            /* Premium Header Block */
-            .premium-hero { 
-                text-align: center; 
-                margin: 30px 0 35px 0; 
-                padding: 10px;
+            /* Vercel Style Premium Nav & Hero Headers */
+            .header-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 45px;
                 position: relative;
             }
-            .hero-badge {
-                display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; 
-                background: linear-gradient(90deg, rgba(123,44,191,0.15), rgba(0,245,255,0.15));
-                border: 1px solid rgba(0, 245, 255, 0.3); color: var(--neon-cyan); 
-                padding: 6px 16px; border-radius: 50px;
-                text-transform: uppercase; letter-spacing: 2px; font-weight: 800;
-                font-family: 'Space Grotesk', sans-serif;
-                box-shadow: 0 0 15px rgba(0,245,255,0.1);
-                animation: pulseGlow 2.5s infinite alternate;
+            .premium-badge {
+                font-family: 'Geist Mono', monospace;
+                font-size: 0.7rem; font-weight: 700; color: var(--neon-cyan);
+                background: rgba(0, 245, 255, 0.03);
+                border: 1px solid rgba(0, 245, 255, 0.2);
+                padding: 6px 14px; border-radius: 6px;
+                letter-spacing: 2px; text-transform: uppercase;
+                box-shadow: 0 0 20px rgba(0,245,255,0.05);
+                animation: subtleGlow 3s infinite alternate;
             }
-            @keyframes pulseGlow {
-                0% { box-shadow: 0 0 10px rgba(0,245,255,0.05); border-color: rgba(0, 245, 255, 0.2); }
-                100% { box-shadow: 0 0 25px rgba(0,245,255,0.25); border-color: rgba(0, 245, 255, 0.5); }
-            }
-            .hero-badge::before { 
-                content: ''; width: 6px; height: 6px; background: var(--neon-cyan); 
-                border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); 
+            @keyframes subtleGlow {
+                0% { border-color: rgba(0, 245, 255, 0.15); box-shadow: 0 0 10px rgba(0,245,255,0.02); }
+                100% { border-color: rgba(0, 245, 255, 0.4); box-shadow: 0 0 25px rgba(0,245,255,0.15); }
             }
             
-            .hero-main-title {
+            .main-title {
                 font-family: 'Space Grotesk', sans-serif;
-                font-size: 2.6rem; font-weight: 900; text-transform: uppercase; margin-top: 15px; letter-spacing: -2px;
-                background: linear-gradient(135deg, #ffffff 30%, #a2a2d0 60%, var(--neon-cyan)); 
+                font-size: 3rem; font-weight: 900; letter-spacing: -2px; margin-top: 15px;
+                background: linear-gradient(180deg, #ffffff 0%, #a8a8a8 100%);
                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-                text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                text-transform: uppercase;
             }
-            .hero-subtitle {
-                font-size: 0.85rem; color: var(--text-muted); font-weight: 500; margin-top: 5px;
-                letter-spacing: 0.5px;
-            }
-
-            /* Ultra-Sleek Floating Search Engine Container */
-            .search-container { width: 100%; max-width: 580px; margin: 0 auto 30px auto; position: relative; }
-            .search-box {
-                width: 100%; padding: 18px 25px; background: rgba(10, 10, 22, 0.4);
-                border: 1px solid rgba(255,255,255,0.05); border-radius: 18px; color: #fff;
-                font-family: inherit; font-weight: 600; font-size: 0.95rem; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-                box-shadow: inset 0 2px 4px rgba(255,255,255,0.01);
-            }
-            .search-box:focus {
-                outline: none; border-color: var(--neon-cyan); background: rgba(5, 5, 12, 0.8);
-                box-shadow: 0 0 30px rgba(0,245,255,0.15), inset 0 1px 2px rgba(0,245,255,0.2);
+            .subtitle-tag {
+                font-size: 0.95rem; color: var(--text-secondary); margin-top: 6px;
+                font-weight: 500; letter-spacing: 0.2px;
             }
 
-            /* Responsive Premium Grid Structure */
-            .api-grid-system { 
-                display: grid; 
-                grid-template-columns: 1fr; 
-                gap: 16px; 
-                max-width: 580px; 
-                margin: 0 auto; 
+            /* Full Width Search Module */
+            .search-wrapper {
+                width: 100%; max-width: 650px; margin: 0 auto 40px auto; position: relative;
+            }
+            .search-input-core {
+                width: 100%; padding: 16px 24px; background: var(--vercel-dark);
+                border: 1px solid var(--vercel-border); border-radius: 12px;
+                color: #fff; font-family: inherit; font-size: 0.95rem; font-weight: 500;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            }
+            .search-input-core:focus {
+                outline: none; border-color: var(--text-pure); background: var(--vercel-black);
+                box-shadow: 0 0 0 1px var(--text-pure), 0 10px 30px rgba(255,255,255,0.03);
             }
 
-            /* Animated High-End Luxury Node Cards */
-            .api-node-card {
-                background: var(--panel-blur); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-                border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 22px; padding: 22px;
-                display: flex; flex-direction: column; gap: 14px; position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-                overflow: hidden; box-shadow: var(--heavy-shadow);
+            /* High Performance Responsive Responsive Grid - Fits Perfectly Anywhere */
+            .api-matrix-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 20px;
+                width: 100%;
+            }
+
+            /* Vercel Premium Dark Structure Component Cards */
+            .api-core-card {
+                background: var(--vercel-dark);
+                border: 1px solid var(--vercel-border);
+                border-radius: 14px; padding: 24px;
+                display: flex; flex-direction: column; justify-content: space-between;
+                gap: 16px; position: relative; overflow: hidden;
+                transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             }
             
-            /* High Luxury Border Tracing Animation Glow */
-            .api-node-card::after {
-                content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.06), transparent);
-                transition: none; pointer-events: none;
-            }
-            .api-node-card:hover::after {
-                left: 200%; transition: all 0.8s ease-in-out;
-            }
-            .api-node-card:hover {
-                transform: translateY(-3px);
-                border-color: rgba(0, 245, 255, 0.25);
-                box-shadow: 0 15px 35px rgba(0, 245, 255, 0.05), var(--heavy-shadow);
-            }
-
-            .card-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-            .route-path-text { 
-                font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: #ffffff; font-weight: 700; 
-                letter-spacing: -0.3px;
+            /* High luxury glowing status strip */
+            .api-core-card::before {
+                content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%;
+                background: linear-gradient(180deg, var(--neon-purple), var(--neon-cyan));
+                opacity: 0.3; transition: opacity 0.3s ease;
             }
             
-            .method-pill {
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 0.65rem; font-weight: 900; padding: 4px 10px; border-radius: 8px;
-                background: rgba(0, 245, 255, 0.06); border: 1px solid var(--border-neon); color: var(--neon-cyan);
-                letter-spacing: 1px;
+            .api-core-card:hover {
+                transform: translateY(-2px);
+                border-color: #555555;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 30px rgba(123,44,191,0.05);
             }
-            .method-pill.post { 
-                background: rgba(255, 0, 127, 0.06); border-color: rgba(255, 0, 127, 0.2); color: var(--neon-pink); 
-            }
+            .api-core-card:hover::before { opacity: 1; }
 
-            .node-description { 
-                font-size: 0.82rem; color: var(--text-muted); font-weight: 500; line-height: 1.5; 
+            .card-header-segment { 
+                display: flex; justify-content: space-between; align-items: center; width: 100%; 
             }
-
-            /* Premium Grid Control System Buttons */
-            .action-ribbon { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 4px; }
-            .action-btn {
-                border: none; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; padding: 13px;
-                border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease;
-                display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px;
-            }
-            .btn-copy { 
-                background: rgba(255,255,255,0.02); color: #fff; 
-                border: 1px solid rgba(255,255,255,0.05); 
-            }
-            .btn-copy:hover {
-                background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15);
-            }
-            .btn-run { 
-                background: linear-gradient(135deg, var(--neon-cyan), #00d2ff); 
-                color: #000; font-weight: 800;
-                box-shadow: 0 4px 15px rgba(0, 245, 255, 0.2);
-            }
-            .btn-run:hover {
-                transform: scale(1.02);
-                box-shadow: 0 6px 20px rgba(0, 245, 255, 0.4);
-            }
-
-            /* ImgBB Notice Alert Styling */
-            .post-notice-block {
-                text-align: center; font-size: 0.72rem; color: var(--neon-pink); font-weight: 700;
-                background: rgba(255, 0, 127, 0.04); padding: 12px; border-radius: 12px;
-                border: 1px solid rgba(255, 0, 127, 0.15); width: 100%;
-                font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.5px;
-            }
-
-            /* Immersive Bottom Console Sheet Model */
-            .console-overlay {
-                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(1, 1, 3, 0.88);
-                backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 10000;
-                display: flex; justify-content: center; align-items: flex-end; opacity: 0; pointer-events: none;
-                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            .console-overlay.active { opacity: 1; pointer-events: auto; }
-            
-            .console-sheet {
-                width: 100%; max-width: 580px; background: #07070f; 
-                border-top: 2px solid var(--neon-cyan);
-                border-radius: 26px 26px 0 0; padding: 25px; transform: translateY(100%);
-                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                box-shadow: 0 -15px 40px rgba(0,0,0,0.5);
-            }
-            .console-overlay.active .console-sheet { transform: translateY(0); }
-
-            .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-            .sheet-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 1px; }
-            .close-sheet-btn { 
-                background: rgba(255,255,255,0.06); border: none; width: 32px; height: 32px; border-radius: 50%; 
-                color: #fff; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center;
-                transition: background 0.2s;
-            }
-            .close-sheet-btn:hover { background: rgba(255,255,255,0.15); }
-
-            .sheet-endpoint-url {
-                width: 100%; background: rgba(0,0,0,0.4); padding: 12px 16px; border-radius: 10px;
-                font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #a2a2d0; overflow-x: auto; margin-bottom: 16px;
-                border: 1px solid rgba(255,255,255,0.02);
-            }
-
-            .terminal-viewport {
-                width: 100%; background: #010103; border: 1px solid rgba(255,255,255,0.03);
-                border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
-                white-space: pre-wrap; overflow-x: auto; max-height: 280px; line-height: 1.5;
-                box-shadow: inset 0 3px 10px rgba(0,0,0,0.8);
-            }
-
-            /* Ultimate Notification Engine Layer */
-            #toast-layer {
-                position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 20px);
-                background: linear-gradient(135deg, #ffffff, #e0e0ff); color: #000; font-size: 0.75rem; font-weight: 800;
-                padding: 12px 28px; border-radius: 50px; z-index: 105000; opacity: 0; pointer-events: none;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px;
-                box-shadow: 0 10px 25px rgba(255,255,255,0.1), 0 4px 10px rgba(0,0,0,0.4);
-            }
-            #toast-layer.show { opacity: 1; transform: translate(-50%, 0); }
-
-            #no-search-results { 
-                display: none; text-align: center; color: var(--text-muted); 
-                font-size: 0.85rem; padding: 40px; font-weight: 700; 
-                font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px;
+            .endpoint-path {
+                font-family: 'Geist Mono', monospace; font-size: 1.05rem; color: var(--text-pure);
+                font-weight: 700; letter-spacing: -0.5px;
             }
             
-            .brand-anchor { 
-                text-align: center; margin-top: 50px; font-size: 0.75rem; color: var(--text-muted); 
-                font-weight: 800; letter-spacing: 1px; font-family: 'Space Grotesk', sans-serif;
+            .badge-method {
+                font-family: 'Geist Mono', monospace; font-size: 0.65rem; font-weight: 700;
+                padding: 4px 8px; border-radius: 5px; background: rgba(255,255,255,0.05);
+                color: #fff; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 0.5px;
             }
-            .brand-anchor span { 
-                color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,245,255,0.3);
+            .badge-method.post {
+                color: var(--neon-pink); border-color: rgba(255, 0, 127, 0.2); background: rgba(255, 0, 127, 0.02);
             }
 
+            .endpoint-summary {
+                font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; font-weight: 400;
+            }
+
+            /* Ultimate Functional Grid Actions Row */
+            .control-action-row {
+                display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: auto;
+            }
+            .action-trigger {
+                border: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; font-weight: 700;
+                padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
+                display: flex; justify-content: center; align-items: center; text-transform: uppercase; letter-spacing: 0.3px;
+            }
+            .trigger-copy {
+                background: var(--vercel-gray); color: var(--text-pure); border: 1px solid var(--vercel-border);
+            }
+            .trigger-copy:hover {
+                background: #1c1c1c; border-color: #666;
+            }
+            .trigger-test {
+                background: var(--text-pure); color: var(--vercel-black); font-weight: 800;
+            }
+            .trigger-test:hover {
+                background: #e5e5e5; transform: scale(1.01);
+            }
+
+            /* Notice Layout Framework block for Multi-part posting elements */
+            .post-block-announcement {
+                text-align: center; font-size: 0.72rem; color: var(--text-muted); font-weight: 700;
+                background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px;
+                border: 1px solid var(--vercel-border); width: 100%;
+                font-family: 'Geist Mono', monospace; letter-spacing: 0.5px;
+            }
+
+            /* Immersive Full Sliding Sheet Console Model */
+            .modal-console-overlay {
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+                z-index: 99999; display: flex; justify-content: center; align-items: center;
+                opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                padding: 20px;
+            }
+            .modal-console-overlay.active { opacity: 1; pointer-events: auto; }
+            
+            .console-card-panel {
+                width: 100%; max-width: 700px; background: var(--vercel-dark);
+                border: 1px solid var(--vercel-border); border-radius: 16px; padding: 28px;
+                transform: scale(0.95); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: var(--heavy-shadow); display: flex; flex-direction: column; gap: 16px;
+            }
+            .modal-console-overlay.active .console-card-panel { transform: scale(1); }
+
+            .panel-header { display: flex; justify-content: space-between; align-items: center; }
+            .panel-title { font-family: 'Geist Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--text-pure); letter-spacing: 1px; }
+            
+            .btn-close-panel {
+                background: var(--vercel-gray); border: 1px solid var(--vercel-border); width: 30px; height: 30px;
+                border-radius: 6px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+                transition: all 0.2s; font-size: 0.8rem;
+            }
+            .btn-close-panel:hover { background: #1c1c1c; border-color: #555; }
+
+            .panel-url-box {
+                width: 100%; background: var(--vercel-black); padding: 14px 18px; border-radius: 8px;
+                font-family: 'Geist Mono', monospace; font-size: 0.78rem; color: var(--neon-cyan);
+                overflow-x: auto; border: 1px solid var(--vercel-border);
+            }
+
+            .terminal-output-screen {
+                width: 100%; background: var(--vercel-black); border: 1px solid var(--vercel-border);
+                border-radius: 10px; padding: 20px; font-family: 'Geist Mono', monospace; font-size: 0.8rem;
+                white-space: pre-wrap; overflow-x: auto; max-height: 350px; min-height: 150px; line-height: 1.6;
+            }
+
+            /* Luxury Toast Alert Notification Module */
+            #toast-system-alert {
+                position: fixed; bottom: 35px; left: 50%; transform: translate(-50%, 20px);
+                background: var(--text-pure); color: var(--vercel-black); font-size: 0.75rem; font-weight: 800;
+                padding: 12px 24px; border-radius: 6px; z-index: 199999; opacity: 0; pointer-events: none;
+                transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                font-family: 'Geist Mono', monospace; letter-spacing: 0.5px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            }
+            #toast-system-alert.show { opacity: 1; transform: translate(-50%, 0); }
+
+            #empty-search-state {
+                display: none; text-align: center; color: var(--text-muted);
+                font-size: 0.9rem; padding: 60px 20px; font-weight: 500;
+                font-family: 'Geist Mono', monospace; width: 100%; grid-column: 1 / -1;
+            }
+            
+            .footer-branding {
+                text-align: center; margin-top: 60px; font-size: 0.75rem; color: var(--text-muted);
+                font-weight: 700; letter-spacing: 1.5px; font-family: 'Geist Mono', monospace;
+                padding-top: 24px; border-top: 1px solid var(--vercel-border);
+            }
+            .footer-branding span { color: var(--text-pure); font-weight: 900; }
+
+            /* Grid Scaling Breakpoints to optimize screen configurations */
+            @media (max-width: 850px) {
+                .api-matrix-grid { grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr)); }
+                .main-title { font-size: 2.3rem; }
+            }
             @media (max-width: 480px) {
-                .hero-main-title { font-size: 2.1rem; }
-                .route-path-text { font-size: 0.95rem; }
-                body { padding-top: 15px; }
+                .main-wrapper { padding: 25px 16px; }
+                .api-matrix-grid { grid-template-columns: 1fr; }
+                .main-title { font-size: 1.9rem; letter-spacing: -1px; }
+                .control-action-row { grid-template-columns: 1fr; }
             }
         </style>
     </head>
     <body>
 
-        <div class="cyber-grid-overlay"></div>
-        <div id="toast-layer">PIPELINE ROUTE SECURED ✔</div>
+        <div id="toast-system-alert">SUCCESSFULLY EXPORTED TO CLIPBOARD</div>
 
-        <div class="premium-hero">
-            <div class="hero-badge">Ultra-Premium Engine Active</div>
-            <div class="hero-main-title">HASHU CORE APIS</div>
-            <div class="hero-subtitle">High-Fidelity Gateway Node Array</div>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="nodeSearch" class="search-box" placeholder="Search and filter runtime endpoints..." onkeyup="filterNodeGrid()">
-        </div>
-
-        <div class="api-grid-system" id="gridContainer">
-
-            <!-- NODE 1. THENKIRI MOVIE SEARCH -->
-            <div class="api-node-card" data-search="movies search thenkiri database cinema query">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/movies/search</span>
-                    <span class="method-pill">GET</span>
-                </div>
-                <div class="node-description">Thenkiri Movie Indexing & High-Speed Direct Stream Link Exporter Hub Layer.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movsearch')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Movie Search')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-movsearch">/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123</div>
+        <div class="main-wrapper">
+            <div class="header-container">
+                <div class="premium-badge">Vercel Core Core System Architecture</div>
+                <div class="main-title">HASHU ENGINE CORE</div>
+                <div class="subtitle-tag">High-End Dynamic Data & Stream Isolation Hub</div>
             </div>
 
-            <!-- NODE 2. THENKIRI LATEST MOVIES -->
-            <div class="api-node-card" data-search="movies latest feed thenkiri catalog international updates">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/movies/latest</span>
-                    <span class="method-pill">GET</span>
-                </div>
-                <div class="node-description">Thenkiri Dynamic Stream Updates sorted by categorical target tags and pages.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movlatest')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Latest Catalog')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-movlatest">/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123</div>
+            <div class="search-wrapper">
+                <input type="text" id="coreFilterInput" class="search-input-core" placeholder="Search operational matrices, categories or paths..." onkeyup="performRuntimeSearch()">
             </div>
 
-            <!-- NODE 3. FZMOVIES -->
-            <div class="api-node-card" data-search="fzmovies search global database cinema download resolution">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/movies/fzmovies</span>
-                    <span class="method-pill">GET</span>
-                </div>
-                <div class="node-description">Global FzMovies Server Integration mapping core MP4 structural high-res download pipelines.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-fzsearch')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123', 'FzMovies Database')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-fzsearch">/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
+            <div class="api-matrix-grid" id="matrixGridSystem">
 
-            <!-- NODE 4. CINESUBZ -->
-            <div class="api-node-card" data-search="cinesubz search sinhala subtitles sl srilanka download">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/cinesubz</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 1. THENKIRI MOVIE SEARCH -->
+                <div class="api-core-card" data-tags="movies search thenkiri catalog live database download">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/movies/search</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Thenkiri Media Index Query Hub resolving high-speed direct stream link extractions instantly.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-movsearch')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Search Engine')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-movsearch">/api/movies/search?q=batman&limit=5&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Sinhala Subtitle Link Engine parsed directly through active Cinesubz Cloud Layers.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-cinesubz')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123', 'Cinesubz Subtitle Engine')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-cinesubz">/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 5. SUBDL -->
-            <div class="api-node-card" data-search="subdl search global subtitle srt english multi-language">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/subdl</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 2. THENKIRI LATEST MOVIES -->
+                <div class="api-core-card" data-tags="movies latest catalog updates thenkiri streaming feeds">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/movies/latest</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Fetches latest uploaded movie directory datasets sorted by tracking categories dynamically.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-movlatest')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123', 'Thenkiri Live Feeds')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-movlatest">/api/movies/latest?category=international&page=1&limit=10&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Subdl Multi-language Core Decryption tracking target raw SRT and ZIP configuration packets.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-subdl')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123', 'Subdl Engine Tracker')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-subdl">/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 6. OMDb MOVIE INFO -->
-            <div class="api-node-card" data-search="movie database omdb cinema rating plot info metacritic imdb">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/movie</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 3. FZMOVIES -->
+                <div class="api-core-card" data-tags="fzmovies cinema downloads database movie files direct link">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/movies/fzmovies</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Global FzMovies structural catalog scraper resolving clean mp4 down-links across servers.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-fzmovies')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123', 'FzMovies Resolver')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-fzmovies">/api/movies/fzmovies?q=avengers&limit=5&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">OMDb Core Integration Hub providing global cinematic plots, ratings, years and poster assets.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-movie')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123', 'OMDb Profile Plot')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-movie">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 7. CHATGPT-4o -->
-            <div class="api-node-card" data-search="chat ai chatgpt hashan gpt gpt4 smart intelligent cognitive brain">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/chat</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 4. CINESUBZ -->
+                <div class="api-core-card" data-tags="cinesubz subtitle sinhala srilanka sl movie files tracking">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/cinesubz</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Sinhala subtitles data mapping network integrated directly via custom Cinesubz scraping protocols.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-cinesubz')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123', 'Cinesubz Sinhala Subtitles')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-cinesubz">/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Hashan-md Cognitive ChatGPT-4o High-Intelligence Adaptive Artificial Response Engine.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-chat')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123', 'Cognitive ChatGPT-4o Node')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-chat">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 8. URL SHORTENER -->
-            <div class="api-node-card" data-search="cuttly shorten url link tinyurl link-shortener compress">
-                <div class="card-top-row">
-                    <span class="route-path-text">/api/url_shorten</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 5. SUBDL -->
+                <div class="api-core-card" data-tags="subdl global subtitle english tracks translation multi-language srt">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/subdl</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Subdl API integration scraping global subtitle records across diverse files and languages.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-subdl')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123', 'Subdl Engine')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-subdl">/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Enterprise Cuttly Logic Minimizer System for compressed, safe tracking destination links.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-shorten')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123', 'Cuttly Link Minimizer')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 9. XVIDEOS -->
-            <div class="api-node-card" data-search="xvideo xvideos adult downloader download mp4 hot clip bypass streaming">
-                <div class="card-top-row">
-                    <span class="route-path-text">/xvideo</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 6. OMDb MOVIE INFO -->
+                <div class="api-core-card" data-tags="movie profile omdb imdb plots ratings metrics directors cover art">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/movie</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Exposes deep cinematic descriptions, plots, cover graphics and user ratings via OMDb database clusters.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-omdb')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123', 'OMDb Profile Sync')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-omdb">/api/movie?text=Guardians of the Galaxy&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">XVideos CDN Stream Bypass Resolver extracting direct MP4 media streams over high bandwidth.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-xvideo')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123', 'XVideos Stream Converter')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 10. YTMP4 -->
-            <div class="api-node-card" data-search="ytmp4 youtube video downloader download mp4 high quality video tracks">
-                <div class="card-top-row">
-                    <span class="route-path-text">/ytmp4</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 7. CHATGPT-4o -->
+                <div class="api-core-card" data-tags="chatgpt chat ai hashan gpt4 intelligence brain smart automation">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/chat</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Customized high-intelligence adaptive ChatGPT-4o engine running personalized routing rules.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-chatgpt')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123', 'Hashan-md ChatGPT AI')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-chatgpt">/api/chat?prompt=Hi&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">High-Fidelity HD YouTube Video Stream Extractor parsing binary clusters safely.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-ytmp4')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123', 'YouTube HD Stream')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 11. MEDIAFIRE -->
-            <div class="api-node-card" data-search="mediafire downloader direct storage parser files zip cloud">
-                <div class="card-top-row">
-                    <span class="route-path-text">/mediafire</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 8. URL SHORTENER -->
+                <div class="api-core-card" data-tags="shortener link cuttly compress minify tracking analytics url">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/api/url_shorten</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Cuttly backend algorithm utility safely converting long URLs into compact metadata links.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-shorten')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123', 'Cuttly Link Compression')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-shorten">/api/url_shorten?link=https://apis.davidcyril.name.ng&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Mediafire Data Structure Scraper resolving secure download mirrors automatically.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-mf')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123', 'Mediafire Direct Extractor')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-mf">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 12. SPOTIFY -->
-            <div class="api-node-card" data-search="spotify music hq audio downloader song audio mp3 track">
-                <div class="card-top-row">
-                    <span class="route-path-text">/spotify</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 9. XVIDEOS -->
+                <div class="api-core-card" data-tags="xvideos download downloader adult hot clip resolver cdn stream">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/xvideo</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Advanced XVideos content-delivery network scraper pulling high-speed raw streaming mp4 files.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-xvideo')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123', 'XVideo Media Puller')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-xvideo">/xvideo?url=https://www.xvideos.com/video.hppakie6a79/mia_khalifa&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Spotify High-Quality Metadata & Audio Matching Module for structural parsing.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-sf')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123', 'Spotify Metadata Engine')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-sf">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 13. OBFUSCATOR -->
-            <div class="api-node-card" data-search="obfuscate javascript security protection code hide encrypt lock reverse-engineering">
-                <div class="card-top-row">
-                    <span class="route-path-text">/obfuscate</span>
-                    <span class="method-pill">GET</span>
+                <!-- CARD 10. YTMP4 -->
+                <div class="api-core-card" data-tags="ytmp4 youtube video download high resolution high quality media audio">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/ytmp4</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">YouTube High-Definition mp4 conversion algorithm routing structural binary stream blocks safely.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-ytmp4')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123', 'YouTube HD Stream Exporter')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-ytmp4">/ytmp4?url=https://youtube.com/watch?v=MwpMEbgC7DA&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Anti-Scrape Production Crypt Matrix locking structural JavaScript formats tightly.</div>
-                <div class="action-ribbon">
-                    <button class="action-btn btn-copy" onclick="copyNodeUrl('url-obf')">Copy URL</button>
-                    <button class="action-btn btn-run" onclick="openTerminalSheet('/obfuscate?code=console.log(\\'hashu\\')&apikey=MR_HASHUU_SECRET_123', 'JS Obfuscation System')">Test Node</button>
-                </div>
-                <div style="display:none;" id="url-obf">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
-            </div>
 
-            <!-- NODE 14. IMGBB -->
-            <div class="api-node-card" data-search="imgbb photo cloud cdn image host upload post multiplayer upload">
-                <div class="card-top-row">
-                    <span class="route-path-text">/imgbb</span>
-                    <span class="method-pill post">POST</span>
+                <!-- CARD 11. MEDIAFIRE -->
+                <div class="api-core-card" data-tags="mediafire storage cloud file downloads raw server bypass links">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/mediafire</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Decrypts native HTML patterns from target Mediafire storage pages to reveal explicit mirrors.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-mediafire')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123', 'Mediafire Link Engine')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-mediafire">/mediafire?url=https://www.mediafire.com/file/n6tgcrktbnov1oy/Queen_Anita-V4.zip/file&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="node-description">Multipart structural gateway uploading binary imaging files securely to ImgBB CDNs.</div>
-                <div class="action-ribbon" style="grid-template-columns: 1fr;">
-                    <div class="post-notice-block">POST CALLS REQUIRE API GRAPH TERMINALS FOR ACTIVE LIVE DEPLOYMENT</div>
-                </div>
-            </div>
 
-            <div id="no-search-results">// ZERO RUNTIME ENDPOINTS MATCH CRITERIA //</div>
-        </div>
-
-        <!-- Heavy System Interactive Terminal Layer -->
-        <div class="console-overlay" id="overlayConsoleSystem" onclick="closeTerminalSheetViaOverlay(event)">
-            <div class="console-sheet">
-                <div class="sheet-header">
-                    <span class="sheet-title" id="overlayTitle">// STANDBY PIPELINE CONSOLE</span>
-                    <button class="close-sheet-btn" onclick="hideTerminalSheet()">✕</button>
+                <!-- CARD 12. SPOTIFY -->
+                <div class="api-core-card" data-tags="spotify music tracks download song audio mp3 quality high metadata">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/spotify</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Extracts explicit track metadata fields and down-link mappings from the Spotify catalog array.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-spotify')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123', 'Spotify Pipeline')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-spotify">/spotify?url=https://open.spotify.com/track/285pBltuF7vW8TeWk8hdRR&apikey=MR_HASHUU_SECRET_123</div>
                 </div>
-                <div class="sheet-endpoint-url" id="overlayEndpointUrl">/api/route</div>
-                <pre class="terminal-viewport" id="overlayTerminalLog">// INITIALIZED SYSTEM ARRAYS IN STEADY STATUS...</pre>
+
+                <!-- CARD 13. OBFUSCATOR -->
+                <div class="api-core-card" data-tags="obfuscate javascript protection reverse engineering security hide protect encrypt lock">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/obfuscate</span>
+                        <span class="badge-method">GET</span>
+                    </div>
+                    <div class="endpoint-summary">Performs high-security production compilation of structural JS code arrays to block scraping.</div>
+                    <div class="control-action-row">
+                        <button class="action-trigger trigger-copy" onclick="processCopyLink('path-obfuscate')">Copy URL</button>
+                        <button class="action-trigger trigger-test" onclick="fireCoreSimulation('/obfuscate?code=console.log(\\'hashu\\')&apikey=MR_HASHUU_SECRET_123', 'JS Obfuscation Core')">Execute</button>
+                    </div>
+                    <div style="display:none;" id="path-obfuscate">/obfuscate?code=console.log('hashu')&apikey=MR_HASHUU_SECRET_123</div>
+                </div>
+
+                <!-- CARD 14. IMGBB -->
+                <div class="api-core-card" data-tags="imgbb image picture upload hosting graph photo post binary">
+                    <div class="card-header-segment">
+                        <span class="endpoint-path">/imgbb</span>
+                        <span class="badge-method post">POST</span>
+                    </div>
+                    <div class="endpoint-summary">Accepts explicit multipart form payloads to transmit binary imagery directly onto ImgBB CDNs.</div>
+                    <div class="control-action-row" style="grid-template-columns: 1fr;">
+                        <div class="post-block-announcement">POST ROUTE - RUN ACTIONS DIRECTLY IN THE APPLICATION CODE LAYER</div>
+                    </div>
+                </div>
+
+                <div id="empty-search-state">// RUNTIME ERROR: NO PIPELINE STACKS FOUND MATCHING SPECIFIED KEYWORDS //</div>
             </div>
         </div>
 
-        <div class="brand-anchor">
-            OWNED & DEPLOYED BY <span>MR HASHUU</span>
+        <!-- Vercel Center Layout Simulation Console Sheet -->
+        <div class="modal-console-overlay" id="globalConsolePanelOverlay" onclick="dismissConsoleViaBackground(event)">
+            <div class="console-card-panel">
+                <div class="panel-header">
+                    <span class="panel-title" id="panelRuntimeHeader">// DATA PIPELINE SYNC EXECUTION</span>
+                    <button class="btn-close-panel" onclick="dismissConsolePanel()">✕</button>
+                </div>
+                <div class="panel-url-box" id="panelEndpointUrlDisplay">/api/route_target</div>
+                <pre class="terminal-output-screen" id="panelTerminalScreen">// COMPILING PACKET INTERPOLATIONS...</pre>
+            </div>
+        </div>
+
+        <div class="footer-branding">
+            SYSTEM FRAMEWORK PROUDLY DESIGNED & MAINTAINED BY <span>MR HASHUU</span>
         </div>
 
         <script>
-            function filterNodeGrid() {
-                const searchStr = document.getElementById('nodeSearch').value.toLowerCase().trim();
-                const nodeCards = document.getElementsByClassName('api-node-card');
-                const fallbackMessage = document.getElementById('no-search-results');
-                let matchesFound = false;
+            function performRuntimeSearch() {
+                const searchString = document.getElementById('coreFilterInput').value.toLowerCase().trim();
+                const nodeCards = document.getElementsByClassName('api-core-card');
+                const emptyFeedback = document.getElementById('empty-search-state');
+                let validMatchOccurred = false;
 
-                for (let i = 0; i < nodeCards.length; i++) {
-                    const tagCriteria = nodeCards[i].getAttribute('data-search');
-                    if (tagCriteria.includes(searchStr)) {
-                        nodeCards[i].style.display = 'flex';
-                        matchesFound = true;
+                for (let k = 0; k < nodeCards.length; k++) {
+                    const trackingDataTags = nodeCards[k].getAttribute('data-tags');
+                    if (trackingDataTags.includes(searchString)) {
+                        nodeCards[k].style.display = 'flex';
+                        validMatchOccurred = true;
                     } else {
-                        nodeCards[i].style.display = 'none';
+                        nodeCards[k].style.display = 'none';
                     }
                 }
-                fallbackMessage.style.display = matchesFound ? 'none' : 'block';
+                emptyFeedback.style.display = validMatchOccurred ? 'none' : 'block';
             }
 
-            function copyNodeUrl(elementId) {
-                const partialPath = document.getElementById(elementId).textContent.trim();
-                const cleanAbsoluteUrl = window.location.origin + partialPath;
+            function processCopyLink(nodeDomId) {
+                const embeddedFragment = document.getElementById(nodeDomId).textContent.trim();
+                const structuralAbsoluteUri = window.location.origin + embeddedFragment;
                 
                 if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(cleanAbsoluteUrl).then(() => {
-                        triggerToastNotification();
-                    }).catch(() => legacyCopyEngineFallback(cleanAbsoluteUrl));
+                    navigator.clipboard.writeText(structuralAbsoluteUri).then(() => {
+                        displayToastNotification();
+                    }).catch(() => fallbackLegacyCopyClipboard(structuralAbsoluteUri));
                 } else {
-                    legacyCopyEngineFallback(cleanAbsoluteUrl);
+                    fallbackLegacyCopyClipboard(structuralAbsoluteUri);
                 }
             }
 
-            function legacyCopyEngineFallback(targetText) {
-                const textAreaElement = document.createElement("textarea");
-                textAreaElement.value = targetText;
-                textAreaElement.style.position = "fixed"; textAreaElement.style.opacity = "0";
-                document.body.appendChild(textAreaElement);
-                textAreaElement.focus(); textAreaElement.select();
+            function fallbackLegacyCopyClipboard(textValue) {
+                const invisibleTextArea = document.createElement("textarea");
+                invisibleTextArea.value = textValue;
+                invisibleTextArea.style.position = "fixed"; invisibleTextArea.style.opacity = "0";
+                document.body.appendChild(invisibleTextArea);
+                invisibleTextArea.focus(); invisibleTextArea.select();
                 try {
                     document.execCommand('copy');
-                    triggerToastNotification();
-                } catch (err) {
-                    console.error('Target Pipeline Copy Failed', err);
+                    displayToastNotification();
+                } catch (exception) {
+                    console.error('Bypass Clipboard Routine Aborted:', exception);
                 }
-                document.body.removeChild(textAreaElement);
+                document.body.removeChild(invisibleTextArea);
             }
 
-            function triggerToastNotification() {
-                const toast = document.getElementById('toast-layer');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
+            function displayToastNotification() {
+                const toastNotificationLayer = document.getElementById('toast-system-alert');
+                toastNotificationLayer.classList.add('show');
+                setTimeout(() => toastNotificationLayer.classList.remove('show'), 2200);
             }
 
-            async function openTerminalSheet(endpointUrlPath, cleanNodeTitle) {
-                const overlay = document.getElementById('overlayConsoleSystem');
-                const logViewport = document.getElementById('overlayTerminalLog');
+            async function fireCoreSimulation(simulatedPath, visualNodeTitle) {
+                const modalOverlay = document.getElementById('globalConsolePanelOverlay');
+                const monitoringTerminal = document.getElementById('panelTerminalScreen');
                 
-                document.getElementById('overlayTitle').innerText = "// EXECUTION TRACE: " + cleanNodeTitle.toUpperCase();
-                document.getElementById('overlayEndpointUrl').innerText = window.location.origin + endpointUrlPath;
+                document.getElementById('panelRuntimeHeader').innerText = "// MATRIX RESPONSE LOG: " + visualNodeTitle.toUpperCase();
+                document.getElementById('panelEndpointUrlDisplay').innerText = window.location.origin + simulatedPath;
                 
-                overlay.classList.add('active');
-                logViewport.textContent = "// STREAM CONSOLE TUNNEL CONNECTED... FETCHING PAYLOAD FRAME SYNC //";
-                logViewport.style.color = "var(--neon-cyan)";
+                modalOverlay.classList.add('active');
+                monitoringTerminal.textContent = "// RECONSTRUCTING LIVE STACKS... BUFFERING STREAM PAYLOAD SYNC PACKETS //";
+                monitoringTerminal.style.color = "var(--neon-cyan)";
 
                 try {
-                    const pipelineResponse = await fetch(window.location.origin + endpointUrlPath);
-                    const formattedJsonPayload = await pipelineResponse.json();
+                    const structuralNetworkResult = await fetch(window.location.origin + simulatedPath);
+                    const structuralJsonPayload = await structuralNetworkResult.json();
                     
-                    logViewport.textContent = JSON.stringify(formattedJsonPayload, null, 2);
-                    logViewport.style.color = "#00FF87"; 
-                } catch (networkException) {
-                    logViewport.textContent = JSON.stringify({
+                    monitoringTerminal.textContent = JSON.stringify(structuralJsonPayload, null, 2);
+                    monitoringTerminal.style.color = "var(--neon-green)"; 
+                } catch (runtimeNetworkException) {
+                    monitoringTerminal.textContent = JSON.stringify({
                         success: false,
-                        error: "Decryption structure broke during endpoint matrix simulation execution",
-                        exception_log: networkException.message
+                        error: "Data parsing interrupted during simulated gateway integration test sequence",
+                        exception: runtimeNetworkException.message
                     }, null, 2);
-                    logViewport.style.color = "var(--neon-pink)"; 
+                    monitoringTerminal.style.color = "var(--neon-pink)"; 
                 }
             }
 
-            function hideTerminalSheet() {
-                document.getElementById('overlayConsoleSystem').classList.remove('active');
+            function dismissConsolePanel() {
+                document.getElementById('globalConsolePanelOverlay').classList.remove('active');
             }
 
-            function closeTerminalSheetViaOverlay(event) {
-                if(event.target.id === "overlayConsoleSystem") {
-                    hideTerminalSheet();
+            function dismissConsoleViaBackground(event) {
+                if(event.target.id === "globalConsolePanelOverlay") {
+                    dismissConsolePanel();
                 }
             }
         </script>
@@ -813,6 +823,6 @@ app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Premium Ultra-Heavy HASHU Engine Running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Vercel Dark Core HASHU Engine Running on port ${PORT}`));
 
 module.exports = app;
