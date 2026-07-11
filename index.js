@@ -91,14 +91,12 @@ app.get('/', (req, res) => {
                 position: relative;
             }
 
-            /* 🪐 ANIMATED BACKGROUND GLOWS */
             .ambient-glow {
                 position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 90vw; height: 60vh;
                 background: radial-gradient(circle, rgba(123, 44, 191, 0.25) 0%, rgba(0, 245, 255, 0.06) 45%, transparent 100%);
                 z-index: 1; pointer-events: none; filter: blur(70px);
             }
 
-            /* 🔥 APPLE STUDIO SHUTTER LOADER */
             #cyber-loader {
                 position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
                 background: var(--apple-black); z-index: 9999;
@@ -119,7 +117,6 @@ app.get('/', (req, res) => {
             }
             @keyframes appleSpin { to { transform: rotate(360deg); } }
 
-            /* Premium Minimal Master Box */
             .vercel-box {
                 width: 92%; max-width: 650px;
                 background: var(--apple-card); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
@@ -143,14 +140,12 @@ app.get('/', (req, res) => {
             .pulse-dot { width: 8px; height: 8px; background: var(--apple-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--apple-cyan); animation: pulse 1.5s infinite; }
             @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-            /* Analytics Counters Grid */
             .analytics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
             .stat-card { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--apple-border); border-radius: 18px; padding: 16px 12px; text-align: center; transition: all 0.3s; }
             .stat-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
             .stat-label { font-size: 0.68rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
             .stat-value { font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 5px; font-family: 'Space Grotesk', sans-serif; }
 
-            /* Filter Input Search Box */
             .search-container { position: relative; margin-top: 24px; }
             .search-input {
                 width: 100%; padding: 18px 22px; background: rgba(0, 0, 0, 0.5);
@@ -160,7 +155,6 @@ app.get('/', (req, res) => {
             .search-input:focus { border-color: rgba(0, 245, 255, 0.5); background: rgba(0, 0, 0, 0.7); box-shadow: 0 0 25px rgba(0, 245, 255, 0.08); }
             ::placeholder { color: #4e4e54; font-weight: 800; }
 
-            /* Workspace Lists Layout */
             .endpoint-list { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
             .api-wrapper { background: rgba(255, 255, 255, 0.01); border: 1px solid var(--apple-border); border-radius: 18px; overflow: hidden; transition: all 0.25s; }
             .api-wrapper:hover { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.02); }
@@ -174,7 +168,6 @@ app.get('/', (req, res) => {
             .api-wrapper.active { border-color: rgba(123, 44, 191, 0.6); background: rgba(0, 0, 0, 0.4); box-shadow: inset 0 0 20px rgba(123, 44, 191, 0.05); }
             .api-wrapper.active .arrow-icon { transform: rotate(90deg); color: var(--apple-cyan); }
 
-            /* Core Premium Documentation Panel */
             .api-docs { display: none; padding: 0 20px 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: rgba(0,0,0,0.2); }
             .docs-section-title { font-size: 0.7rem; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin: 18px 0 8px 0; letter-spacing: 0.6px; }
             
@@ -184,7 +177,6 @@ app.get('/', (req, res) => {
                 border-radius: 12px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--apple-cyan);
                 overflow-x: auto; white-space: nowrap;
             }
-            /* Custom Scrollbar for URL display to ensure perfect mobile fit */
             .url-display::-webkit-scrollbar { height: 4px; }
             .url-display::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
@@ -196,7 +188,6 @@ app.get('/', (req, res) => {
             .btn-run { background: linear-gradient(135deg, var(--apple-blue), #531cb3); color: #ffffff; }
             .btn-run:hover { box-shadow: 0 0 18px rgba(123, 44, 191, 0.5); }
 
-            /* Console Screen */
             .json-preview {
                 background: #000000; border: 1px solid var(--apple-border); border-radius: 12px;
                 padding: 16px; font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #666;
@@ -219,7 +210,6 @@ app.get('/', (req, res) => {
             .buy-btn { color: var(--apple-cyan); text-decoration: none; font-weight: 900; transition: color 0.2s; }
             .buy-btn:hover { color: #ffffff; }
 
-            /* 📱 STAGE-PERFECT MOBILE RESPONSIVE ENGINE */
             @media (max-width: 600px) {
                 body { padding: 15px 0; }
                 .vercel-box { padding: 25px 18px; border-radius: 24px; width: 94%; }
@@ -278,8 +268,50 @@ app.get('/', (req, res) => {
             </div>
 
             <div class="endpoint-list" id="listWrapper">
+
+                <!-- 🎬 CINESUBZ SEARCH API -->
+                <div class="api-wrapper" data-name="cinesubz search sinhala subtitles movie cinesub sl download film">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/cinesubz</span>
+                            <span class="endpoint-info">Cinesubz Sinhala Subtitles Movie & Post Search Engine</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-cinesubz">/api/cinesubz?q=new&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-cinesubz')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-cinesubz', 'res-cinesubz', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-cinesubz">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
+
+                <!-- 🎬 SUBDL SUBTITLE SEARCH API -->
+                <div class="api-wrapper" data-name="subdl search global subtitle srt english multi translation avatar">
+                    <div class="api-row" onclick="toggleAccordion(this)">
+                        <div class="meta-details">
+                            <span class="endpoint-slug">/api/subdl</span>
+                            <span class="endpoint-info">Subdl Global Multilingual Subtitle Finder Database</span>
+                        </div>
+                        <span class="arrow-icon">▶</span>
+                    </div>
+                    <div class="api-docs">
+                        <div class="docs-section-title">Execution Gateway Endpoint</div>
+                        <div class="url-box-container">
+                            <div class="url-display" id="url-subdl">/api/subdl?q=avatar&apikey=MR_HASHUU_SECRET_123</div>
+                            <button class="btn-action btn-copy" onclick="copyLink('url-subdl')">Copy</button>
+                            <button class="btn-action btn-run" onclick="runEndpoint('url-subdl', 'res-subdl', this)">Run API</button>
+                        </div>
+                        <div class="docs-section-title">Live Server Response Output</div>
+                        <pre class="json-preview" id="res-subdl">{ "status": "idle", "message": "Click Run API to view live server stream data." }</pre>
+                    </div>
+                </div>
                 
-                <!-- 🎬 NEW MOVIE DATABASE API -->
+                <!-- 🎬 MOVIE DATABASE API -->
                 <div class="api-wrapper" data-name="movie database omdb cinema film guardians plot rating info tracker">
                     <div class="api-row" onclick="toggleAccordion(this)">
                         <div class="meta-details">
@@ -727,7 +759,59 @@ app.get('/', (req, res) => {
 // 🛠️ BACKEND CONTROLLERS LOGIC
 // ─────────────────────────────────────────────────────────
 
-// 🎬 NEW OMDb MOVIE CONTROLLER
+// 🎬 NEW 1: CINESUBZ SUBTITLE SEARCH CONTROLLER
+app.get('/api/cinesubz', strictAuthGate, async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.json({ success: false, message: "Search query (?q=) parameter missing!" });
+
+        const targetUrl = `https://apis.davidcyriltech.my.id/cinesubz/search?q=${encodeURIComponent(q)}&limit=10`;
+        const { data } = await axios.get(targetUrl);
+
+        if (data.success) {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                query: data.query,
+                count: data.count,
+                results: data.results
+            });
+        } else {
+            res.json({ success: false, message: "No data found on Cinesubz architecture." });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 🎬 NEW 2: SUBDL SUBTITLE DATABASE CONTROLLER
+app.get('/api/subdl', strictAuthGate, async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.json({ success: false, message: "Search query (?q=) parameter missing!" });
+
+        const targetUrl = `https://apis.davidcyriltech.my.id/subdl/search?q=${encodeURIComponent(q)}`;
+        const { data } = await axios.get(targetUrl);
+
+        if (data.success) {
+            res.json({
+                creator: "MR HASHUU",
+                status: "Authenticated",
+                success: true,
+                query: data.query,
+                total: data.total,
+                results: data.results
+            });
+        } else {
+            res.json({ success: false, message: "No subtitle results found on Subdl matrix." });
+        }
+    } catch (e) {
+        res.json({ success: false, message: e.message });
+    }
+});
+
+// 🎬 OMDb MOVIE CONTROLLER
 app.get('/api/movie', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -751,7 +835,7 @@ app.get('/api/movie', strictAuthGate, async (req, res) => {
     }
 });
 
-// 0. CHATGPT-4o SMART INTERFACE
+// CHATGPT-4o SMART INTERFACE
 app.get('/api/chat', strictAuthGate, async (req, res) => {
     try {
         const { prompt } = req.query;
@@ -776,7 +860,7 @@ app.get('/api/chat', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 1. CUTTLY URL SHORTENER
+// CUTTLY URL SHORTENER
 app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
     try {
         const { link } = req.query;
@@ -788,7 +872,7 @@ app.get('/api/url_shorten', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 2. XVIDEOS DOWNLOADER
+// XVIDEOS DOWNLOADER
 app.get('/xvideo', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -800,7 +884,7 @@ app.get('/xvideo', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 3. YOUTUBE MP4 DOWNLOADER
+// YOUTUBE MP4 DOWNLOADER
 app.get('/ytmp4', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -812,7 +896,7 @@ app.get('/ytmp4', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 4. MEDIAFIRE PARSER
+// MEDIAFIRE PARSER
 app.get('/mediafire', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -822,7 +906,7 @@ app.get('/mediafire', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 5. SPOTIFY EXTRACTOR
+// SPOTIFY EXTRACTOR
 app.get('/spotify', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -832,7 +916,7 @@ app.get('/spotify', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 6. TWITTER STREAM CDN
+// TWITTER STREAM CDN
 app.get('/twitter', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -842,7 +926,7 @@ app.get('/twitter', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 7. YOUTUBE AUDIO SONG
+// YOUTUBE AUDIO SONG
 app.get('/song', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -854,7 +938,7 @@ app.get('/song', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 8. TIKTOK NO-WATERMARK
+// TIKTOK NO-WATERMARK
 app.get('/tiktok', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -866,7 +950,7 @@ app.get('/tiktok', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 9. PINTEREST MEDIA IMAGE
+// PINTEREST MEDIA IMAGE
 app.get('/pinterest', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -876,7 +960,7 @@ app.get('/pinterest', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 10. APK PACKAGE MIRROR
+// APK PACKAGE MIRROR
 app.get('/apk', strictAuthGate, async (req, res) => {
     try {
         const { text } = req.query;
@@ -886,7 +970,7 @@ app.get('/apk', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 11. FACEBOOK WATCH EXTRACTOR
+// FACEBOOK WATCH EXTRACTOR
 app.get('/facebook', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -898,7 +982,7 @@ app.get('/facebook', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 12. STATIC WEBPAGE CLONER
+// STATIC WEBPAGE CLONER
 app.get('/webdl', strictAuthGate, async (req, res) => {
     try {
         const { url } = req.query;
@@ -910,7 +994,7 @@ app.get('/webdl', strictAuthGate, async (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 13. JS ANTI-SCRAPE OBFUSCATOR
+// JS ANTI-SCRAPE OBFUSCATOR
 app.get('/obfuscate', strictAuthGate, (req, res) => {
     try {
         const { code } = req.query;
@@ -920,7 +1004,7 @@ app.get('/obfuscate', strictAuthGate, (req, res) => {
     } catch (e) { res.json({ success: false, message: e.message }); }
 });
 
-// 14. IMGBB IMAGE CLOUD POST
+// IMGBB IMAGE CLOUD POST
 app.post('/imgbb', strictAuthGate, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.json({ success: false, message: "No file uploaded!" });
@@ -936,4 +1020,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Apple Matrix HASHU-API Engine Running on port ${PORT}`));
 
 module.exports = app;
-
